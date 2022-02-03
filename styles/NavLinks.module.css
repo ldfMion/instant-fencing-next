@@ -1,0 +1,19 @@
+.NavLinks {
+    display: flex;
+    flex-direction: column;
+    z-index: 0;
+    justify-content: center;
+    flex-grow: 0;
+    transition: all .3s ease-in-out;
+    padding: 0 20px 0 20px;
+    gap: 10px;
+}
+
+.NavLinks_closed {
+    height: 0;
+    transform: translateY(-60px);
+}
+
+.NavLinks_open {
+    height: 100vh;
+}
