@@ -12,6 +12,8 @@ import {useCollectionDataOnce} from 'react-firebase-hooks/firestore';
 import {HomePage} from '../components/HomePage';
 import {NavBar} from '../components/NavBar';
 
+import Link from 'next/link'
+
 const firebaseConfig = {
     apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
     authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
@@ -33,47 +35,29 @@ const Home = () => {
     const auth = getAuth();
     const [user] = useAuthState(auth);
     console.log(user)
-    //const [newEvent, setNewEvent] = useState(false);
     
-    /*
-    const createEvent = (name, type) => {
-        setNewEvent(false);
-        console.log(auth.currentUser.uid);
-        const newEventRef = db.collection('Events').doc();
-        newEventRef.set({
-            name: name,
-            users: [auth.currentUser.uid],
-            createdBy: auth.currentUser.uid,
-            createdAt: new Date(),
-            type: type,
-            fencers: []
-        }, {merge: true})
-        
-    }*/
-
-    //const [uid, setUid] = useState(null);
-    
-
-    
-
-    
-
     //load the prompt to sign in/up if the user is not signed in
     
     if(!user){
         return (<div>
             <h1>Log In or Sign Up</h1>
-            <button className='button-primary'>Log In</button>
-            <button className='button-secondary'>Sign Up</button>
+            <Link href='login'><button className='button-primary'>Log In</button></Link>
+            <Link href='signup'><button className='button-secondary'>Sign Up</button></Link>
         </div>)
     }
     //render the home page if the user is signed in
+    /*
     return (
         <div>
             <NavBar />
             <HomePage user={user} db={db}/>
         </div>
-    );
+    );*/
+    return (
+        <div>
+            <HomePage user={user} db={db}/>
+        </div>
+    )
     
 }
 

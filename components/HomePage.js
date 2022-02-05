@@ -1,7 +1,9 @@
 import React, {useState, useEffect} from 'react';
 
-//import { collection, addDoc } from "firebase/firestore"; 
-import { collection, query, where, getDocs} from "firebase/firestore";
+import {CreateEvent} from './CreateEvent'
+import { collection, query, where, getDocs, addDoc} from "firebase/firestore";
+
+import {useRouter} from 'next/router'
 
 export const HomePage = (props) => {
     const [events, setEvents] = useState([]);
@@ -23,49 +25,55 @@ export const HomePage = (props) => {
         console.log('events data array', eventsDataArray)
 
     }, [])
-    console.log('events', events)
 
-    return (<div className='mainContent'>
-        <h2>Home Page</h2>
-        <h3>My Events</h3>
-        <ul className='card'>
-            {newEvent && <CreateEvent createEvent={createEvent}/>}
-            {events.length != 0 ? 
-            events.map((event, index) => {
-                const date = event.createdAt ? event.createdAt.toDate() : null;
-                return <a href={`./competition/${event.id}/`} key={index}>
-                    <li key={index}>
-                        <p>{event.name}</p>
-                        <p>{date ? `${date.getMonth()}/${date.getDay()}/${date.getFullYear()}`: null}</p>
-                    
-                    </li>
-                </a>
-            }) :
-            <p>Create your first event</p>
-            }
-        </ul>
-    </div>)
+    const router = useRouter();
 
-    /*
-    return (<div className='mainContent'>
-        <h2>Home Page</h2>
-        <h3>My Events</h3>
-        <ul className='card'>
-            {newEvent && <CreateEvent createEvent={createEvent}/>}
-            {events ? 
-            {events.map((event, index) => {
-                const date = event.createdAt ? event.createdAt.toDate() : null;
-                return <a href={`./competition/${event.id}/`} >
-                    <li key={index}>
-                        <p>{event.name}</p>
-                        <p>{date ? `${date.getMonth()}/${date.getDay()}/${date.getFullYear()}`: null}</p>
-                    
-                    </li>
-                </a>
-            }) :
-            <p>Create your first event</p>
-            }
-        </ul>
-    </div>)
-    */
+    const createEvent = async (name, type) => {
+        console.log('is on create new event')
+        setNewEvent(false);
+        try{
+            console.log('is on try')
+            const eventRef = await addDoc(collection(props.db, 'Events'), {
+                name: name,
+                users: [props.user.uid],
+                createdBy: props.user.uid,
+                createdAt: new Date(),
+                type: type,
+                fencers: []
+            });
+
+            router.push(`/event/${eventRef.id}`)
+        } catch (e) {
+            console.error("Error adding document: ", e);
+        }
+
+    }
+
+    return (
+        <div>
+            <div className='mainContent'>
+                <h2>Home Page</h2>
+                <h3>My Events</h3>
+                <ul className='card'>
+                    {newEvent && <CreateEvent createEvent={createEvent}/>}
+                    {events.length != 0 ? 
+                    events.map((event, index) => {
+                        const date = event.createdAt ? event.createdAt.toDate() : null;
+                        return <a href={`./competition/${event.id}/`} key={index}>
+                            <li key={index}>
+                                <p>{event.name}</p>
+                                <p>{date ? `${date.getMonth()}/${date.getDay()}/${date.getFullYear()}`: null}</p>
+                            
+                            </li>
+                        </a>
+                    }) :
+                    <p>Create your first event</p>
+                    }
+                </ul>
+            </div>
+            <div className='button-container'>
+                {!newEvent ? <button className='button button-primary' onClick={() => setNewEvent(true)}>Create Event</button> : <button className='button button-secondary' onClick={() => setNewEvent(false)}>Cancel</button>}
+            </div>
+        </div>
+    )
 }
