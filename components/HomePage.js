@@ -18,8 +18,9 @@ export const HomePage = (props) => {
         const eventsDataArray = [];
         eventsData.forEach((doc) => {
             // doc.data() is never undefined for query doc snapshots
+            const id = doc.id
             console.log(doc.id, " => ", doc.data());
-            eventsDataArray.push(doc.data());
+            eventsDataArray.push({...doc.data(), id});
         });
         setEvents(eventsDataArray);
         console.log('events data array', eventsDataArray)
@@ -59,7 +60,7 @@ export const HomePage = (props) => {
                     {events.length != 0 ? 
                     events.map((event, index) => {
                         const date = event.createdAt ? event.createdAt.toDate() : null;
-                        return <a href={`./competition/${event.id}/`} key={index}>
+                        return <a href={`./event/${event.id}/`} key={index}>
                             <li key={index}>
                                 <p>{event.name}</p>
                                 <p>{date ? `${date.getMonth()}/${date.getDay()}/${date.getFullYear()}`: null}</p>

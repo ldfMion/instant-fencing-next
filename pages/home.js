@@ -32,6 +32,7 @@ const db = getFirestore(app)
 const Home = () => {
     console.log('is rendering the coponent again')
     //get the user that is logged in
+    console.log(db)
     const auth = getAuth();
     const [user] = useAuthState(auth);
     console.log(user)
