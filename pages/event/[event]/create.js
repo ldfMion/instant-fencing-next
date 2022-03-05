@@ -4,8 +4,11 @@ import {useRouter} from 'next/router'
 import { initializeApp } from 'firebase/app';
 import { getFirestore } from 'firebase/firestore';
 import { doc, getDoc } from "firebase/firestore";
+import { getAuth } from "firebase/auth";
+import { useAuthState } from 'react-firebase-hooks/auth';
 
-import {NavBar} from '../../components/NavBar.js'
+import {NavBar} from '../../../components/NavBar.js';
+import {WaitingRoom} from '../../../components/WaitingRoom.js';
 
 const firebaseConfig = {
     apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -25,6 +28,9 @@ const Event = () => {
     const router = useRouter();
     const {event} = router.query
     console.log(event)
+    const auth = getAuth();
+    const [user] = useAuthState(auth);
+    const [eventRef, setEventRef] = useState(undefined)
     const [eventData, setEventData] = useState(undefined)
 
     useEffect(async ()=>{
@@ -32,6 +38,7 @@ const Event = () => {
         const eventRef = doc(db, "Events", event);
         const eventSnap = await getDoc(eventRef);
         const eventData = eventSnap.data();
+        setEventRef(eventRef)
         setEventData(eventData)
         console.log(eventData)
         // codes using router.query
@@ -44,6 +51,7 @@ const Event = () => {
 
     return (<>
         <NavBar eventName={eventData.name}/>
+        <WaitingRoom eventData={eventData} eventRef={eventRef} user={user}/>
     </>);
 }
 

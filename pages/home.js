@@ -7,10 +7,8 @@ import { initializeApp } from 'firebase/app';
 import { getFirestore } from 'firebase/firestore';
 
 import { useAuthState } from 'react-firebase-hooks/auth';
-import {useCollectionDataOnce} from 'react-firebase-hooks/firestore';
 
 import {HomePage} from '../components/HomePage';
-import {NavBar} from '../components/NavBar';
 
 import Link from 'next/link'
 
@@ -45,14 +43,7 @@ const Home = () => {
             <Link href='signup'><button className='button-secondary'>Sign Up</button></Link>
         </div>)
     }
-    //render the home page if the user is signed in
-    /*
-    return (
-        <div>
-            <NavBar />
-            <HomePage user={user} db={db}/>
-        </div>
-    );*/
+
     return (
         <div>
             <HomePage user={user} db={db}/>
