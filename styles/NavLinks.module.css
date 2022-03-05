@@ -11,7 +11,7 @@
 
 .NavLinks_closed {
     height: 0;
-    transform: translateY(-60px);
+    transform: translateY(-200px);
 }
 
 .NavLinks_open {

@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import styles from '../styles/NavBar.module.css'
 import {NavLinks} from './NavLinks'
 
-export const NavBar = () => {
+export const NavBar = (props) => {
     const [open, setOpen] = useState(false)
     return (
         <nav className={styles.nav}>
@@ -15,7 +15,12 @@ export const NavBar = () => {
                     <div className={styles.menuBar + ' ' + (open ? styles.menuBar2_closed : '')}></div>
                     <div className={styles.menuBar + ' ' + (open ? styles.menuBar3_closed : '')}></div>
                 </div>
-            </div>  
+            </div> 
+            {
+                props.eventName ?
+                <h2>{props.eventName}</h2>
+                : null
+            } 
             <NavLinks open={open} />
         </nav>
     )
