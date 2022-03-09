@@ -2,11 +2,12 @@ import React from 'react'
 
 import Link from 'next/link'
 
-import { getAuth, signOut } from "firebase/auth";
+import { signOut } from "firebase/auth";
 import { useAuthState } from 'react-firebase-hooks/auth';
 
+import {auth} from '../firebase/firebase.js'
+
 export function SignOut() {
-    const auth = getAuth();
     const [user] = useAuthState(auth);
     return (<>
         {user ? 

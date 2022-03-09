@@ -8,14 +8,13 @@ import { LogPrompt } from './LogPrompt.js';
 
 export function WaitingRoom(props) {
 
-    console.log('is in wairing room');
-    console.log(props.eventData);
-
     const [fencers, setFencers] = useState(false)
 
     const fencersRef = collection(props.eventRef, 'fencers')
 
     const [logPrompt, setLogPrompt] = useState(false)
+
+    const userIsJoined = fencers.some((fencer) => fencer.id === props.user.uid)
 
     useEffect(async () => {
         console.log('is on use effect')
@@ -38,6 +37,7 @@ export function WaitingRoom(props) {
             })
         }
         else {
+            console.log(props.user)
             setLogPrompt(true)
         }
     }
@@ -57,6 +57,11 @@ export function WaitingRoom(props) {
         await deleteDoc(doc(fencersRef, id))
     }
 
+    const thisIsMe = async (id) => {
+        removeFencer(id);
+        join();
+    }
+
     if(!fencers){return null}
 
     return (<>
@@ -69,14 +74,15 @@ export function WaitingRoom(props) {
                     {fencers.map((fencer, index) => <li key={index}>
                         <p>{fencer.userName}</p>
                         {
-                            props.user ? 
+                            props.user &&
                             (
                                 fencer.id === props.user.uid ? 
                                 <button className='button button-secondary' onClick={leave}>Leave</button> :
-                                <button className='button button-terciary' onClick={() => removeFencer(fencer.id)}>Remove</button>
-                            ) : <div>
-                                <button className='button button-terciary' onClick={() => thisIsMe(fencer.id)}>This is me</button>
-                            </div>
+                                <div>
+                                    <button className='button button-terciary' onClick={() => removeFencer(fencer.id)}>Remove</button>
+                                    {!userIsJoined && <button className='button button-terciary' onClick={() => thisIsMe(fencer.id)}>This is me</button>}
+                                </div>
+                            )
 
                         }
                     </li>)}
@@ -86,11 +92,11 @@ export function WaitingRoom(props) {
         </div>
         <div className='button-container'>
             {
-                props.user && (fencers.some((fencer) => fencer.id === props.user.uid)) ?
+                props.user && userIsJoined ?
                 <button className='button button-primary' >Done</button> :
                 <button className='button button-primary' onClick={join}>Join</button>  
             }
         </div>
-        <LogPrompt/>
+        {(logPrompt && !props.user) && <LogPrompt/> }
     </>)
 }

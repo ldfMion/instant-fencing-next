@@ -1,16 +1,20 @@
 import React, {useState, useEffect} from 'react';
 
+/*
 import { getAuth } from "firebase/auth";
-
 import { initializeApp } from 'firebase/app';
-
 import { getFirestore } from 'firebase/firestore';
-
+*/
 import { useAuthState } from 'react-firebase-hooks/auth';
 
 import {HomePage} from '../components/HomePage';
 import {LogPrompt} from '../components/LogPrompt';
 
+//!the new thing now
+
+import {auth, db} from '../firebase/firebase.js'
+
+/*
 const firebaseConfig = {
     apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
     authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
@@ -24,12 +28,12 @@ const firebaseConfig = {
 
 export const app = initializeApp(firebaseConfig);
 const db = getFirestore(app)
-
+*/
 const Home = () => {
     console.log('is rendering the coponent again')
     //get the user that is logged in
     console.log(db)
-    const auth = getAuth();
+    //const auth = getAuth();
     const [user] = useAuthState(auth);
     console.log(user)
     
