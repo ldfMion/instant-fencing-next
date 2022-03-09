@@ -49,10 +49,14 @@ const Event = () => {
         return null
     }
 
-    return (<>
-        <NavBar eventName={eventData.name}/>
-        <WaitingRoom eventData={eventData} eventRef={eventRef} user={user}/>
-    </>);
+    if(!eventData.fencersAreChosen){
+        return (<>
+            <NavBar eventName={eventData.name}/>
+            <WaitingRoom eventData={eventData} eventRef={eventRef} user={user}/>
+        </>);
+    }
+
+    return <p>create next step</p>
 }
 
 export default Event;

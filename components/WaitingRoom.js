@@ -14,7 +14,7 @@ export function WaitingRoom(props) {
 
     const [logPrompt, setLogPrompt] = useState(false)
 
-    const userIsJoined = fencers.some((fencer) => fencer.id === props.user.uid)
+    const [userIsJoined, setUserIsJoined] = useState(false)
 
     useEffect(async () => {
         console.log('is on use effect')
@@ -26,6 +26,7 @@ export function WaitingRoom(props) {
             });
             console.log(fencers)
             setFencers(fencers)
+            setUserIsJoined(fencers.some((fencer) => fencer.id === props.user.uid))
         })
     }, [])
 
@@ -62,11 +63,21 @@ export function WaitingRoom(props) {
         join();
     }
 
+    const createEvent = async() => {
+        await setDoc(props.eventRef, {
+            fencersAreChosen: true
+        }, {merge: true})
+    }
+
     if(!fencers){return null}
 
     return (<>
         <div className='mainContent'>
             <h3>Waiting Room</h3>
+            <div className='card horizontal-form'>
+                <p>{window.location.href}</p>
+                <button className='button button-secondary' onClick={()=> navigator.clipboard.writeText(window.location.href)}>Copy</button>
+            </div>
             <AddFencer addFencer={addFencer}/>
             {
                 fencers.length!==0 ? 
@@ -93,7 +104,7 @@ export function WaitingRoom(props) {
         <div className='button-container'>
             {
                 props.user && userIsJoined ?
-                <button className='button button-primary' >Done</button> :
+                <button className='button button-primary' onClick={createEvent}>Done</button> :
                 <button className='button button-primary' onClick={join}>Join</button>  
             }
         </div>
