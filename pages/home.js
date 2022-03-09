@@ -9,8 +9,7 @@ import { getFirestore } from 'firebase/firestore';
 import { useAuthState } from 'react-firebase-hooks/auth';
 
 import {HomePage} from '../components/HomePage';
-
-import Link from 'next/link'
+import {LogPrompt} from '../components/LogPrompt';
 
 const firebaseConfig = {
     apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -37,11 +36,7 @@ const Home = () => {
     //load the prompt to sign in/up if the user is not signed in
     
     if(!user){
-        return (<div>
-            <h1>Log In or Sign Up</h1>
-            <Link href='login'><button className='button-primary'>Log In</button></Link>
-            <Link href='signup'><button className='button-secondary'>Sign Up</button></Link>
-        </div>)
+        return (<LogPrompt/>)
     }
 
     return (

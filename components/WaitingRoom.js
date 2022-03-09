@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { collection, query, where, getDocs, addDoc, onSnapshot, deleteDoc, setDoc, doc} from "firebase/firestore";
 
 import {AddFencer} from '../components/AddFencer.js'
+import { LogPrompt } from './LogPrompt.js';
 
 export function WaitingRoom(props) {
 
@@ -13,6 +14,8 @@ export function WaitingRoom(props) {
     const [fencers, setFencers] = useState(false)
 
     const fencersRef = collection(props.eventRef, 'fencers')
+
+    const [logPrompt, setLogPrompt] = useState(false)
 
     useEffect(async () => {
         console.log('is on use effect')
@@ -28,10 +31,15 @@ export function WaitingRoom(props) {
     }, [])
 
     const join = async () => {
-        const fencerRef = await setDoc(doc(props.eventRef, 'fencers', props.user.uid), {
-            userName: props.user.displayName,
-            id: props.user.uid
-        })
+        if(props.user){
+            const fencerRef = await setDoc(doc(props.eventRef, 'fencers', props.user.uid), {
+                userName: props.user.displayName,
+                id: props.user.uid
+            })
+        }
+        else {
+            setLogPrompt(true)
+        }
     }
 
     const leave = async () => {
@@ -61,9 +69,15 @@ export function WaitingRoom(props) {
                     {fencers.map((fencer, index) => <li key={index}>
                         <p>{fencer.userName}</p>
                         {
-                            fencer.id === props.user.uid ? 
-                            <button className='button button-secondary' onClick={leave}>Leave</button> :
-                            <button className='button button-terciary' onClick={() => removeFencer(fencer.id)}>Remove</button>
+                            props.user ? 
+                            (
+                                fencer.id === props.user.uid ? 
+                                <button className='button button-secondary' onClick={leave}>Leave</button> :
+                                <button className='button button-terciary' onClick={() => removeFencer(fencer.id)}>Remove</button>
+                            ) : <div>
+                                <button className='button button-terciary' onClick={() => thisIsMe(fencer.id)}>This is me</button>
+                            </div>
+
                         }
                     </li>)}
                 </ul> :
@@ -72,11 +86,11 @@ export function WaitingRoom(props) {
         </div>
         <div className='button-container'>
             {
-                (!fencers.some((fencer) => fencer.id === props.user.uid)) ?
-                <button className='button button-primary' onClick={join}>Join</button>  :
-                <button className='button button-primary' >Done</button> 
+                props.user && (fencers.some((fencer) => fencer.id === props.user.uid)) ?
+                <button className='button button-primary' >Done</button> :
+                <button className='button button-primary' onClick={join}>Join</button>  
             }
         </div>
-        
+        <LogPrompt/>
     </>)
 }
