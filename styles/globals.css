@@ -52,6 +52,7 @@ p{
   flex-direction: column;
   gap: 20px;
   align-items: stretch;
+  margin-bottom: 50px;
 }
 
 /*
@@ -160,7 +161,7 @@ input[type=text]{
 }
 
 
-li{
+.participant-in-list{
   display: flex;
   justify-content: flex-start;
   border-style: none none solid none; 
@@ -174,6 +175,10 @@ li{
 
 label{
   flex-grow: 1;
+  font-size: 16px;
+  font-family: Lato;
+  font-weight: 400;
+  color: var(--primary);
 }
 
 input{

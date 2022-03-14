@@ -1,15 +1,20 @@
 import React, {useEffect, useState} from 'react';
 import {useRouter} from 'next/router'
 
-import { initializeApp } from 'firebase/app';
-import { getFirestore } from 'firebase/firestore';
-import { doc, getDoc } from "firebase/firestore";
-import { getAuth } from "firebase/auth";
+//import { initializeApp } from 'firebase/app';
+//import { getFirestore } from 'firebase/firestore';
+import { doc, onSnapshot } from "firebase/firestore";
+//import { getAuth } from "firebase/auth";
 import { useAuthState } from 'react-firebase-hooks/auth';
+import {auth, db} from '../../../firebase/firebase.js'
 
 import {NavBar} from '../../../components/NavBar.js';
 import {WaitingRoom} from '../../../components/WaitingRoom.js';
+import {SelectSortType} from '../../../components/SelectSortType.js';
+import {SortByRank} from '../../../components/SortByRank.js';
+import {SetPools} from '../../../components/SetPools.js';
 
+/*
 const firebaseConfig = {
     apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
     authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
@@ -23,25 +28,32 @@ const firebaseConfig = {
 
 export const app = initializeApp(firebaseConfig);
 const db = getFirestore(app)
-
-const Event = () => {
+*/
+const Create = () => {
     const router = useRouter();
     const {event} = router.query
     console.log(event)
-    const auth = getAuth();
+    //const auth = getAuth();
     const [user] = useAuthState(auth);
     const [eventRef, setEventRef] = useState(undefined)
     const [eventData, setEventData] = useState(undefined)
-
+    
     useEffect(async ()=>{
         if(!router.isReady) return;        
         const eventRef = doc(db, "Events", event);
+        setEventRef(eventRef)
+        /*
+
         const eventSnap = await getDoc(eventRef);
         const eventData = eventSnap.data();
         setEventRef(eventRef)
         setEventData(eventData)
         console.log(eventData)
-        // codes using router.query
+        */
+        const getEvent = onSnapshot(eventRef, (doc) => {
+            console.log("Current data: ", doc.data());
+            setEventData(doc.data())
+        });
 
     }, [router.isReady]);
 
@@ -55,8 +67,28 @@ const Event = () => {
             <WaitingRoom eventData={eventData} eventRef={eventRef} user={user}/>
         </>);
     }
-
-    return <p>create next step</p>
+    console.log(eventRef)
+    console.log(eventData.sortType)
+    if(!eventData.sortType){
+        return (<>
+            <NavBar eventName={eventData.name}/>
+            <SelectSortType eventRef={eventRef}/>
+        </>)
+    }
+    if(!eventData.fencersAreSorted && eventData.sortType === 'By Rank'){
+        return <>
+            <NavBar eventName={eventData.name}/>
+            <SortByRank eventRef={eventRef}/>
+        </>
+    }
+    if(!eventData.poolsAreSet){
+        return <>
+            <NavBar eventName={eventData.name}/>
+            <SetPools eventRef={eventRef} />
+        </>
+    }
+    router.push(`/event/${event}/pools`)
+    return null
 }
 
-export default Event;
+export default Create;

@@ -43,7 +43,7 @@ export const HomePage = (props) => {
                 fencers: []
             });
 
-            router.push(`/event/${eventRef.id}`)
+            router.push(`/event/${eventRef.id}/create`)
         } catch (e) {
             console.error("Error adding document: ", e);
         }
