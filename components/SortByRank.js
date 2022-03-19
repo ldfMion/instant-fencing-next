@@ -47,14 +47,14 @@ export function SortByRank(props) {
                     <h3>Sort By Rank</h3>
                     <p>Select Fencers from best to worst. This rank will be used to arrage them in pools.</p>
                     <ol className='card'>
-                        {selectedFencers.map((fencer, index) => <li key={index}>
+                        {selectedFencers.map((fencer, index) => <li key={index} className="participant-in-list">
                             <p>{index+1}</p>
                             <label htmlFor={fencer.userName}>{fencer.userName}</label>
                             <input type="checkbox" id={fencer.userName} checked={true} name={fencer.userName} value={fencer.userName} onChange={() => removeFencer(fencer)}/>
                         </li>)}
                     </ol>
                     <ul className='card'>
-                        {unselectedFencers.map((fencer, index) => <li key={index}>
+                        {unselectedFencers.map((fencer, index) => <li key={index} className="participant-in-list">
                             <label htmlFor={fencer.userName}>{fencer.userName}</label>
                             <input type="checkbox" id={fencer.userName} name={fencer.userName} value={fencer.userName} checked={false} onChange={() => addFencer(fencer)}/>
                         </li>)}

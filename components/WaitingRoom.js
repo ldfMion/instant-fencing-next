@@ -82,7 +82,7 @@ export function WaitingRoom(props) {
             {
                 fencers.length!==0 ? 
                 <ul className='card'>
-                    {fencers.map((fencer, index) => <li key={index}>
+                    {fencers.map((fencer, index) => <li key={index} className="participant-in-list">
                         <p>{fencer.userName}</p>
                         {
                             props.user &&

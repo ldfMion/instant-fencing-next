@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-import { addDoc, collection, onSnapshot, setDoc } from "firebase/firestore";
+import { addDoc, collection, onSnapshot, setDoc, doc } from "firebase/firestore";
 
 export function SetPools(props) {
     console.log(props.eventRef);
@@ -78,19 +78,21 @@ export function SetPools(props) {
             setPools(pools);
         });
     }, []);
-    // create the pools
-    /*
-    useEffect(() => {
-        
-    },[fencers])*/
+
 
     const handleSubmit = async(e) => {
         e.preventDefault()
         console.log('is submitting')
         pools.forEach(async(pool, index) => {
-            await addDoc(collection(props.eventRef,'pools'),{
+            const poolRef = await addDoc(collection(props.eventRef,'pools'),{
                 poolId: index+1,
-                fencers: pool.map(fencer => fencer.id)
+                fencers: pool.map((fencer) => {
+                    return fencer.id
+                })
+            })
+            pool.forEach(fencer => {
+                console.log([poolRef.id])
+                setDoc(doc(fencersRef, fencer.id), {pool: poolRef.id}, {merge: true})
             })
         })
         await setDoc(props.eventRef, {
@@ -113,6 +115,7 @@ export function SetPools(props) {
                                             <li
                                                 id={index}
                                                 className="participant-in-list"
+                                                key={index}
                                             >
                                                 <p>{index + 1}</p>
                                                 <p>{fencer.userName}</p>

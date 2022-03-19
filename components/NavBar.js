@@ -1,9 +1,22 @@
 import React, {useState} from 'react';
 import styles from '../styles/NavBar.module.css'
 import {NavLinks} from './NavLinks'
+import Link from 'next/link'
 
 export const NavBar = (props) => {
     const [open, setOpen] = useState(false)
+    console.log(props.tabs)
+    
+    const tabs = [
+         "starter",
+        'pools',
+        'pool-results',
+        'direct-elimination',
+        'results',
+    ]
+
+    const baseURL = `/event/${props.eventId}/`
+
     return (
         <nav className={styles.nav}>
             <div className={styles.navBar}>
@@ -20,6 +33,14 @@ export const NavBar = (props) => {
                 props.eventName ?
                 <h2>{props.eventName}</h2>
                 : null
+            }
+            {props.tabs &&
+                <ul className='tab-navigation'>
+                    {tabs.map((tab, index) => {
+                        console.log('is on tabs map')
+                        return <li key={index}><Link href={baseURL + tab}><button className='button button-terciary'>{tab}</button></Link></li>
+                    })}
+                </ul>
             } 
             <NavLinks open={open} />
         </nav>

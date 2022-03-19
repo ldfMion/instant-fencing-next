@@ -1,11 +1,105 @@
-import React from 'react'
-import {useRouter} from 'next/router'
+import React, { useState, useEffect } from "react";
+import { useRouter } from "next/router";
+
+import { NavBar } from "../../../components/NavBar.js";
+import {PoolPreview} from '../../../components/PoolPreview.js'
+
+import { db } from "../../../firebase/firebase.js";
+import { doc, onSnapshot, collection } from "firebase/firestore";
 
 export default function Pools() {
     const router = useRouter();
     const {event} = router.query
     console.log(event)
+    //const [eventRef, setEventRef] = useState(undefined)
+    const [eventData, setEventData] = useState(undefined)
+    const [pools, setPools] = useState([])
+
+    const [fencersRef, setFencersRef] = useState()
+
+    useEffect(async ()=>{
+        if(!router.isReady) return;        
+        const eventRef = doc(db, "Events", event);
+        //setEventRef(eventRef)
+
+        const getEvent = onSnapshot(eventRef, (doc) => {
+            console.log("Current data: ", doc.data());
+            setEventData(doc.data())
+        });
+
+        const poolsRef = collection(eventRef,'pools')
+
+        const getPools = onSnapshot(poolsRef, (querySnapshot) => {
+            const pools = [];
+            querySnapshot.forEach((doc) => {
+                const id = doc.id
+                pools.push({...doc.data(), id});
+            });
+            setPools(pools);
+        });
+
+        setFencersRef(collection(eventRef, 'fencers'))
+
+    }, [router.isReady]);
+
+    if(!eventData){
+        return null
+    }
+    console.log(pools)
     return (
-        <div>Pools</div>
+        <>
+            <NavBar
+                tabs={true}
+                eventId={event}
+                eventName={eventData.name}
+            />
+            <div className='mainContent'>
+                <h3>Pools</h3>
+                <ol>
+                    {pools.map((pool, index) => {
+                        console.log('is on map')
+                        return <PoolPreview poolData={pool} fencersRef={fencersRef} key={index}/>
+                    })}
+                </ol>
+            </div>
+        </>
     )
+    /*
+    console.log('is on pools')
+    const router = useRouter();
+    const { event } = router.query;
+    console.log(router)
+    const eventRef =  doc(db, "Events", event)
+    const poolsRef = collection(eventRef,'pools')
+    const [eventData, setEventData] = useState(undefined);
+    const [pools, setPools] = useState([])
+
+    useEffect(async () => {
+        if (!router.isReady) return;
+        //const eventRef = doc(db, "Events", event);
+        //setEventRef(eventRef);
+
+        const getEvent = onSnapshot(eventRef, (doc) => {
+            console.log("Current data: ", doc.data());
+            setEventData(doc.data());
+        });
+
+        //const getFencers = onSnapshot()
+
+        const getPools = onSnapshot(poolsRef, (querySnapshot) => {
+            const pools = [];
+            querySnapshot.forEach((doc) => {
+                const id = doc.id
+                pools.push({...doc.data(), id});
+            });
+            setPools(pools);
+          });
+        
+    }, [router.isReady]);
+
+    if (!eventData) {
+        return null;
+    }
+
+    ;*/
 }

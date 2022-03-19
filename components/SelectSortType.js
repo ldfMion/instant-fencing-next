@@ -21,7 +21,7 @@ export function SelectSortType(props) {
                 <div className='mainContent'>
                     <h3>Select Competition Sort Type</h3>
                     <ul className='card'>
-                        <li>
+                        <li className="participant-in-list">
                             <label htmlFor="Randomly">Randomly</label>
                             <input
                                 type="radio"
@@ -31,7 +31,7 @@ export function SelectSortType(props) {
                             />
 
                         </li>
-                        <li>
+                        <li className="participant-in-list">
                             <label htmlFor="By Rank">By Rank</label>
                             <input type="radio" id="By Rank" name="sort" value="By Rank" />
                         </li>
