@@ -1,16 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 
-import { NavBar } from "../../../components/NavBar.js";
-import {PoolPreview} from '../../../components/PoolPreview.js'
+import { NavBar } from "../../../../components/NavBar.js";
+import {PoolPreview} from '../../../../components/PoolPreview.js'
 
-import { db } from "../../../firebase/firebase.js";
-import { doc, onSnapshot, collection } from "firebase/firestore";
+import { db } from "../../../../firebase/firebase.js";
+import { doc, onSnapshot, collection, orderBy, query } from "firebase/firestore";
 
 export default function Pools() {
     const router = useRouter();
     const {event} = router.query
-    console.log(event)
     //const [eventRef, setEventRef] = useState(undefined)
     const [eventData, setEventData] = useState(undefined)
     const [pools, setPools] = useState([])
@@ -27,7 +26,7 @@ export default function Pools() {
             setEventData(doc.data())
         });
 
-        const poolsRef = collection(eventRef,'pools')
+        const poolsRef = query(collection(eventRef,'pools'), orderBy("poolId", "asc"))
 
         const getPools = onSnapshot(poolsRef, (querySnapshot) => {
             const pools = [];
@@ -58,7 +57,7 @@ export default function Pools() {
                 <ol>
                     {pools.map((pool, index) => {
                         console.log('is on map')
-                        return <PoolPreview poolData={pool} fencersRef={fencersRef} key={index}/>
+                        return <PoolPreview poolData={pool} fencersRef={fencersRef} key={index} eventId={event}/>
                     })}
                 </ol>
             </div>

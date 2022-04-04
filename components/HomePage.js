@@ -60,7 +60,7 @@ export const HomePage = (props) => {
                     {events.length != 0 ? 
                     events.map((event, index) => {
                         const date = event.createdAt ? event.createdAt.toDate() : null;
-                        return <a href={`./event/${event.id}/`} key={index}>
+                        return <a href={`./event/${event.id}/create`} key={index}>
                             <li key={index} className="participant-in-list">
                                 <p>{event.name}</p>
                                 <p>{date ? `${date.getMonth()}/${date.getDay()}/${date.getFullYear()}`: null}</p>

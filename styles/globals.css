@@ -209,3 +209,8 @@ input{
   gap: 5px;
   align-items: stretch;
 }
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
