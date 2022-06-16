@@ -17,7 +17,7 @@ export function SetPools(props) {
                 fencers.push({...doc.data(), id})
                 //fencers.push(doc.data().userName);
             });
-            if(fencers[0].startingRank == undefined){
+            if(fencers[0]?.startingRank == undefined){
                 fencers = shuffle(fencers)
             } else {
                 console.log('is on else')

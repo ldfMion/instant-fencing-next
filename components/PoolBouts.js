@@ -1,28 +1,37 @@
 import React from 'react'
+import styles from '../styles/PoolBouts.module.css'
 
 export function PoolBouts({fencers}) {
 
+    // pool has at least 2 fencers, so index 0 has bouts for 2 fencers
     const bouts = boutOrder[fencers.length-2]
 
     return (
-    <ol>
-        <li>Lista</li>
-        {
-            bouts.map((bout, index) => {
-                console.log('is on for each bout')
-                console.log(bout)
-                return <li key={index}>
-                    <p>{index+1}</p>
-                    <p>{fencers[bout[0]-1].userName}</p>
-                    <p>{bout[1]}</p>
-                    <input type='number'></input>
-                    <input type='number'></input>
-                    <p>{fencers[bout[1]-1].userName}</p>
-                    <p>{bout[2]}</p>
-                </li>
-            })
-        }
-    </ol>
+    <>
+    <h4>Bouts</h4>
+        <ol className={styles.bouts}>
+            {
+                bouts.map((bout, index) => {
+                    return <li key={index} className={styles.bout}>
+                        <p>{index+1}</p>
+                        <div className={'card' + ' ' +  styles.boutContainer}>
+                            <div className={styles.boutSide}>
+                                <p>{bout[0]}</p>
+                                <p className='fill-container'>{fencers[bout[0]-1].userName}</p>
+                                <input type='number' className={styles.scoreInput}></input>
+                            </div>
+                            <div className={styles.boutSide}>
+                                <p >{bout[1]}</p>
+                                <p className='fill-container'>{fencers[bout[1]-1].userName}</p>
+                                <input type='number' className={styles.scoreInput}></input>
+                            </div>
+                        </div>
+                       
+                    </li>
+                })
+            }
+        </ol>
+    </>
     )
 }
 

@@ -1,0 +1,37 @@
+.poolTable{
+    width: fit-content;
+    border-collapse: collapse;
+    display: flex;
+    padding: 0;
+    overflow: clip;
+}
+
+.tableCell{
+    border: 1px solid var(--grey);
+    width: fit-content;
+    padding: 12px;
+
+}
+
+.tableCellTop{
+    border-top: none;
+}
+
+.tableCellLeft{
+    border-left: none;
+}
+
+.tableCellBottom{
+    border-bottom: none;
+}
+
+.emptyCell {
+    background: var(--grey);
+}
+
+.poolTableHead{
+
+}
+
+.poolTableBody{
+}

@@ -17,6 +17,17 @@ export default function Pool() {
 
     const [poolData, setPoolData] = useState()
     const [fencers, setFencers] = useState()
+    
+    class Fencer {
+        id; 
+        userName;
+        startingRank;
+        constructor({id, userName, startingRank}){
+            this.id = id;
+            this.userName = userName;
+            this.startingRank = startingRank;
+        }
+    }
 
     useEffect(async ()=>{
         console.log('is on use effect')
@@ -34,7 +45,7 @@ export default function Pool() {
             const fencers = [];
             querySnapshot.forEach((doc) => {
                 const id = doc.id
-                fencers.push({...doc.data(), id});
+                fencers.push(new Fencer({...doc.data(), id}));
             });
             fencers.sort((fencerA, fencerB) => fencerA.startingRank - fencerB.startingRank)
             console.log(fencers)
@@ -47,11 +58,13 @@ export default function Pool() {
     if(!poolData || !fencers){
         return null
     }
-    // pool has at least 2 fencers, so index 0 has bouts for 2 fencers
+    
+    // pool table and bouts are separeted into their own pages
+    // data is fethed only once (on [pool].js), as table and bouts use the same data
 
-    return (<>
+    return (<div className='mainContent'>
         <h3> Pool {poolData.poolId}</h3>
         <PoolTable fencers={fencers}/>
         <PoolBouts fencers={fencers}/>
-    </>)
+    </div>)
 }
