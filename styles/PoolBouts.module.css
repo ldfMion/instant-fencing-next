@@ -14,20 +14,10 @@
     flex-direction: column;
 }
 
-.scoreInput{
-    width: 2rem;
-}
-
 .boutContainer {
     display: flex;
     flex-flow: column wrap;
     width: 100%;
     justify-content: space-between;
     align-items: stretch;
-}
-
-.boutSide {
-    display: flex;
-    flex-direction: row;
-    gap: 0.5rem;
 }

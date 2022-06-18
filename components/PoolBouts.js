@@ -1,30 +1,29 @@
 import React from 'react'
 import styles from '../styles/PoolBouts.module.css'
+import BoutSide from './BoutSide'
 
-export function PoolBouts({fencers}) {
+export function PoolBouts({fencers, bouts}) {
 
-    // pool has at least 2 fencers, so index 0 has bouts for 2 fencers
-    const bouts = boutOrder[fencers.length-2]
+    const keyFencers = {};
+    fencers.forEach(fencer => {
+        keyFencers[fencer.id] = fencer;
+    })
+    console.log(keyFencers)
 
     return (
     <>
-    <h4>Bouts</h4>
+        <h4>Bouts</h4>
         <ol className={styles.bouts}>
             {
-                bouts.map((bout, index) => {
+                bouts.sort((prev, curr) => {
+                    return prev.boutNumber - curr.boutNumber
+                }).map((bout, index) => {
+                    console.log(bout.updateScoreA)
                     return <li key={index} className={styles.bout}>
-                        <p>{index+1}</p>
+                        <p>{bout.boutNumber}</p>
                         <div className={'card' + ' ' +  styles.boutContainer}>
-                            <div className={styles.boutSide}>
-                                <p>{bout[0]}</p>
-                                <p className='fill-container'>{fencers[bout[0]-1].userName}</p>
-                                <input type='number' className={styles.scoreInput}></input>
-                            </div>
-                            <div className={styles.boutSide}>
-                                <p >{bout[1]}</p>
-                                <p className='fill-container'>{fencers[bout[1]-1].userName}</p>
-                                <input type='number' className={styles.scoreInput}></input>
-                            </div>
+                            <BoutSide fencer={keyFencers[bout.fencerAId]} fencerNumber={bout.fencerANumber} fencerScore={bout.fencerAScore} updateScore={bout.updateScoreA}/>
+                            <BoutSide fencer={keyFencers[bout.fencerBId]} fencerNumber={bout.fencerBNumber} fencerScore={bout.fencerBScore} updateScore={bout.updateScoreB}/>
                         </div>
                        
                     </li>

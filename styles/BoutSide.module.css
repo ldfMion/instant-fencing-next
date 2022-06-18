@@ -1,0 +1,9 @@
+.scoreInput{
+    width: 2rem;
+}
+
+.boutSide {
+    display: flex;
+    flex-direction: row;
+    gap: 0.5rem;
+}
