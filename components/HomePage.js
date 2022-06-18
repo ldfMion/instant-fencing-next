@@ -1,6 +1,8 @@
 import React, {useState, useEffect} from 'react';
 
 import {CreateEvent} from './CreateEvent'
+import {NavBar} from './NavBar'
+
 import { collection, query, where, getDocs, addDoc} from "firebase/firestore";
 
 import {useRouter} from 'next/router'
@@ -52,6 +54,9 @@ export const HomePage = (props) => {
 
     return (
         <div>
+            <NavBar
+                tabs={false}
+            />
             <div className='mainContent'>
                 <h2>Home Page</h2>
                 <h3>My Events</h3>
