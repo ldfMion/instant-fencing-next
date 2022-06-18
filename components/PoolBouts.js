@@ -8,7 +8,6 @@ export function PoolBouts({fencers, bouts}) {
     fencers.forEach(fencer => {
         keyFencers[fencer.id] = fencer;
     })
-    console.log(keyFencers)
 
     return (
     <>
@@ -18,7 +17,6 @@ export function PoolBouts({fencers, bouts}) {
                 bouts.sort((prev, curr) => {
                     return prev.boutNumber - curr.boutNumber
                 }).map((bout, index) => {
-                    console.log(bout.updateScoreA)
                     return <li key={index} className={styles.bout}>
                         <p>{bout.boutNumber}</p>
                         <div className={'card' + ' ' +  styles.boutContainer}>

@@ -29,9 +29,6 @@
     background: var(--grey);
 }
 
-.poolTableHead{
-
-}
-
-.poolTableBody{
+.separationColumnHeader{
+    padding: 0 0.5rem;
 }

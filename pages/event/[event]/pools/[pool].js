@@ -52,7 +52,9 @@ export default function Pool() {
         id;
         fencerAScore;
         fencerBScore;
-        constructor({fencerANumber, fencerBNumber,fencerAId, fencerBId, id, boutNumber, fencerAScore, fencerBScore}){
+        fencerAUserName;
+        fencerBUserName;
+        constructor({fencerANumber, fencerBNumber,fencerAId, fencerBId, id, boutNumber, fencerAScore, fencerBScore, fencerAUserName, fencerBUserName}){
             this.fencerANumber = fencerANumber
             this.fencerBNumber = fencerBNumber
             this.fencerAId = fencerAId
@@ -61,6 +63,8 @@ export default function Pool() {
             this.id = id;
             this.fencerAScore = fencerAScore;
             this.fencerBScore = fencerBScore;
+            this.fencerAUserName = fencerAUserName;
+            this.fencerBUserName = fencerBUserName;
         }
         updateScoreA = async (score) => {
             console.log('is on update score A')
@@ -125,7 +129,7 @@ export default function Pool() {
 
     return (<div className='mainContent'>
         <h3> Pool {poolData.poolId}</h3>
-        <PoolTable fencers={fencers}/>
+        <PoolTable fencers={fencers} bouts={bouts}/>
         <PoolBouts fencers={fencers} bouts={bouts}/>
     </div>)
 }
