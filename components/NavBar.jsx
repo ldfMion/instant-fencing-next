@@ -3,7 +3,7 @@ import styles from '../styles/NavBar.module.css'
 import {NavLinks} from './NavLinks'
 import Link from 'next/link'
 
-export const NavBar = (props) => {
+const NavBar = (props) => {
     const [open, setOpen] = useState(false)
     console.log(props.tabs)
     
@@ -48,5 +48,7 @@ export const NavBar = (props) => {
         </nav>
     )
 }
+
+export default NavBar;
 
 //` menuIcon menuIcon_${menuState}`

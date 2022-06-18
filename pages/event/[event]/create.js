@@ -8,7 +8,7 @@ import { doc, onSnapshot } from "firebase/firestore";
 import { useAuthState } from 'react-firebase-hooks/auth';
 import {auth, db} from '../../../firebase/firebase.js'
 
-import {NavBar} from '../../../components/NavBar.js';
+import NavBar from '../../../components/NavBar';
 import {WaitingRoom} from '../../../components/WaitingRoom.js';
 import {SelectSortType} from '../../../components/SelectSortType.js';
 import {SortByRank} from '../../../components/SortByRank.js';

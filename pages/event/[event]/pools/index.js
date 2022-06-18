@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 
-import { NavBar } from "../../../../components/NavBar.js";
-import {PoolPreview} from '../../../../components/PoolPreview.js'
+import NavBar from "../../../../components/NavBar";
+import {PoolPreview} from '../../../../components/PoolPreview'
 
 import { db } from "../../../../firebase/firebase.js";
 import { doc, onSnapshot, collection, orderBy, query } from "firebase/firestore";

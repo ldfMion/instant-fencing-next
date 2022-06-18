@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 
 import {CreateEvent} from './CreateEvent'
-import {NavBar} from './NavBar'
+import NavBar from './NavBar'
 
 import { collection, query, where, getDocs, addDoc} from "firebase/firestore";
 
