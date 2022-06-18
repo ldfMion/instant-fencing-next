@@ -2,47 +2,6 @@ import React from "react";
 import styles from "../styles/PoolTable.module.css";
 
 export function PoolTable({ fencers, bouts }) {
-    console.log('bouts',bouts)
-	/*
-  return (
-    <table className={"card " + styles.poolTable}>
-            <thead className={styles.poolTableHead}>
-                <tr>
-                    <th> </th>
-                    <th> </th>
-                    {fencers.map(
-                        (fencer, index) => (
-                            <th key={'head'+ index}><p>{fencer.userName}</p></th>
-                        )
-                    )}
-                    <th><p>V</p></th>
-                    <th><p>TS</p></th>
-                    <th><p>TR</p></th>
-                    <th><p>Ind</p></th>
-                    <th><p>Pl</p></th>
-                </tr>
-            </thead>
-            <tbody className={styles.poolTableBody}>
-                {fencers.map((fencer, index) => {
-                    let touchesScored = 0;
-                    let touchesReceived = 0;
-                    let victories = 0;
-                    let losses = 0;
-                    return (<>
-                        <tr key={'row' + index}>
-                            <th><p>{index + 1}</p></th>
-                            <th><p>{fencer.userName}</p></th>
-                            {fencers.map((fencer, index2) => {
-                                return (<td className={styles.tableCell + ' ' + (index === index2 && styles.emptyCell)} key={`row${index}column${index2}`}>
-                                    {index === index2 ? null : <p>1</p>}
-                                </td>)
-                            })}
-                        </tr>
-                    </>)
-                })}
-            </tbody>
-        </table>
-  )*/
 	return (
 		<table className={"card " + styles.poolTable}>
 			<tbody>
@@ -98,7 +57,7 @@ export function PoolTable({ fencers, bouts }) {
 					let touchesScored = 0;
 					let touchesReceived = 0;
 					let victories = 0;
-					let losses = 0;
+					let defeats = 0;
 					return (
 						<>
 							<tr key={"row" + index}>
@@ -123,10 +82,24 @@ export function PoolTable({ fencers, bouts }) {
                                             score = bout.fencerAScore;
                                             touchesScored += score;
                                             touchesReceived += bout.fencerBScore;
+                                            if(bout.fencerAScore > bout.fencerBScore){
+                                                victories++;
+                                            } else if (bout.fencerAScore < bout.fencerBScore){
+                                                defeats++;
+                                            } else {//tie
+
+                                            }
                                         } else if (fencer.userName === bout.fencerBUserName && fencer2.userName === bout.fencerAUserName) {
                                             score = bout.fencerBScore;
                                             touchesScored += score;
                                             touchesReceived += bout.fencerAScore;
+                                            if(bout.fencerAScore > bout.fencerBScore){
+                                                defeats++;
+                                            } else if (bout.fencerAScore < bout.fencerBScore){
+                                                victories++;
+                                            } else {//tie
+
+                                            }
                                         }
                                     })
 									return (
@@ -147,10 +120,10 @@ export function PoolTable({ fencers, bouts }) {
 									);
 								})}
                                 <td> </td>
-                                <td className={styles.tableCell}>v</td>
+                                <td className={styles.tableCell}><p>{victories}</p></td>
                                 <td className={styles.tableCell} ><p>{touchesScored}</p></td>
                                 <td className={styles.tableCell}><p>{touchesReceived}</p></td>
-                                <td className={styles.tableCell}>i</td>
+                                <td className={styles.tableCell}><p>{victories + defeats === 0 ? 'N/A' : victories / (victories + defeats)}</p></td>
                                 <td className={styles.tableCell}><p>{touchesScored - touchesReceived}</p></td>
 							</tr>
 						</>
