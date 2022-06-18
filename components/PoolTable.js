@@ -25,7 +25,7 @@ export function PoolTable({ fencers, bouts }) {
 							<p>{fencer.userName}</p>
 						</td>
 					))}
-                    <td className={styles.separationColumnHeader}></td>
+					<td className={styles.separationColumnHeader}></td>
 					<td
 						className={styles.tableCell + " " + styles.tableCellTop}
 					>
@@ -53,7 +53,7 @@ export function PoolTable({ fencers, bouts }) {
 					</td>
 				</tr>
 				{fencers.map((fencer, index) => {
-                    console.log(`is on first loop with ${fencer.userName}`);
+					console.log(`is on first loop with ${fencer.userName}`);
 					let touchesScored = 0;
 					let touchesReceived = 0;
 					let victories = 0;
@@ -71,37 +71,63 @@ export function PoolTable({ fencers, bouts }) {
 											styles.tableCellBottom)
 									}
 								>
-									<p>{index + 1}</p>
+									<p className={styles.rowNumber}>{index + 1}</p>
 									<p>{fencer.userName}</p>
 								</th>
 								{fencers.map((fencer2, index2) => {
-                                    console.log(`is on second loop with ${fencer2.userName}`)
-                                    let score = 0;
-                                    bouts.forEach(bout => {
-                                        if(fencer.userName === bout.fencerAUserName && fencer2.userName === bout.fencerBUserName){
-                                            score = bout.fencerAScore;
-                                            touchesScored += score;
-                                            touchesReceived += bout.fencerBScore;
-                                            if(bout.fencerAScore > bout.fencerBScore){
-                                                victories++;
-                                            } else if (bout.fencerAScore < bout.fencerBScore){
-                                                defeats++;
-                                            } else {//tie
-
-                                            }
-                                        } else if (fencer.userName === bout.fencerBUserName && fencer2.userName === bout.fencerAUserName) {
-                                            score = bout.fencerBScore;
-                                            touchesScored += score;
-                                            touchesReceived += bout.fencerAScore;
-                                            if(bout.fencerAScore > bout.fencerBScore){
-                                                defeats++;
-                                            } else if (bout.fencerAScore < bout.fencerBScore){
-                                                victories++;
-                                            } else {//tie
-
-                                            }
-                                        }
-                                    })
+									console.log(
+										`is on second loop with ${fencer2.userName}`
+									);
+									let score = 0;
+									bouts.forEach(bout => {
+										if (
+											fencer.userName ===
+												bout.fencerAUserName &&
+											fencer2.userName ===
+												bout.fencerBUserName
+										) {
+											score = bout.fencerAScore;
+											touchesScored += score;
+											touchesReceived +=
+												bout.fencerBScore;
+											if (
+												bout.fencerAScore >
+												bout.fencerBScore
+											) {
+												victories++;
+											} else if (
+												bout.fencerAScore <
+												bout.fencerBScore
+											) {
+												defeats++;
+											} else {
+												//tie
+											}
+										} else if (
+											fencer.userName ===
+												bout.fencerBUserName &&
+											fencer2.userName ===
+												bout.fencerAUserName
+										) {
+											score = bout.fencerBScore;
+											touchesScored += score;
+											touchesReceived +=
+												bout.fencerAScore;
+											if (
+												bout.fencerAScore >
+												bout.fencerBScore
+											) {
+												defeats++;
+											} else if (
+												bout.fencerAScore <
+												bout.fencerBScore
+											) {
+												victories++;
+											} else {
+												//tie
+											}
+										}
+									});
 									return (
 										<td
 											className={
@@ -111,20 +137,38 @@ export function PoolTable({ fencers, bouts }) {
 													styles.emptyCell) +
 												" " +
 												(index === fencers.length - 1 &&
-													styles.tableCellBottom)
+													styles.tableCellBottom) + 
+                                                " " + 
+                                                styles.cellNumber
 											}
 											key={`row${index}column${index2}`}
 										>
-											{index === index2 ? null : <p>{score}</p>}
+											{index === index2 ? null : (
+												<p>{score}</p>
+											)}
 										</td>
 									);
 								})}
-                                <td> </td>
-                                <td className={styles.tableCell}><p>{victories}</p></td>
-                                <td className={styles.tableCell} ><p>{touchesScored}</p></td>
-                                <td className={styles.tableCell}><p>{touchesReceived}</p></td>
-                                <td className={styles.tableCell}><p>{victories + defeats === 0 ? 'N/A' : victories / (victories + defeats)}</p></td>
-                                <td className={styles.tableCell}><p>{touchesScored - touchesReceived}</p></td>
+								<td> </td>
+								<td className={styles.tableCell}>
+									<p>{victories}</p>
+								</td>
+								<td className={styles.tableCell}>
+									<p>{touchesScored}</p>
+								</td>
+								<td className={styles.tableCell}>
+									<p>{touchesReceived}</p>
+								</td>
+								<td className={styles.tableCell}>
+									<p>
+										{victories + defeats === 0
+											? "N/A"
+											: victories / (victories + defeats)}
+									</p>
+								</td>
+								<td className={styles.tableCell}>
+									<p>{touchesScored - touchesReceived}</p>
+								</td>
 							</tr>
 						</>
 					);
