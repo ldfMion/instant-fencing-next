@@ -56,9 +56,9 @@ export const HomePage = (props) => {
         <div>
             <NavBar
                 tabs={false}
+                eventName={'Home Page'}
             />
             <div className='mainContent'>
-                <h2>Home Page</h2>
                 <h3>My Events</h3>
                 <ul className='card'>
                     {newEvent && <CreateEvent createEvent={createEvent}/>}
