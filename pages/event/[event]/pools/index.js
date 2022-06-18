@@ -49,6 +49,7 @@ export default function Pools() {
                 tabs={true}
                 eventId={event}
                 eventName={eventData.name}
+                currentTab={'pools'}
             />
             <div className='mainContent'>
                 <h3>Pools</h3>

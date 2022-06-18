@@ -10,8 +10,8 @@ export const NavBar = (props) => {
     const tabs = [
          "starter",
         'pools',
-        'pool-results',
-        'direct-elimination',
+        //'pool-results',
+        //'direct-elimination',
         'results',
     ]
 
@@ -38,7 +38,9 @@ export const NavBar = (props) => {
                 <ul className='tab-navigation'>
                     {tabs.map((tab, index) => {
                         console.log('is on tabs map')
-                        return <li key={index}><Link href={baseURL + tab}><button className='button button-terciary'>{tab}</button></Link></li>
+                        console.log(tab)
+                        console.log(props.currentTab)
+                        return <li key={index}><Link href={baseURL + tab}><button className={`button button-terciary ${props.currentTab === tab && 'bold'}`}>{tab}</button></Link></li>
                     })}
                 </ul>
             } 

@@ -50,6 +50,9 @@ p{
   word-wrap: break-word;
 }
 
+.bold{
+  font-weight: bold;
+}
 
 .mainContent{
   padding: var(--stantardPadding);
