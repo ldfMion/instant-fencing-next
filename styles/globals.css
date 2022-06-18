@@ -9,6 +9,8 @@
   --white: #FFFFFF;
   --light: #E7E7E7;
   --grey: #E7E7E7;
+  --fail: #FFAB9F;
+  --success: #B2F3C1;
   --stantardPadding: 20px;
 }
 

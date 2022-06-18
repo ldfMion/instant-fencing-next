@@ -10,11 +10,9 @@ import { doc, onSnapshot, collection, orderBy, query } from "firebase/firestore"
 export default function Pools() {
     const router = useRouter();
     const {event} = router.query
-    //const [eventRef, setEventRef] = useState(undefined)
+    const [eventRef, setEventRef] = useState(undefined)
     const [eventData, setEventData] = useState(undefined)
     const [pools, setPools] = useState([])
-
-    const [fencersRef, setFencersRef] = useState()
 
     useEffect(async ()=>{
         if(!router.isReady) return;        
@@ -37,7 +35,7 @@ export default function Pools() {
             setPools(pools);
         });
 
-        setFencersRef(collection(eventRef, 'fencers'))
+        setEventRef(eventRef);
 
     }, [router.isReady]);
 
@@ -57,7 +55,7 @@ export default function Pools() {
                 <ol>
                     {pools.map((pool, index) => {
                         console.log('is on map')
-                        return <PoolPreview poolData={pool} fencersRef={fencersRef} key={index} eventId={event}/>
+                        return <PoolPreview poolData={pool} eventRef={eventRef} key={index} eventId={event}/>
                     })}
                 </ol>
             </div>
