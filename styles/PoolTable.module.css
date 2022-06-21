@@ -17,11 +17,6 @@
     font-size: 0.8rem;
 }
 
-.cellNumber {
-    width: 100%;
-    text-align: right;
-}
-
 .tableCellTop{
     border-top: none;
 }

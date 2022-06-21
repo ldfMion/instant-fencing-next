@@ -139,7 +139,7 @@ export function PoolTable({ fencers, bouts }) {
 												(index === fencers.length - 1 &&
 													styles.tableCellBottom) + 
                                                 " " + 
-                                                styles.cellNumber
+                                                'cell-number'
 											}
 											key={`row${index}column${index2}`}
 										>

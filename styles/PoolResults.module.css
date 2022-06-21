@@ -1,0 +1,24 @@
+.table {
+    width: 100%;
+}
+
+.tableBody {
+}
+
+.row {
+    padding: 0 1rem;
+}
+
+.tableCell {
+    padding: 12px;
+}
+
+.rowNumber {
+    margin-right: 0.5rem;
+    font-size: 0.8rem;
+}
+
+.fencerCell{
+    display: flex;
+    align-items: center;
+}

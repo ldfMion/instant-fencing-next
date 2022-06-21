@@ -10,9 +10,9 @@ const NavBar = (props) => {
     const tabs = [
          "starter",
         'pools',
-        //'pool-results',
+        'pool-results',
         //'direct-elimination',
-        'results',
+        //'results',
     ]
 
     const baseURL = `/event/${props.eventId}/`
