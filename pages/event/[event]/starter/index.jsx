@@ -56,7 +56,7 @@ const Starter = () => {
 				currentTab="starter"
 			/>
             <div className="mainContent">
-                <h3>Pool Results</h3>
+                <h3>Starter</h3>
                 <ol className='card column'>
                         {fencers.sort((fencerA, fencerB) => fencerA.startingRank - fencerB.startingRank).map((fencer, index) => <li key={index} className="participant-in-list">
                             <p>{fencer.userName}</p>
