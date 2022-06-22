@@ -71,7 +71,7 @@ export function PoolPreview({ poolData, eventRef, eventId }) {
                                   } else {
                                       boutStatus = ('not-done');
                                   }
-                                  return <div className={`${styles.circle} ${boutStatus === 'defeat' && styles.fail} ${boutStatus === 'victory' && styles.success}`}></div>
+                                  return <div className={`${styles.circle} ${boutStatus === 'defeat' && 'fail'} ${boutStatus === 'success' &&  'fail'}`}></div>
                               } else if (
                                   bout.fencerBUserName === fencer.userName
                               ) {
@@ -82,7 +82,7 @@ export function PoolPreview({ poolData, eventRef, eventId }) {
                                   } else {
                                       boutStatus = ('not-done');
                                   }
-                                  return <div className={`${styles.circle} ${boutStatus === 'defeat' && styles.fail} ${boutStatus === 'victory' && styles.success}`}></div>
+                                  return <div className={`${styles.circle} ${boutStatus === 'defeat' && 'fail'} ${boutStatus === 'victory' && 'success'}`}></div>
                               }
                               console.log('is making circles')
                           })}

@@ -71,7 +71,9 @@ export function PoolTable({ fencers, bouts }) {
 											styles.tableCellBottom)
 									}
 								>
-									<p className={styles.rowNumber}>{index + 1}</p>
+									<p className={styles.rowNumber}>
+										{index + 1}
+									</p>
 									<p>{fencer.userName}</p>
 								</th>
 								{fencers.map((fencer2, index2) => {
@@ -79,6 +81,7 @@ export function PoolTable({ fencers, bouts }) {
 										`is on second loop with ${fencer2.userName}`
 									);
 									let score = 0;
+									let victory;
 									bouts.forEach(bout => {
 										if (
 											fencer.userName ===
@@ -95,11 +98,13 @@ export function PoolTable({ fencers, bouts }) {
 												bout.fencerBScore
 											) {
 												victories++;
+												victory = true;
 											} else if (
 												bout.fencerAScore <
 												bout.fencerBScore
 											) {
 												defeats++;
+												victory = false;
 											} else {
 												//tie
 											}
@@ -118,11 +123,13 @@ export function PoolTable({ fencers, bouts }) {
 												bout.fencerBScore
 											) {
 												defeats++;
+												victory = false;
 											} else if (
 												bout.fencerAScore <
 												bout.fencerBScore
 											) {
 												victories++;
+												victory = true;
 											} else {
 												//tie
 											}
@@ -137,9 +144,11 @@ export function PoolTable({ fencers, bouts }) {
 													styles.emptyCell) +
 												" " +
 												(index === fencers.length - 1 &&
-													styles.tableCellBottom) + 
-                                                " " + 
-                                                'cell-number'
+													styles.tableCellBottom) +
+												" " +
+												"cell-number" +
+												" " + (victory && "success") +
+												" " + (victory === false && "fail")
 											}
 											key={`row${index}column${index2}`}
 										>
