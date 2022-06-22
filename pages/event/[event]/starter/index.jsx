@@ -35,7 +35,11 @@ const Starter = () => {
 
         const fencersSnap = await getDocs(fencersRef);
         const fencersData = [];
-        fencersSnap.forEach(fencerSnap => fencersData.push(fencerSnap.data()))
+        fencersSnap.forEach(fencerSnap => {
+            const id = fencerSnap.id;
+            fencersData.push(new Fencer({...fencerSnap.data(), id}));
+
+        })
         setFencers(fencersData)
 
 	}, [router.isReady]);
@@ -64,44 +68,3 @@ const Starter = () => {
 }
 
 export default Starter;
-
-/*
-export async function getStaticProps() {
-
-    if (!router.isReady) return;
-		const eventRef = doc(db, "Events", event);
-
-		const getEvent = onSnapshot(eventRef, doc => {
-			//console.log("Current data: ", doc.data());
-			setEventData(doc.data());
-		});
-
-		const fencersRef = collection(eventRef, "fencers");
-
-		const getFencers = onSnapshot(fencersRef, querySnapshot => {
-			const fencersData = [];
-			querySnapshot.forEach(doc => {
-				const id = doc.id;
-				console.log(doc.data());
-				console.log(id);
-				const fencerObject = new Fencer({ ...doc.data(), id });
-				console.log(fencerObject);
-				fencersData.push(fencerObject);
-			});
-			console.log("fromDatabase", fencersData);
-			setFencers(fencersData);
-		});
-
-		//setEventRef(eventRef);
-
-  
-    return {
-      props: {
-        posts,
-      },
-      // Next.js will attempt to re-generate the page:
-      // - When a request comes in
-      // - At most once every 10 seconds
-      revalidate: 10, // In seconds
-    }
-  }*/
