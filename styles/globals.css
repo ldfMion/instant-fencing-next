@@ -83,29 +83,32 @@ a{
 }
 
 button, input[type=submit] {
-  padding: 12px 8px;
-  font-style: normal;
-  font-weight: 400;
-  font-size: 18px;
-  text-align: center;
-  border-radius: 10px; 
-  white-space: nowrap
+    padding: 12px 8px;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    text-align: center;
+    border-radius: 10px; 
+    white-space: nowrap;
 }
 
 .button-primary{
   color: var(--white);
   background-color: var(--primary);
   box-shadow: 0px 4px 20px 2px rgba(0, 0, 0, 0.1);
+  font-weight: 600;
+
   
 }
 
 .button-secondary{
   color: var(--primary);
-  background-color: var(--white);
   box-shadow: 0px 4px 20px 2px rgba(0, 0, 0, 0.1);
   border-style: solid;
   border-color: var(--primary);
-  border-width: 2px;
+  border-width: 0.3rem;
+  font-weight: 600;
+
 }
 
 .button-terciary{
@@ -166,9 +169,14 @@ input[type=text]{
   background-color: var(--white);
   box-shadow: 0px 4px 20px 2px rgba(0, 0, 0, 0.1);
   border-radius: 15px;
-  gap: 10px;
 }
 
+.column{
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+}
 
 .participant-in-list{
   display: flex;
@@ -236,9 +244,9 @@ a {
 }
 
 .fail{
-    background: var(--fail);
+    background: var(--fail) !important;
 }
 
 .success{
-    background: var(--success);
+    background: var(--success) !important;
 }

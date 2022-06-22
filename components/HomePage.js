@@ -60,7 +60,7 @@ export const HomePage = (props) => {
             />
             <div className='mainContent'>
                 <h3>My Events</h3>
-                <ul className='card'>
+                <ul className='card column'>
                     {newEvent && <CreateEvent createEvent={createEvent}/>}
                     {events.length != 0 ? 
                     events.map((event, index) => {

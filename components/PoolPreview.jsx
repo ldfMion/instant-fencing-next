@@ -51,7 +51,7 @@ export function PoolPreview({ poolData, eventRef, eventId }) {
 
 	return (
       <Link href={`${baseURL}/${poolData.id}`}>
-          <a>
+          <a className="column">
               <h4>Pool {poolData.poolId}</h4>
               <ol className="card">
                   {fencers.map((fencer, index) => (
@@ -71,7 +71,7 @@ export function PoolPreview({ poolData, eventRef, eventId }) {
                                   } else {
                                       boutStatus = ('not-done');
                                   }
-                                  return <div className={`${styles.circle} ${boutStatus === 'defeat' && 'fail'} ${boutStatus === 'success' &&  'fail'}`}></div>
+                                  return <div className={`${styles.circle} ${boutStatus === 'defeat' && 'fail'} ${boutStatus === 'victory' &&  'success'}`}></div>
                               } else if (
                                   bout.fencerBUserName === fencer.userName
                               ) {
@@ -90,7 +90,7 @@ export function PoolPreview({ poolData, eventRef, eventId }) {
                       </li>
                   ))}
               </ol>
-              <button className="button button-primary">Details</button>
+              <button className="button button-secondary">Details</button>
           </a>
       </Link>
 	);

@@ -132,7 +132,7 @@ export function SetPools(props) {
                         return (
                             <li id={index} key={index}>
                                 <h4>Pool {index+1}</h4>
-                                <ol className='card'>
+                                <ol className='card column'>
                                     {pool.map((fencer, index) => {
                                         return (
                                             <li

@@ -9,7 +9,7 @@ export function LogPrompt() {
 
     return (
         <div className={styles.popupBackground}>
-            <div className='card'>
+            <div className='card column'>
                 {choice === '' && <>
                     <h2>Login or Create an Account</h2>
                     <button onClick={() => setChoice('login')} className='button-primary'>Log In</button>

@@ -20,7 +20,7 @@ export function SelectSortType(props) {
             <form  onChange={handleChange} onSubmit={handleSubmit}>
                 <div className='mainContent'>
                     <h3>Select Competition Sort Type</h3>
-                    <ul className='card'>
+                    <ul className='card column'>
                         <li className="participant-in-list">
                             <label htmlFor="Randomly">Randomly</label>
                             <input

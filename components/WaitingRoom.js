@@ -74,14 +74,14 @@ export function WaitingRoom(props) {
     return (<>
         <div className='mainContent'>
             <h3>Waiting Room</h3>
-            <div className='card horizontal-form'>
+            <div className='card horizontal-form column'>
                 <p>{window.location.href}</p>
                 <button className='button button-secondary' onClick={()=> navigator.clipboard.writeText(window.location.href)}>Copy</button>
             </div>
             <AddFencer addFencer={addFencer}/>
             {
                 fencers.length!==0 ? 
-                <ul className='card'>
+                <ul className='card column'>
                     {fencers.map((fencer, index) => <li key={index} className="participant-in-list">
                         <p>{fencer.userName}</p>
                         {
