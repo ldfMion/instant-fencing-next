@@ -10,6 +10,8 @@
     border: 1px solid var(--grey);
     width: fit-content;
     padding: 12px;
+    background: var(--white);
+    background-clip: padding-box;
 }
 
 .rowNumber {
@@ -23,6 +25,9 @@
 
 .tableCellLeft{
     border-left: none;
+    position: sticky;
+    left: 0;
+    outline: 1px solid var(--grey);
 }
 
 .tableCellBottom{
@@ -35,4 +40,10 @@
 
 .separationColumnHeader{
     padding: 0 0.5rem;
+}
+
+.poolTableScrollContainer {
+    width: 100%;
+    overflow-x: scroll;
+    padding: 0;
 }
