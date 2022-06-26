@@ -1,19 +1,24 @@
 .NavLinks {
     display: flex;
     flex-direction: column;
-    z-index: 0;
     justify-content: center;
-    flex-grow: 0;
-    transition: all .3s ease-in-out;
-    padding: 0 20px 0 20px;
+    transition: all 0.2s ease-in-out;
+    padding: 2rem;
     gap: 10px;
+    z-index: 2;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    background: var(--white);
+    border-radius: 0px 0px var(--startardBorderRadius) var(--startardBorderRadius);
+    box-shadow: 0px 3px 10px 5px rgba(33, 33, 33, 0.1);
 }
 
 .NavLinks_closed {
     height: 0;
-    transform: translateY(-200px);
+    visibility: hidden;
 }
 
 .NavLinks_open {
-    height: 100vh;
+    height: 100vh; 
 }

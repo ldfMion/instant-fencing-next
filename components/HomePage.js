@@ -53,7 +53,7 @@ export const HomePage = (props) => {
     }
 
     return (
-        <div>
+        <>
             <NavBar
                 tabs={false}
                 eventName={'Home Page'}
@@ -80,6 +80,6 @@ export const HomePage = (props) => {
             <div className='button-container'>
                 {!newEvent ? <button className='button button-primary' onClick={() => setNewEvent(true)}>Create Event</button> : <button className='button button-secondary' onClick={() => setNewEvent(false)}>Cancel</button>}
             </div>
-        </div>
+        </>
     )
 }

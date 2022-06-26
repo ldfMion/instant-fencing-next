@@ -44,9 +44,9 @@ const Home = () => {
     }
 
     return (
-        <div>
+        <>
             <HomePage user={user} db={db}/>
-        </div>
+        </>
     )
     
 }
