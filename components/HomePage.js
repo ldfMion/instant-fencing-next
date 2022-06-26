@@ -55,7 +55,6 @@ export const HomePage = (props) => {
     return (
         <>
             <NavBar
-                tabs={false}
                 eventName={'Home Page'}
             />
             <div className='mainContent'>
@@ -63,7 +62,7 @@ export const HomePage = (props) => {
                 <ul className='card column'>
                     {newEvent && <CreateEvent createEvent={createEvent}/>}
                     {events.length != 0 ? 
-                    events.map((event, index) => {
+                    events.sort((eventA, eventB) => eventB.createdAt.seconds - eventA.createdAt.seconds).map((event, index) => {
                         const date = event.createdAt ? event.createdAt.toDate() : null;
                         return <a href={`./event/${event.id}/create`} key={index}>
                             <li key={index} className="participant-in-list">
