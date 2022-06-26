@@ -21,7 +21,7 @@
     padding: 1.5rem;
     position: relative;
     border-radius: 0px 0px var(--startardBorderRadius) var(--startardBorderRadius);
-    z-index: 2;
+    z-index: 3;
     
 }
 
