@@ -61,12 +61,7 @@ export function SortByRank(props) {
                     </ul>
                 </div>
                 <div className='button-container'>
-                    <input
-                        className="button button-primary"
-                        type="submit"
-                        value="Confirm"
-                        disabled={unselectedFencers.length !== 0}
-                    />
+                    <button className='button-primary' type='submit' disabled={unselectedFencers.length !== 0}>Confirm</button>
                 </div>
             </form>
         </>)
