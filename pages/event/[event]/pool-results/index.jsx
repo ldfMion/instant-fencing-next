@@ -8,7 +8,6 @@ import styles from "../../../../styles/PoolResults.module.css";
 const PoolResults = () => {
 	const router = useRouter();
 	const { event } = router.query;
-	const [eventRef, setEventRef] = useState(undefined);
 	const [eventData, setEventData] = useState(undefined);
 	const [fencers, setFencers] = useState(undefined);
 	const [bouts, setBouts] = useState(undefined);
@@ -64,8 +63,6 @@ const PoolResults = () => {
 			});
 			setBouts(bouts);
 		});
-
-		setEventRef(eventRef);
 	}, [router.isReady]);
 
 	if (!fencers || !bouts) {
@@ -78,6 +75,8 @@ const PoolResults = () => {
 		keyFencers[fencer.id] = fencer;
 	});
 
+    let totalVictories = 0;
+
 	bouts.forEach(bout => {
 		keyFencers[bout.fencerAId].touchesScored += bout.fencerAScore;
 		keyFencers[bout.fencerAId].touchesReceived += bout.fencerBScore;
@@ -86,9 +85,11 @@ const PoolResults = () => {
 		if (bout.fencerAScore > bout.fencerBScore) {
 			keyFencers[bout.fencerAId].victories++;
 			keyFencers[bout.fencerBId].defeats++;
+            totalVictories++;
 		} else if (bout.fencerAScore < bout.fencerBScore) {
 			keyFencers[bout.fencerAId].defeats++;
 			keyFencers[bout.fencerBId].victories++;
+            totalVictories++;
 		} else {
 			//tie
 		}
@@ -113,7 +114,7 @@ const PoolResults = () => {
 	});
 
 	console.log("newFencers", newFencers);
-
+    const complete = totalVictories === bouts.length;
 	return (
 		<>
 			<NavBar
@@ -145,6 +146,7 @@ const PoolResults = () => {
 						</tr>
 					))}
 				</table>
+                {complete ? <p>All bouts are finished!</p> : <p>Live results</p>}
 			</div>
 		</>
 	);
