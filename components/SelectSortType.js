@@ -41,12 +41,7 @@ export function SelectSortType(props) {
                     {value === 'By Rank' && <p>Select Fencers from best to worst. This rank will be used to arrage them in pools.</p>}
                 </div>
                 <div className='button-container'>
-                    <input
-                        className="button button-primary"
-                        type="submit"
-                        value="Confirm"
-                        disabled={value === ""}
-                    />
+                    <button className='button-primary' type='submit' disabled={value === ""}>Confirm</button>
                 </div>
             </form>
     );
