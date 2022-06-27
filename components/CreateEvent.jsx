@@ -12,9 +12,7 @@ export const CreateEvent = (props) => {
     
     return(
         <form className='horizontal-form'>
-            <label>
-                <input className='text-input' autoFocus type='text' value={value} onChange={handleChange} placeholder='Name your event'/>
-            </label>
+            <input className='fill-container' autoFocus type='text' value={value} onChange={handleChange} placeholder='Name your event'/>
             <button className='button-primary' disabled={value === ''} onClick={handleSubmit}>Create</button>
         </form>
     )

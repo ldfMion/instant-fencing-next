@@ -15,9 +15,7 @@ export function AddFencer(props) {
 
     return (
     <form onSubmit={handleSubmit} className='card horizontal-form'>
-        <label>
-            <input autoFocus type='text' value={value} onChange={handleChange} className='fill-container'/>
-        </label>
+        <input autoFocus type='text' value={value} onChange={handleChange} className='fill-container'/>
         <input disabled={value===''} type='submit' value='Add' className='button button-secondary'/>       
     </form>
     )

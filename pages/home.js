@@ -10,8 +10,6 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import {HomePage} from '../components/HomePage';
 import {LogPrompt} from '../components/LogPrompt';
 
-//!the new thing now
-
 import {auth, db} from '../firebase/firebase.js'
 
 /*

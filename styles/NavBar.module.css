@@ -11,6 +11,7 @@
     background-color: var(--white);
     box-shadow: 0px 3px 10px 5px rgba(33, 33, 33, 0.1);
     border-radius: 0px 0px 2rem 2rem;
+    z-index: 1;
 }
 
 .navBar{
@@ -20,8 +21,8 @@
     gap: 10px;
     padding: 1.5rem;
     position: relative;
-    border-radius: 0px 0px var(--startardBorderRadius) var(--startardBorderRadius);
-    z-index: 3;
+    border-radius: 0px 0px var(--bigBorderRadius) var(--bigBorderRadius);
+    z-index: 4;
     
 }
 
