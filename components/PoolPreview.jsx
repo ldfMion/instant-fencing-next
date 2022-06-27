@@ -57,7 +57,7 @@ export function PoolPreview({ poolData, eventRef, eventId }) {
                   {fencers.map((fencer, index) => (
                       <li key={index} className="participant-in-list">
                         <p>{index + 1}</p>
-                        <p>{fencer.userName}</p>
+                        <p className='fill-container'>{fencer.userName}</p>
                         <div className={styles.boutStatusContainer}>
                           {bouts.map((bout) => {
                               let boutStatus;
