@@ -14,21 +14,6 @@ import {SelectSortType} from '../../../components/SelectSortType.js';
 import {SortByRank} from '../../../components/SortByRank.js';
 import {SetPools} from '../../../components/SetPools.js';
 
-/*
-const firebaseConfig = {
-    apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
-    authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
-    databaseURL: process.env.NEXT_PUBLIC_FIREBASE_DATABASE_URL,
-    projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
-    storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
-    messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
-    appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
-    measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID,
-}
-
-export const app = initializeApp(firebaseConfig);
-const db = getFirestore(app)
-*/
 const Create = () => {
     const router = useRouter();
     const {event} = router.query
@@ -42,14 +27,7 @@ const Create = () => {
         if(!router.isReady) return;        
         const eventRef = doc(db, "Events", event);
         setEventRef(eventRef)
-        /*
 
-        const eventSnap = await getDoc(eventRef);
-        const eventData = eventSnap.data();
-        setEventRef(eventRef)
-        setEventData(eventData)
-        console.log(eventData)
-        */
         const getEvent = onSnapshot(eventRef, (doc) => {
             console.log("Current data: ", doc.data());
             setEventData(doc.data())
