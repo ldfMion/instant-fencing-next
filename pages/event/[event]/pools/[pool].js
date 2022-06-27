@@ -107,7 +107,9 @@ export default function Pool() {
 
 	useEffect(async () => {
 		if (!router.isReady) return;
-
+        if(!db || !event){
+            return
+        }
 		const eventRef = doc(db, "Events", event);
 		const poolRef = doc(eventRef, "pools", pool);
 		const fencersRef = collection(eventRef, "fencers");        
@@ -136,6 +138,7 @@ export default function Pool() {
 	}, [router.isReady]);
 
     useEffect(async () => {
+        if(!poolData) return
         const eventRef = doc(db, "Events", event);
         const boutsRef = collection(eventRef, "bouts");
         const filteredBoutsRef = query(
