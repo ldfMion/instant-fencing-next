@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 
 import { db } from "../../../../firebase/firebase.js";
 
-import { doc, collection, onSnapshot, setDoc, getDoc } from "firebase/firestore";
+import { doc, collection, onSnapshot, setDoc, getDoc, query, where } from "firebase/firestore";
 
 import { PoolTable } from "../../../../components/PoolTable.js";
 import { PoolBouts } from "../../../../components/PoolBouts.js";
@@ -110,8 +110,7 @@ export default function Pool() {
 
 		const eventRef = doc(db, "Events", event);
 		const poolRef = doc(eventRef, "pools", pool);
-		const fencersRef = collection(eventRef, "fencers");
-		const boutsRef = collection(eventRef, "bouts");
+		const fencersRef = collection(eventRef, "fencers");        
 
         const eventResponse = await getDoc(eventRef);
         setEventData(eventResponse.data())
@@ -133,8 +132,17 @@ export default function Pool() {
 			console.log(fencers);
 			setFencers(fencers);
 		});
+        
+	}, [router.isReady]);
 
-		const getBouts = onSnapshot(boutsRef, querySnapshot => {
+    useEffect(async () => {
+        const eventRef = doc(db, "Events", event);
+        const boutsRef = collection(eventRef, "bouts");
+        const filteredBoutsRef = query(
+			collection(eventRef, "bouts"),
+			where("poolNumber", "==", poolData.poolId)
+		);
+		const getBouts = onSnapshot(filteredBoutsRef, querySnapshot => {
 			const bouts = [];
 			querySnapshot.forEach(doc => {
 				const id = doc.id;
@@ -142,7 +150,7 @@ export default function Pool() {
 			});
 			setBouts(bouts);
 		});
-	}, [router.isReady]);
+    }, [poolData])
 
 	console.log(poolData, fencers);
 	if (!poolData || !fencers || !bouts) {

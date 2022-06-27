@@ -115,6 +115,11 @@ const PoolResults = () => {
 
 	console.log("newFencers", newFencers);
     const complete = totalVictories === bouts.length;
+
+    if(!eventData){
+        return null
+    }
+
 	return (
 		<>
 			<NavBar
