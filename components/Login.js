@@ -12,9 +12,9 @@ export const Login = () => {
     }
 
     return (
-        <div>
+        <>
             <h2>Log In</h2>
             <button className='button-primary' onClick={signInWithGoogle}>Log In With Google</button>
-        </div>
+        </>
     );
 }

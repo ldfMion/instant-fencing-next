@@ -3,6 +3,7 @@ import React,{useState} from 'react'
 import styles from '../styles/LogPrompt.module.css'
 
 import {Login} from './Login.js'
+import SignUp from './SignUp'
 
 export function LogPrompt() {
     const [choice, setChoice] = useState('')
@@ -20,7 +21,7 @@ export function LogPrompt() {
 
                 </>}
                 {choice === 'signup' && <>
-                    <h1>Create an Account</h1>
+                    <SignUp/>
                 </>}
 
             </div>

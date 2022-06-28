@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 
 import { db } from "../../../../firebase/firebase.js";
+import { useAuthState } from 'react-firebase-hooks/auth';
 
 import { doc, collection, onSnapshot, setDoc, getDoc, query, where } from "firebase/firestore";
 
@@ -13,7 +14,6 @@ import NavBar from '../../../../components/NavBar'
 export default function Pool() {
 	const router = useRouter();
 	const { event, pool } = router.query;
-	console.log(event, pool);
 
 	const [eventData, setEventData] = useState();
 	const [poolData, setPoolData] = useState();
