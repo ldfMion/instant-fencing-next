@@ -161,6 +161,7 @@ export function WaitingRoom(props) {
 					<button
 						className={`button button-${userIsJoined ? 'primary' : 'secondary'}`}
 						onClick={createEvent}
+                        disabled={fencers.length < 3}
 					>
 						Done
 					</button>
