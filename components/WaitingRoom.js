@@ -25,6 +25,8 @@ export function WaitingRoom(props) {
 
 	const [userIsJoined, setUserIsJoined] = useState(false);
 
+    const [copied, setCopied] = useState(false);
+
 	useEffect(async () => {
 		const getFencers = onSnapshot(fencersRef, snapshot => {
 			const fencers = [];
@@ -91,11 +93,12 @@ export function WaitingRoom(props) {
 					<p>{window.location.href}</p>
 					<button
 						className="button button-secondary"
-						onClick={() =>
-							navigator.clipboard.writeText(window.location.href)
-						}
+						onClick={() => {
+							navigator.clipboard.writeText(window.location.href);
+                            setCopied(true);
+                        }}
 					>
-						Copy
+						{copied ? 'Copied!' : 'Copy'}
 					</button>
 				</div>
 				{props.user ? (
