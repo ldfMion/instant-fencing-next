@@ -169,7 +169,7 @@ export function WaitingRoom(props) {
 						Done
 					</button>
 				)}
-				{!userIsJoined && (
+				{(!userIsJoined && props.user) && (
 					<button className="button button-primary" onClick={join}>
 						Join
 					</button>
