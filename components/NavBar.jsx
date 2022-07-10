@@ -5,7 +5,6 @@ import Link from 'next/link'
 
 const NavBar = ({eventName, eventId, currentTab}) => {
     const [open, setOpen] = useState(false)
-    console.log(tabs)
     
     const tabs = [
          "starter",

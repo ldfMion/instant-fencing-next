@@ -1,0 +1,22 @@
+.action {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.actionText {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    align-items: center;
+}
+
+.actionNumberContainer {
+    padding: 1rem;
+    background: var(--success);
+    border-radius: 0.8rem;
+}
+
+.actionNumber {
+    /* color: white; */
+}

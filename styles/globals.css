@@ -2,6 +2,7 @@
   box-sizing: border-box;
   padding: 0;
   margin: 0;
+
 }
 
 :root{
@@ -18,13 +19,13 @@
 
 h1{
   font-size: 32px;
-  font-family: Lato;
+  font-family: Lato, Tahoma, sans-serif;
   font-weight: 700;
 }
 
 h2{
   font-size: 20px;
-  font-family: Lato;
+  font-family: Lato, Tahoma, sans-serif;
   font-weight: 800;
   text-align: center;
   z-index: 2;
@@ -32,24 +33,24 @@ h2{
 
 h3{
   font-size: 24px;
-  font-family: Lato;
+  font-family: Lato, Tahoma, sans-serif;
   font-weight: 600;
 }
 
 h4{
-  font-family: Lato;
-  font-style: normal;
-  font-weight: 600;
-  font-size: 20px;
+    font-family: Lato, Tahoma, sans-serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 20px;
 }
 
 p{
-  font-size: 16px;
-  font-family: Lato;
-  font-weight: 400;
-  color: var(--primary);
-  display: inline;
-  word-wrap: break-word;
+    font-size: 16px;
+    font-family: Lato, Tahoma, sans-serif;
+    font-weight: 400;
+    color: var(--primary);
+    display: inline;
+    word-wrap: break-word;
 }
 
 .bold{
@@ -123,7 +124,7 @@ button:hover {
   color: var(--primary);
   background: none;
   border-style: none;
-
+  font-weight: 600;
   text-decoration-line: underline;
   text-decoration-color: var(--primary);
   text-decoration-thickness: 2px;
