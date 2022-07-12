@@ -2,15 +2,18 @@
   box-sizing: border-box;
   padding: 0;
   margin: 0;
-
 }
 
 :root{
   --primary: #212121;
+  --primary--hover: #000000;
+  --primary--clicked: #777777;
+  --primary--disabled: #C1C1C1;
   --white: #FFFFFF;
   --light: #E7E7E7;
   --grey: #E7E7E7;
   --fail: #FFAB9F;
+  --fail--dark: #FF3A1F;
   --success: #B2F3C1;
   --stantardPadding: 20px;
   --bigBorderRadius: 2rem;
@@ -57,6 +60,10 @@ p{
   font-weight: bold;
 }
 
+.fail-text{
+    color: var(--fail--dark);
+}
+
 .mainContent{
   padding: var(--stantardPadding);
   display: flex;
@@ -88,46 +95,85 @@ a{
 }
 
 button, input[type=submit] {
+    all: unset;
+    font-size: 1rem;
+    font-family: Lato, Tahoma, sans-serif;
+    font-weight: 700;
     padding: 12px 8px;
     font-style: normal;
-    font-weight: 400;
     font-size: 18px;
     text-align: center;
     border-radius: 10px; 
     white-space: nowrap;
-}
-
-button:hover {
-    background: red;
+    border-width: 0.3rem;
+    border-style: solid;
+    box-shadow: 0px 4px 20px 2px rgba(0, 0, 0, 0.1);
 }
 
 .button-primary{
   color: var(--white);
-  background-color: var(--primary);
-  box-shadow: 0px 4px 20px 2px rgba(0, 0, 0, 0.1);
-  font-weight: 600;
+  background: var(--primary);
   border-color: var(--primary);
-  border-width: 0.3rem;
+  border-color: var(--primary);
+}
+
+.button-primary:hover{
+    background: var(--primary--hover);
+    border-color: var(--primary--hover);
+}
+
+.button-primary:active{
+    background: var(--primary--clicked);
+    border-color: var(--primary--clicked);
+}
+
+.button-primary:disabled{
+    background: var(--primary--disabled);
+    border-color: var(--primary--disabled);
 }
 
 .button-secondary{
   color: var(--primary);
-  box-shadow: 0px 4px 20px 2px rgba(0, 0, 0, 0.1);
-  border-style: solid;
   border-color: var(--primary);
   border-width: 0.3rem;
-  font-weight: 600;
+}
 
+.button-secondary:hover{
+  color: var(--primary--hover);
+  border-color: var(--primary--hover);
+  background: var(--primary--disabled);
+}
+
+.button-secondary:active{
+    color: var(--primary--clicked);
+    border-color: var(--primary--clicked);
+}
+
+.button-secondary:disabled{
+    color: var(--primary--disabled);
+    border-color: var(--primary--disabled);
 }
 
 .button-terciary{
   color: var(--primary);
   background: none;
   border-style: none;
-  font-weight: 600;
-  text-decoration-line: underline;
-  text-decoration-color: var(--primary);
-  text-decoration-thickness: 2px;
+  box-shadow: none;
+}
+
+.button-terciary:hover{
+    color: var(--primary--hover);
+    text-decoration-line: underline;
+    text-decoration-color: var(--primary--hover);
+    text-decoration-thickness: 2px;
+}
+  
+.button-terciary:active{
+    color: var(--primary--clicked);
+}
+
+.button-terciary:disabled{
+    color: var(--primary--disabled);
 }
 
 html{

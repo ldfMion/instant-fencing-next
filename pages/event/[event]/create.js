@@ -50,13 +50,13 @@ const Create = () => {
     if(!eventData.sortType){
         return (<>
             <NavBar eventName={eventData.name}/>
-            <SelectSortType eventRef={eventRef}/>
+            <SelectSortType eventRef={eventRef} user={user}/>
         </>)
     }
     if(!eventData.fencersAreSorted && eventData.sortType === 'By Rank'){
         return <>
             <NavBar eventName={eventData.name}/>
-            <SortByRank eventRef={eventRef}/>
+            <SortByRank eventRef={eventRef} user={user}/>
         </>
     }
     if(!eventData.poolsAreSet){

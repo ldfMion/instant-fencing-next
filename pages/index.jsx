@@ -27,7 +27,7 @@ export default function Home() {
                         text='Create a new event in the home page'
                         href='./home'
                         buttonText='Go to home'
-                        buttonType='terciary'
+                        buttonType='secondary'
                     />
 				</section>
 				<section className="column">
