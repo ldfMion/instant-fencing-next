@@ -31,7 +31,7 @@ const NavBar = ({eventName, eventId, currentTab}) => {
                 </div> 
                 {
                     eventName ?
-                    <h2>{eventName}</h2>
+                    <h2 className={styles.eventName}>{eventName}</h2>
                     : null
                 }
                 {currentTab &&

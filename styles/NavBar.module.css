@@ -35,6 +35,11 @@
     /* padding: 20px 10px 20px 10px; */
 }
 
+.eventName {
+    text-align: center;
+    z-index: 2;
+}
+
 .menuIcon{
     width: 34px;
     height: 34px;
