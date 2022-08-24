@@ -71,6 +71,7 @@ export const HomePage = props => {
 								const date = event.createdAt
 									? event.createdAt.toDate()
 									: null;
+                                    console.log("printing date",date, date.getMonth())
 								return (
 									<a
 										href={`./event/${event.id}/create`}
@@ -83,7 +84,7 @@ export const HomePage = props => {
 											<p>{event.name}</p>
 											<p>
 												{date
-													? `${date.getMonth()}/${date.getDay()}/${date.getFullYear()}`
+													? `${date.getMonth()+1}/${date.getDate()}/${date.getFullYear()}`
 													: null}
 											</p>
 										</li>
