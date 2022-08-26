@@ -146,7 +146,7 @@ const PoolResults = () => {
                                 <p className={styles.rowNumber}>{index + 1}</p>
                                 <p className='bold'>{fencer.userName}</p>
                             </td>
-							<td className={`${styles.tableCell} cell-number`}><p>{fencer.victoriesOverMatches}</p></td>
+							<td className={`${styles.tableCell} cell-number`}><p>{fencer.victoriesOverMatches.toFixed(3)}</p></td>
 							<td className={`${styles.tableCell} cell-number`}><p>{fencer.index}</p></td>
 						</tr>
 					))}
