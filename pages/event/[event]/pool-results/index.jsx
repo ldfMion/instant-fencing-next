@@ -132,7 +132,7 @@ const PoolResults = () => {
 				<h3>Pool Results</h3>
 				<table className={`card ${styles.table}`}>
 						<tr className={styles.row}>
-                            <td className='center-align'><p>Fencer</p></td>
+                            <td ><p>Fencer</p></td>
 							<td className={styles.tableCell}>
 								<p className='bold'>V/M</p>
 							</td>
@@ -142,9 +142,9 @@ const PoolResults = () => {
 						</tr>
                         {newFencers.map((fencer, index) => (
 						<tr className={styles.row}>
-							<td className={`${styles.tableCell} ${styles.fencerCell}`}>
+							<td className={`${styles.tableCell} ${styles.fencerCell} participant-in-list`}>
                                 <p className={styles.rowNumber}>{index + 1}</p>
-                                <p className='bold'>{fencer.userName}</p>
+                                <p className='bold left-align'>{fencer.userName}</p>
                             </td>
 							<td className={`${styles.tableCell} cell-number`}><p>{fencer.victoriesOverMatches.toFixed(3)}</p></td>
 							<td className={`${styles.tableCell} cell-number`}><p>{fencer.index}</p></td>

@@ -245,6 +245,10 @@ input[type=text]{
   justify-content: space-between;
 }
 
+.participant-in-list > p{
+    max-width: 8rem; /*maybe there is a better way to fix the overflowing of a single word*/
+}
+
 label{
   flex-grow: 1;
   font-size: 16px;
