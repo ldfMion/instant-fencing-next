@@ -24,7 +24,7 @@ export function PoolTable({ fencers, bouts }) {
 								}
 								key={"head" + index}
 							>
-								<p>{fencer.userName}</p>
+								<p >{fencer.userName}</p>
 							</td>
 						))}
 						<td className={styles.separationColumnHeader}></td>
@@ -80,13 +80,13 @@ export function PoolTable({ fencers, bouts }) {
 											styles.tableCellLeft +
 											" " +
 											(index === fencers.length - 1 &&
-												styles.tableCellBottom)
+												styles.tableCellBottom)  
 										}
 									>
 										<p className={styles.rowNumber}>
 											{index + 1}
 										</p>
-										<p>{fencer.userName}</p>
+										<p >{fencer.userName}</p>
 									</th>
 									{fencers.map((fencer2, index2) => {
 										//console.log(`is on second loop with ${fencer2.userName}`);

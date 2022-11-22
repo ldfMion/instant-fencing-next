@@ -12,6 +12,7 @@
     padding: 12px;
     background: var(--white);
     background-clip: padding-box;
+    max-width: 8rem;
 }
 
 .rowNumber {
@@ -28,6 +29,8 @@
     position: sticky;
     left: 0;
     outline: 1px solid var(--grey);
+    text-align: left;
+    overflow-wrap: anywhere;
 }
 
 .tableCellBottom{
