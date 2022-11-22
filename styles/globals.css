@@ -245,18 +245,6 @@ input[type=text]{
   justify-content: space-between;
 }
 
-.pool-in-list{
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-}
-
-.list-of-pools{
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-}
-
 label{
   flex-grow: 1;
   font-size: 16px;
@@ -282,6 +270,7 @@ input{
   flex-grow: 1;
   width: 100%;
   max-width: 100%;
+  overflow-wrap: anywhere;
 }
 
 a {
