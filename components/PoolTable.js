@@ -65,7 +65,7 @@ export function PoolTable({ fencers, bouts }) {
 						</td>
 					</tr>
 					{fencers.map((fencer, index) => {
-						console.log(`is on first loop with ${fencer.userName}`);
+						//console.log(`is on first loop with ${fencer.userName}`);
 						let touchesScored = 0;
 						let touchesReceived = 0;
 						let victories = 0;
@@ -89,9 +89,7 @@ export function PoolTable({ fencers, bouts }) {
 										<p>{fencer.userName}</p>
 									</th>
 									{fencers.map((fencer2, index2) => {
-										console.log(
-											`is on second loop with ${fencer2.userName}`
-										);
+										//console.log(`is on second loop with ${fencer2.userName}`);
 										let score = 0;
 										let victory;
 										bouts.forEach(bout => {

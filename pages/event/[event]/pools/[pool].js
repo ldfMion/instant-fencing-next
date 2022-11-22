@@ -112,16 +112,32 @@ export default function Pool() {
         }
 		const eventRef = doc(db, "Events", event);
 		const poolRef = doc(eventRef, "pools", pool);
-		const fencersRef = collection(eventRef, "fencers");        
+		
 
         const eventResponse = await getDoc(eventRef);
         setEventData(eventResponse.data())
 
 		const getPool = onSnapshot(poolRef, doc => {
-			setPoolData(doc.data());
+            const id = doc.id;
+			setPoolData({...doc.data(), id});
 		});
 
-		const getFencers = onSnapshot(fencersRef, querySnapshot => {
+        
+        
+	}, [router.isReady]);
+
+    useEffect(async () => {
+        if(!poolData) return
+        const eventRef = doc(db, "Events", event);
+        const boutsRef = collection(eventRef, "bouts");
+
+        const fencersRef = collection(eventRef, "fencers");
+        const filteredFencersRef = query(fencersRef, where("pool", "==", poolData.id));
+
+        console.log('is on log 1')
+
+		const getFencers = onSnapshot(filteredFencersRef, querySnapshot => {
+            console.log('is getting fencers')
 			const fencers = [];
 			querySnapshot.forEach(doc => {
 				const id = doc.id;
@@ -134,13 +150,7 @@ export default function Pool() {
 			console.log(fencers);
 			setFencers(fencers);
 		});
-        
-	}, [router.isReady]);
 
-    useEffect(async () => {
-        if(!poolData) return
-        const eventRef = doc(db, "Events", event);
-        const boutsRef = collection(eventRef, "bouts");
         const filteredBoutsRef = query(
 			collection(eventRef, "bouts"),
 			where("poolNumber", "==", poolData.poolId)
@@ -151,6 +161,7 @@ export default function Pool() {
 				const id = doc.id;
 				bouts.push(new Bout({ ...doc.data(), id }));
 			});
+            console.log(bouts)
 			setBouts(bouts);
 		});
     }, [poolData])
