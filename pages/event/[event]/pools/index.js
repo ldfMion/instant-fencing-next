@@ -53,7 +53,7 @@ export default function Pools() {
             />
             <div className='mainContent'>
                 <h3>Pools</h3>
-                <ol>
+                <ol className="column">
                     {pools.map((pool, index) => {
                         console.log('is on map')
                         return <PoolPreview poolData={pool} eventRef={eventRef} key={index} eventId={event}/>
