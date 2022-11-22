@@ -143,10 +143,10 @@ export function SetPools(props) {
 		<>
 			<div className="mainContent">
 				<h3>Pools:</h3>
-				<ol>
+				<ol className="list-of-pools">
 					{pools.map((pool, index) => {
 						return (
-							<li id={index} key={index}>
+							<li id={index} key={index} className="pool-in-list">
 								<h4>Pool {index + 1}</h4>
 								<ol className="card column">
 									{pool.map((fencer, index) => {
@@ -156,8 +156,8 @@ export function SetPools(props) {
 												className="participant-in-list"
 												key={index}
 											>
-												<p>{index + 1}</p>
-												<p>{fencer.userName}</p>
+												<p className="bold">{index + 1}</p>
+												<p className="left-align">{fencer.userName}</p>
 												<p>{fencer.startingRank}</p>
 											</li>
 										);

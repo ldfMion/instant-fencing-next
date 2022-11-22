@@ -241,8 +241,20 @@ input[type=text]{
   border-width: 0.5px;
   padding: 10px 0 10px 0;
   align-items: center;
-  gap: 10px;
+  gap: 1rem;
   justify-content: space-between;
+}
+
+.pool-in-list{
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.list-of-pools{
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
 }
 
 label{
@@ -285,6 +297,11 @@ a {
 .center-align{
     width: 100%;
     text-align: center;
+}
+
+.left-align{
+    width: 100%;
+    text-align: left;
 }
 
 .fail{
