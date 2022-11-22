@@ -94,7 +94,7 @@ a{
   text-decoration: none;
 }
 
-button, input[type=submit] {
+button, input[type=submit],a {
     all: unset;
     font-size: 1rem;
     font-family: Lato, Tahoma, sans-serif;

@@ -9,8 +9,8 @@ import Link from 'next/link'
 export const NavLinks = (props) => {
     return (
         <menu className={styles.NavLinks + ' ' + (props.open ? styles.NavLinks_open : styles.NavLinks_closed)}>
-            <Link href='/home'><button className='button-terciary'>Home</button></Link>
-            <Link href='about'><button className='button-terciary'>About</button></Link>
+            <Link href='/home'><a className='button-terciary'>Home</a></Link>
+            <Link href='about'><a className='button-terciary'>About</a></Link>
             <SignOut/>
         </menu>
     );
