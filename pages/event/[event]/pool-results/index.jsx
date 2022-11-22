@@ -130,6 +130,7 @@ const PoolResults = () => {
 			/>
 			<div className="mainContent">
 				<h3>Pool Results</h3>
+                {complete ? <p>All bouts are finished!</p> : <p>Live results</p>}
 				<table className={`card ${styles.table}`}>
 						<tr className={styles.row}>
                             <td ><p>Fencer</p></td>
@@ -151,7 +152,7 @@ const PoolResults = () => {
 						</tr>
 					))}
 				</table>
-                {complete ? <p>All bouts are finished!</p> : <p>Live results</p>}
+                
 			</div>
 		</>
 	);
