@@ -52,7 +52,7 @@ const Create = () => {
         return (<>
             {metaTags}
             <NavBar eventName={eventData.name}/>
-            <WaitingRoom eventData={eventData} eventRef={eventRef} user={user}/>
+            <WaitingRoom users={eventData.users} eventRef={eventRef} user={user}/>
         </>);
     }
     console.log(eventRef)
@@ -75,7 +75,7 @@ const Create = () => {
         return <>
             {metaTags}
             <NavBar eventName={eventData.name}/>
-            <SetPools eventRef={eventRef} user={user}/>
+            <SetPools eventRef={eventRef} user={user} />
         </>
     }
     router.push(`/event/${event}/pools`)

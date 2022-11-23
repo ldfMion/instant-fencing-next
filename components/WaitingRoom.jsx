@@ -13,16 +13,16 @@ import {
 import { AddFencer } from "./AddFencer.jsx";
 import { LogPrompt } from "./LogPrompt.jsx";
 
-export function WaitingRoom(props) {
+export function WaitingRoom({users, eventRef, user}) {
 	const [fencers, setFencers] = useState(false);
 
-	const fencersRef = collection(props.eventRef, "fencers");
+	const fencersRef = collection(eventRef, "fencers");
 
 	const [logPrompt, setLogPrompt] = useState(false);
 
 	const [userIsJoined, setUserIsJoined] = useState(false);
 
-    const [copied, setCopied] = useState(false);
+	const [copied, setCopied] = useState(false);
 
 	useEffect(() => {
 		const getFencers = onSnapshot(fencersRef, snapshot => {
@@ -32,30 +32,36 @@ export function WaitingRoom(props) {
 				fencers.push({ ...doc.data(), id });
 			});
 			setFencers(fencers);
-			if (props.user) {
+			if (user) {
 				setUserIsJoined(
-					fencers.some(fencer => fencer.id === props.user.uid)
+					fencers.some(fencer => fencer.id === user.uid)
 				);
 			}
 		});
-	}, [fencersRef, props.user]);
+	}, [fencersRef, user]);
 
 	const join = async () => {
 		const fencerRef = await setDoc(
-			doc(props.eventRef, "fencers", props.user.uid),
+			doc(eventRef, "fencers", user.uid),
 			{
-				userName: props.user.displayName,
-				id: props.user.uid,
+				userName: user.displayName,
+				id: user.uid,
+                isJoined: true,
 			}
 		);
+        if(!users.includes(user.uid)){
+            await setDoc(eventRef, {
+                users: [...users, user.uid],
+            }, {merge: true})
+        }
 	};
 
 	const leave = async () => {
-		await deleteDoc(doc(fencersRef, props.user.uid));
+		await deleteDoc(doc(fencersRef, user.uid));
 	};
 
 	const addFencer = async fencer => {
-		const fencerRef = await addDoc(collection(props.eventRef, "fencers"), {
+		const fencerRef = await addDoc(collection(eventRef, "fencers"), {
 			userName: fencer,
 		});
 	};
@@ -71,7 +77,7 @@ export function WaitingRoom(props) {
 
 	const createEvent = async () => {
 		await setDoc(
-			props.eventRef,
+			eventRef,
 			{
 				fencersAreChosen: true,
 			},
@@ -87,18 +93,18 @@ export function WaitingRoom(props) {
 			<div className="mainContent">
 				<h3>Waiting Room</h3>
 				<div className="card horizontal-form column">
-					<p className='wrap-anywhere'>{window.location.href}</p>
+					<p className="wrap-anywhere">{window.location.href}</p>
 					<button
 						className="button button-secondary"
 						onClick={() => {
 							navigator.clipboard.writeText(window.location.href);
-                            setCopied(true);
-                        }}
+							setCopied(true);
+						}}
 					>
-						{copied ? 'Copied!' : 'Copy'}
+						{copied ? "Copied!" : "Copy"}
 					</button>
 				</div>
-				{props.user ? (
+				{user ? (
 					<AddFencer addFencer={addFencer} />
 				) : (
 					<p>Log in to add fencers</p>
@@ -108,8 +114,8 @@ export function WaitingRoom(props) {
 						{fencers.map((fencer, index) => (
 							<li key={index} className="participant-in-list">
 								<p>{fencer.userName}</p>
-								{props.user &&
-									(fencer.id === props.user.uid ? (
+								{user &&
+									(fencer.id === user.uid ? (
 										<button
 											className="button button-secondary"
 											onClick={leave}
@@ -118,15 +124,7 @@ export function WaitingRoom(props) {
 										</button>
 									) : (
 										<div>
-											<button
-												className="button button-terciary"
-												onClick={() =>
-													removeFencer(fencer.id)
-												}
-											>
-												Remove
-											</button>
-											{!userIsJoined && (
+											{!userIsJoined && !fencer.isJoined && (
 												<button
 													className="button button-terciary"
 													onClick={() =>
@@ -136,6 +134,14 @@ export function WaitingRoom(props) {
 													This is me
 												</button>
 											)}
+                                            <button
+												className="button button-terciary"
+												onClick={() =>
+													removeFencer(fencer.id)
+												}
+											>
+												Remove
+											</button>
 										</div>
 									))}
 							</li>
@@ -146,7 +152,7 @@ export function WaitingRoom(props) {
 				)}
 			</div>
 			<div className="button-container">
-				{!props.user && (
+				{!user && (
 					<button
 						onClick={() => {
 							setLogPrompt(true);
@@ -157,22 +163,24 @@ export function WaitingRoom(props) {
 						Log In to join and add participants
 					</button>
 				)}
-				{props.user && (
+				{user && (
 					<button
-						className={`button button-${userIsJoined ? 'primary' : 'secondary'}`}
+						className={`button button-${
+							userIsJoined ? "primary" : "secondary"
+						}`}
 						onClick={createEvent}
-                        disabled={fencers.length < 3}
+						disabled={fencers.length < 3}
 					>
 						Done
 					</button>
 				)}
-				{(!userIsJoined && props.user) && (
+				{!userIsJoined && user && (
 					<button className="button button-primary" onClick={join}>
 						Join
 					</button>
 				)}
 			</div>
-			{logPrompt && !props.user && <LogPrompt />}
+			{logPrompt && !user && <LogPrompt />}
 		</>
 	);
 }
