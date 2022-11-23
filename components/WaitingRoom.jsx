@@ -3,9 +3,6 @@ import { useEffect, useState } from "react";
 
 import {
 	collection,
-	query,
-	where,
-	getDocs,
 	addDoc,
 	onSnapshot,
 	deleteDoc,
@@ -90,7 +87,7 @@ export function WaitingRoom(props) {
 			<div className="mainContent">
 				<h3>Waiting Room</h3>
 				<div className="card horizontal-form column">
-					<p>{window.location.href}</p>
+					<p className='wrap-anywhere'>{window.location.href}</p>
 					<button
 						className="button button-secondary"
 						onClick={() => {

@@ -60,6 +60,10 @@ p{
   font-weight: bold;
 }
 
+.wrap-anywhere{
+    overflow-wrap: anywhere;
+}
+
 .fail-text{
     color: var(--fail--dark);
 }
