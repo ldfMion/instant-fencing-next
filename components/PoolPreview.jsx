@@ -43,7 +43,7 @@ export function PoolPreview({ poolData, eventRef, eventId }) {
       console.log(bouts)
 			setBouts(bouts);
 		});
-	});
+	}, []);
 
 	if (!fencers || !bouts) {
 		return null;

@@ -87,7 +87,7 @@ export function SetPools(props) {
 			console.log(pools);
 			setPools(pools);
 		});
-	});
+	}, []);
 
 	const handleSubmit = async e => {
 		e.preventDefault();

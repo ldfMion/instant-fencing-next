@@ -13,23 +13,27 @@ const Starter = () => {
 	const [eventData, setEventData] = useState(undefined);
 	const [fencers, setFencers] = useState(undefined);
 
-    useEffect(async () => {
+    useEffect(() => {
 		if (!router.isReady) return;
-		const eventRef = doc(db, "Events", event);
 
-        const eventData = await getDoc(eventRef);
-        setEventData(eventData.data());
-
-		const fencersRef = collection(eventRef, "fencers");
-
-        const fencersSnap = await getDocs(fencersRef);
-        const fencersData = [];
-        fencersSnap.forEach(fencerSnap => {
-            const id = fencerSnap.id;
-            fencersData.push(new Fencer({...fencerSnap.data(), id}));
-
-        })
-        setFencers(fencersData)
+        async function getPageData(){
+            const eventRef = doc(db, "Events", event);
+    
+            const eventData = await getDoc(eventRef);
+            setEventData(eventData.data());
+    
+            const fencersRef = collection(eventRef, "fencers");
+    
+            const fencersSnap = await getDocs(fencersRef);
+            const fencersData = [];
+            fencersSnap.forEach(fencerSnap => {
+                const id = fencerSnap.id;
+                fencersData.push(new Fencer({...fencerSnap.data(), id}));
+    
+            })
+            setFencers(fencersData)
+        }
+        getPageData();
 
 	}, [router.isReady, event]);
 

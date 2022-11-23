@@ -17,7 +17,7 @@ export function SortByRank(props) {
 			console.log(fencers);
 			setUnselectedFencers(fencers);
 		});
-	});
+	}, []);
 
 	const addFencer = async fencerToAdd => {
 		setSelectedFencers([...selectedFencers, fencerToAdd]);

@@ -12,21 +12,25 @@ export const HomePage = props => {
 	const [newEvent, setNewEvent] = useState(false);
 	console.log(props);
 
-	useEffect(async () => {
-		const eventsRef = query(
-			collection(props.db, "Events"),
-			where("users", "array-contains", props.user.uid)
-		);
+	useEffect(() => {
 
-		const eventsData = await getDocs(eventsRef);
-		const eventsDataArray = [];
-		eventsData.forEach(doc => {
-			// doc.data() is never undefined for query doc snapshots
-			const id = doc.id;
-			console.log(doc.id, " => ", doc.data());
-			eventsDataArray.push({ ...doc.data(), id });
-		});
-		setEvents(eventsDataArray);
+        async function getPageData(){
+            const eventsRef = query(
+                collection(props.db, "Events"),
+                where("users", "array-contains", props.user.uid)
+            );
+    
+            const eventsData = await getDocs(eventsRef);
+            const eventsDataArray = [];
+            eventsData.forEach(doc => {
+                // doc.data() is never undefined for query doc snapshots
+                const id = doc.id;
+                console.log(doc.id, " => ", doc.data());
+                eventsDataArray.push({ ...doc.data(), id });
+            });
+            setEvents(eventsDataArray);
+        }
+        getPageData();
 	}, [props.db, props.user.uid]);
 
 	const router = useRouter();

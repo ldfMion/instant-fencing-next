@@ -21,22 +21,111 @@ export default function Pool() {
 	const [fencers, setFencers] = useState();
 	const [bouts, setBouts] = useState();
 
-	useEffect(async () => {
+    class Fencer {
+        id;
+        userName;
+        startingRank;
+        touchesScored;
+        constructor({ id, userName, startingRank, touchesScored }) {
+            this.id = id;
+            this.userName = userName;
+            this.startingRank = startingRank;
+            this.touchesScored = touchesScored;
+        }
+        updateTouchesScored = async score => {
+            const eventRef = doc(db, "Events", event);
+            const fencersRef = collection(eventRef, "fencers");
+            await setDoc(
+                doc(fencersRef, this.id),
+                {
+                    touchesScored: score,
+                },
+                { merge: true }
+            );
+        };
+    }
+    
+    class Bout {
+        fencerANumber;
+        fencerBNumber;
+        fencerAId;
+        fencerBId;
+        boutNumber;
+        boutRef;
+        poolNumber;
+        id;
+        fencerAScore;
+        fencerBScore;
+        fencerAUserName;
+        fencerBUserName;
+        constructor({
+            fencerANumber,
+            fencerBNumber,
+            fencerAId,
+            fencerBId,
+            id,
+            boutNumber,
+            fencerAScore,
+            fencerBScore,
+            fencerAUserName,
+            fencerBUserName,
+        }) {
+            this.fencerANumber = fencerANumber;
+            this.fencerBNumber = fencerBNumber;
+            this.fencerAId = fencerAId;
+            this.fencerBId = fencerBId;
+            this.boutNumber = boutNumber;
+            this.id = id;
+            this.fencerAScore = fencerAScore;
+            this.fencerBScore = fencerBScore;
+            this.fencerAUserName = fencerAUserName;
+            this.fencerBUserName = fencerBUserName;
+        }
+        updateScoreA = async score => {
+            console.log("is on update score A");
+            const eventRef = doc(db, "Events", event);
+            const boutsRef = collection(eventRef, "bouts");
+            await setDoc(
+                doc(boutsRef, this.id),
+                {
+                    fencerAScore: score,
+                },
+                { merge: true }
+            );
+        };
+        updateScoreB = async score => {
+            const eventRef = doc(db, "Events", event);
+            const boutsRef = collection(eventRef, "bouts");
+            await setDoc(
+                doc(boutsRef, this.id),
+                {
+                    fencerBScore: score,
+                },
+                { merge: true }
+            );
+        };
+    }
+
+	useEffect(() => {
 		if (!router.isReady) return;
         if(!db || !event){
             return
         }
-		const eventRef = doc(db, "Events", event);
-		const poolRef = doc(eventRef, "pools", pool);
-		
 
-        const eventResponse = await getDoc(eventRef);
-        setEventData(eventResponse.data())
-
-		const getPool = onSnapshot(poolRef, doc => {
-            const id = doc.id;
-			setPoolData({...doc.data(), id});
-		});
+        async function getPageData(){
+            const eventRef = doc(db, "Events", event);
+            const poolRef = doc(eventRef, "pools", pool);
+            
+    
+            const eventResponse = await getDoc(eventRef);
+            setEventData(eventResponse.data())
+    
+            const getPool = onSnapshot(poolRef, doc => {
+                const id = doc.id;
+                setPoolData({...doc.data(), id});
+            });
+        }
+        getPageData();
 
         
         
@@ -109,89 +198,4 @@ export default function Pool() {
 			<PoolBouts fencers={fencers} bouts={bouts} />
 		</div>
         </>);
-}
-
-class Fencer {
-    id;
-    userName;
-    startingRank;
-    touchesScored;
-    constructor({ id, userName, startingRank, touchesScored }) {
-        this.id = id;
-        this.userName = userName;
-        this.startingRank = startingRank;
-        this.touchesScored = touchesScored;
-    }
-    updateTouchesScored = async score => {
-        const eventRef = doc(db, "Events", event);
-        const fencersRef = collection(eventRef, "fencers");
-        await setDoc(
-            doc(fencersRef, this.id),
-            {
-                touchesScored: score,
-            },
-            { merge: true }
-        );
-    };
-}
-
-class Bout {
-    fencerANumber;
-    fencerBNumber;
-    fencerAId;
-    fencerBId;
-    boutNumber;
-    boutRef;
-    poolNumber;
-    id;
-    fencerAScore;
-    fencerBScore;
-    fencerAUserName;
-    fencerBUserName;
-    constructor({
-        fencerANumber,
-        fencerBNumber,
-        fencerAId,
-        fencerBId,
-        id,
-        boutNumber,
-        fencerAScore,
-        fencerBScore,
-        fencerAUserName,
-        fencerBUserName,
-    }) {
-        this.fencerANumber = fencerANumber;
-        this.fencerBNumber = fencerBNumber;
-        this.fencerAId = fencerAId;
-        this.fencerBId = fencerBId;
-        this.boutNumber = boutNumber;
-        this.id = id;
-        this.fencerAScore = fencerAScore;
-        this.fencerBScore = fencerBScore;
-        this.fencerAUserName = fencerAUserName;
-        this.fencerBUserName = fencerBUserName;
-    }
-    updateScoreA = async score => {
-        console.log("is on update score A");
-        const eventRef = doc(db, "Events", event);
-        const boutsRef = collection(eventRef, "bouts");
-        await setDoc(
-            doc(boutsRef, this.id),
-            {
-                fencerAScore: score,
-            },
-            { merge: true }
-        );
-    };
-    updateScoreB = async score => {
-        const eventRef = doc(db, "Events", event);
-        const boutsRef = collection(eventRef, "bouts");
-        await setDoc(
-            doc(boutsRef, this.id),
-            {
-                fencerBScore: score,
-            },
-            { merge: true }
-        );
-    };
 }
