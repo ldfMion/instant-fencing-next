@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
+import Head from "next/head"
 
 import NavBar from "../../../../components/NavBar";
 import {PoolPreview} from '../../../../components/PoolPreview'
@@ -45,6 +46,13 @@ export default function Pools() {
     console.log(pools)
     return (
         <>
+            <Head>
+                <title>{eventData.name}: pools</title>
+                <meta name="description" content="Automate the creation of fencing competitions during practice."/>
+                <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+                <meta name="robots" content="index, follow"/>
+                <meta charset="UTF-8"/>
+            </Head>
             <NavBar
                 tabs={true}
                 eventId={event}

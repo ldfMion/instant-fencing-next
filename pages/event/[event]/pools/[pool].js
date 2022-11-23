@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import Head from "next/head";
 
 import { useRouter } from "next/router";
 
@@ -175,6 +176,13 @@ export default function Pool() {
 	// data is fethed only once (on [pool].js), as table and bouts use the same data
 
 	return (<>
+        <Head>
+            <title>{eventData.name}: Pool {poolData.poolId}</title>
+            <meta name="description" content="Automate the creation of fencing competitions during practice."/>
+            <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+            <meta name="robots" content="index, follow"/>
+            <meta charset="UTF-8"/>
+        </Head>
         <NavBar
             currentTab={'pools'}
             eventName={eventData.name}

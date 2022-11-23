@@ -1,14 +1,20 @@
 import Head from "next/head";
-import Image from "next/image";
 //import styles from "../styles/Home.module.css";
-import Link from "next/link";
 
 import NavBar from "../components/NavBar";
 import ActionCard from '../components/ActionCard'
 
 export default function Home() {
+    
 	return (
 		<>
+            <Head>
+                <title>Instant Fencing Beta Test</title>
+                <meta name="description" content="Automate the creation of fencing competitions during practice."/>
+                <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+                <meta name="robots" content="index, follow"/>
+                <meta charset="UTF-8"/>
+            </Head>
 			<NavBar />
 			<div className="mainContent">
 				<section className="column">

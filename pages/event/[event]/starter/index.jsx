@@ -49,6 +49,13 @@ const Starter = () => {
     }
 
     return (<>
+        <Head>
+            <title>{eventData.name}: starter</title>
+            <meta name="description" content="Automate the creation of fencing competitions during practice."/>
+            <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+            <meta name="robots" content="index, follow"/>
+            <meta charset="UTF-8"/>
+        </Head>
         <NavBar
 				tabs={true}
 				eventName={eventData.name}

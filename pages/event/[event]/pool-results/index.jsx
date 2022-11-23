@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import { db } from "../../../../firebase/firebase.js";
 import NavBar from "../../../../components/NavBar";
 import styles from "../../../../styles/PoolResults.module.css";
+import Head from "next/head"
 
 const PoolResults = () => {
 	const router = useRouter();
@@ -122,6 +123,13 @@ const PoolResults = () => {
 
 	return (
 		<>
+            <Head>
+                <title>{eventData.name}: pool results</title>
+                <meta name="description" content="Automate the creation of fencing competitions during practice."/>
+                <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+                <meta name="robots" content="index, follow"/>
+                <meta charset="UTF-8"/>
+            </Head>
 			<NavBar
 				tabs={true}
 				eventName={eventData.name}
