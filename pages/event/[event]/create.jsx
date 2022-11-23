@@ -16,6 +16,7 @@ import {SortByRank} from '../../../components/SortByRank.jsx';
 import {SetPools} from '../../../components/SetPools.jsx';
 
 const Create = () => {
+    console.log("create page")
     const router = useRouter();
     const {event} = router.query
     console.log(event)

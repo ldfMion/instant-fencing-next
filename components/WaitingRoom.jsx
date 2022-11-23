@@ -13,7 +13,10 @@ import {
 import { AddFencer } from "./AddFencer.jsx";
 import { LogPrompt } from "./LogPrompt.jsx";
 
+const FENCER_LIMIT = 40;
+
 export function WaitingRoom({users, eventRef, user}) {
+    console.log('waiting room')
 	const [fencers, setFencers] = useState(false);
 
 	const fencersRef = collection(eventRef, "fencers");
@@ -38,7 +41,7 @@ export function WaitingRoom({users, eventRef, user}) {
 				);
 			}
 		});
-	}, [fencersRef, user]);
+	}, [])//[fencersRef, user]);
 
 	const join = async () => {
 		const fencerRef = await setDoc(
@@ -88,6 +91,7 @@ export function WaitingRoom({users, eventRef, user}) {
 	if (!fencers) {
 		return null;
 	}
+    console.log(fencers.length, "fencers.length")
 	return (
 		<>
 			<div className="mainContent">
@@ -105,10 +109,11 @@ export function WaitingRoom({users, eventRef, user}) {
 					</button>
 				</div>
 				{user ? (
-					<AddFencer addFencer={addFencer} />
+					<AddFencer addFencer={addFencer} fencerLimitReached={fencers.length >= FENCER_LIMIT}/>
 				) : (
 					<p>Log in to add fencers</p>
 				)}
+                <p>Number of fencers limited to {FENCER_LIMIT}.</p>
 				{fencers.length !== 0 ? (
 					<ul className="card column">
 						{fencers.map((fencer, index) => (
