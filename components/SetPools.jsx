@@ -143,7 +143,8 @@ export function SetPools(props) {
 		<>
 			<div className="mainContent">
 				<h3>Pools:</h3>
-				<ol className="columnfuse">
+                {!props.user && <p className="fail-text">Log in to continue creating event.</p>}
+				<ol className="column">
 					{pools.map((pool, index) => {
 						return (
 							<li id={index} key={index} className="column">
@@ -168,14 +169,16 @@ export function SetPools(props) {
 					})}
 				</ol>
 			</div>
-			<form onSubmit={handleSubmit} className="button-container">
-				<button
-					className="button-primary"
-					type="submit"
-				>
-					Confirm
-				</button>
-			</form>
+            {props.user && 
+                <form onSubmit={handleSubmit} className="button-container">
+                    <button
+                        className="button-primary"
+                        type="submit"
+                    >
+                        Confirm
+                    </button>
+                </form>
+            }
 		</>
 	);
 }
