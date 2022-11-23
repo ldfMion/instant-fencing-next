@@ -29,7 +29,7 @@ const PoolResults = () => {
 		}
 	}
 
-	useEffect(async () => {
+	useEffect(() => {
 		if (!router.isReady) return;
 		const eventRef = doc(db, "Events", event);
 
