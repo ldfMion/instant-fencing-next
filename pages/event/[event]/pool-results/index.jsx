@@ -48,7 +48,7 @@ const PoolResults = () => {
 			});
 			setBouts(bouts);
 		});
-	}, [router.isReady, event, Fencer]);
+	}, [router.isReady, event]);
 
 	if (!fencers || !bouts) {
 		return null;

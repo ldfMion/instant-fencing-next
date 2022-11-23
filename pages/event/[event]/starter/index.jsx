@@ -31,7 +31,7 @@ const Starter = () => {
         })
         setFencers(fencersData)
 
-	}, [router.isReady, Fencer, event]);
+	}, [router.isReady, event]);
 
     if(!eventData || !fencers){
         return null

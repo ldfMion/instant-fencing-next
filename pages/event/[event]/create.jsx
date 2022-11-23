@@ -10,10 +10,10 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import {auth, db} from '../../../firebase/firebase.js'
 
 import NavBar from '../../../components/NavBar';
-import {WaitingRoom} from '../../../components/WaitingRoom.js';
-import {SelectSortType} from '../../../components/SelectSortType.js';
-import {SortByRank} from '../../../components/SortByRank.js';
-import {SetPools} from '../../../components/SetPools.js';
+import {WaitingRoom} from '../../../components/WaitingRoom.jsx';
+import {SelectSortType} from '../../../components/SelectSortType.jsx';
+import {SortByRank} from '../../../components/SortByRank.jsx';
+import {SetPools} from '../../../components/SetPools.jsx';
 
 const Create = () => {
     const router = useRouter();
