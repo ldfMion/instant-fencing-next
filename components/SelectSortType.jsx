@@ -44,7 +44,7 @@ export function SelectSortType(props) {
 						/>
 					</li>
 				</ul>
-                {!props.user && <p>Log in to continue creating event</p>}
+                {!props.user && <p className="fail-text">Log in to continue creating event.</p>}
 				{value === "" && (
 					<p>Choose how the fencers will be sorted into pools.</p>
 				)}
