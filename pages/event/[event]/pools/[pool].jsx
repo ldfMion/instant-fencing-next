@@ -4,7 +4,7 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 
 import { db } from "../../../../firebase/firebase.js";
-import { useAuthState } from 'react-firebase-hooks/auth';
+//import { useAuthState } from 'react-firebase-hooks/auth';
 
 import { doc, collection, onSnapshot, setDoc, getDoc, query, where } from "firebase/firestore";
 

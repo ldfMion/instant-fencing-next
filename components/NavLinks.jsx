@@ -2,7 +2,7 @@ import React from 'react';
 
 import styles from '../styles/NavLinks.module.css';
 
-import {SignOut} from './SignOut.js'
+import {SignOut} from './SignOut.jsx'
 
 import Link from 'next/link'
 
