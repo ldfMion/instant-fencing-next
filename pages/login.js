@@ -28,7 +28,7 @@ const Login = () => {
     return (
         <div>
             <h2>Log In</h2>
-            <Link href='home'><button className='button-primary' onClick={signInWithGoogle}>Log In With Google</button></Link>
+            <Link href='home' ><button className='button-primary' onClick={signInWithGoogle}><a>Log In With Google</a></button></Link>
         </div>
     );
 }

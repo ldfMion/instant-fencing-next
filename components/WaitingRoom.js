@@ -27,7 +27,7 @@ export function WaitingRoom(props) {
 
     const [copied, setCopied] = useState(false);
 
-	useEffect(async () => {
+	useEffect(() => {
 		const getFencers = onSnapshot(fencersRef, snapshot => {
 			const fencers = [];
 			snapshot.forEach(doc => {
@@ -41,7 +41,7 @@ export function WaitingRoom(props) {
 				);
 			}
 		});
-	}, []);
+	}, [fencersRef, props.user]);
 
 	const join = async () => {
 		const fencerRef = await setDoc(

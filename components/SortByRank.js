@@ -6,7 +6,7 @@ export function SortByRank(props) {
 	const [unselectedFencers, setUnselectedFencers] = useState([]);
 	const [selectedFencers, setSelectedFencers] = useState([]);
 	const fencersRef = collection(props.eventRef, "fencers");
-	useEffect(async () => {
+	useEffect(() => {
 		console.log("is on use effect");
 		const getFencers = onSnapshot(fencersRef, snapshot => {
 			const fencers = [];
@@ -17,7 +17,7 @@ export function SortByRank(props) {
 			console.log(fencers);
 			setUnselectedFencers(fencers);
 		});
-	}, []);
+	});
 
 	const addFencer = async fencerToAdd => {
 		setSelectedFencers([...selectedFencers, fencerToAdd]);

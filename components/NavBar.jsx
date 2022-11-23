@@ -40,7 +40,7 @@ const NavBar = ({eventName, eventId, currentTab}) => {
                             console.log('is on tabs map')
                             console.log(tab)
                             console.log(currentTab)
-                            return <li key={index}><Link href={baseURL + tab}><button className={`button button-terciary ${currentTab === tab && 'bold'}`}>{tab}</button></Link></li>
+                            return <li key={index}><Link href={baseURL + tab} passHref><button className={`button button-terciary ${currentTab === tab && 'bold'}`}>{tab}</button></Link></li>
                         })}
                     </menu>
                 } 

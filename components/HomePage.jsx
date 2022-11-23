@@ -27,7 +27,7 @@ export const HomePage = props => {
 			eventsDataArray.push({ ...doc.data(), id });
 		});
 		setEvents(eventsDataArray);
-	}, []);
+	});
 
 	const router = useRouter();
 

@@ -12,7 +12,7 @@ export function SignOut() {
     return (<>
         {user ? 
             <button className='button-primary' onClick={() => signOut(auth)}>Sign Out</button> :
-            <Link href='/home'><button className='button-primary'>Log In or Create an Account</button></Link>
+            <Link passHref href='/home'><button className='button-primary'>Log In or Create an Account</button></Link>
         }
     </>)
 }

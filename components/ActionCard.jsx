@@ -12,7 +12,7 @@ const ActionCard = ({ text, href, buttonText, index, buttonType }) => {
 				<p>{text}</p>
 			</div>
 			<Link href={href}>
-				<button className={`button-${ buttonType}`}>{buttonText}</button>
+				<button className={`button-${ buttonType}`}><a>{buttonText}</a></button>
 			</Link>
 		</div>
 	);

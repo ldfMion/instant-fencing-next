@@ -10,7 +10,7 @@ export function PoolPreview({ poolData, eventRef, eventId }) {
 	const [fencers, setFencers] = useState();
 	const [bouts, setBouts] = useState();
 
-	useEffect(async () => {
+	useEffect(() => {
 		const filteredFencersRef = query(
 			collection(eventRef, "fencers"),
 			where("pool", "==", poolData.id)
@@ -43,7 +43,7 @@ export function PoolPreview({ poolData, eventRef, eventId }) {
       console.log(bouts)
 			setBouts(bouts);
 		});
-	}, []);
+	});
 
 	if (!fencers || !bouts) {
 		return null;

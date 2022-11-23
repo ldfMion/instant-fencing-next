@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import Head from "next/head"
+import Head from "next/head";
 
 import NavBar from "../../../../components/NavBar";
 import {PoolPreview} from '../../../../components/PoolPreview'
@@ -15,7 +15,7 @@ export default function Pools() {
     const [eventData, setEventData] = useState(undefined)
     const [pools, setPools] = useState([])
 
-    useEffect(async ()=>{
+    useEffect(()=>{
         if(!router.isReady) return;        
         const eventRef = doc(db, "Events", event);
         //setEventRef(eventRef)
@@ -38,7 +38,7 @@ export default function Pools() {
 
         setEventRef(eventRef);
 
-    }, [router.isReady]);
+    }, [router.isReady, event]);
 
     if(!eventData){
         return null

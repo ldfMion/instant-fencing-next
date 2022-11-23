@@ -15,7 +15,7 @@ export function SetPools(props) {
 	const fencersRef = collection(props.eventRef, "fencers");
 	const boutsRef = collection(props.eventRef, "bouts");
 	const [pools, setPools] = useState([]);
-	useEffect(async () => {
+	useEffect(() => {
 		// get the fencers from the database
 		console.log("is on the first use effect");
 		const getFencers = onSnapshot(fencersRef, snapshot => {
@@ -87,7 +87,7 @@ export function SetPools(props) {
 			console.log(pools);
 			setPools(pools);
 		});
-	}, []);
+	});
 
 	const handleSubmit = async e => {
 		e.preventDefault();
@@ -143,7 +143,7 @@ export function SetPools(props) {
 		<>
 			<div className="mainContent">
 				<h3>Pools:</h3>
-				<ol className="column">
+				<ol className="columnfuse">
 					{pools.map((pool, index) => {
 						return (
 							<li id={index} key={index} className="column">

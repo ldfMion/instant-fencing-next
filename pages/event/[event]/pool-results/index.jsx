@@ -64,7 +64,7 @@ const PoolResults = () => {
 			});
 			setBouts(bouts);
 		});
-	}, [router.isReady]);
+	}, [router.isReady, event, Fencer]);
 
 	if (!fencers || !bouts) {
 		return null;
@@ -150,7 +150,7 @@ const PoolResults = () => {
 							</td>
 						</tr>
                         {newFencers.map((fencer, index) => (
-						<tr className={styles.row}>
+						<tr className={styles.row} key={index}>
 							<td className={`${styles.tableCell} ${styles.fencerCell} participant-in-list`}>
                                 <p className={styles.rowNumber}>{index + 1}</p>
                                 <p className='bold left-align'>{fencer.userName}</p>

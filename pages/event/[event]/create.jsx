@@ -34,7 +34,7 @@ const Create = () => {
             setEventData(doc.data())
         });
 
-    }, [router.isReady]);
+    }, [router.isReady, event]);
 
     if(!eventData){
         return null
