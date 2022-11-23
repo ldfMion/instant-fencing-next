@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import NavBar from '../../../../components/NavBar';
 import { db } from "../../../../firebase/firebase.js";
 import { doc, onSnapshot, collection, getDoc, getDocs } from "firebase/firestore";
+import Head from "next/head";
 
 const Starter = () => {
 
@@ -11,18 +12,6 @@ const Starter = () => {
 
 	const [eventData, setEventData] = useState(undefined);
 	const [fencers, setFencers] = useState(undefined);
-
-    class Fencer {
-		id;
-        startingRank;
-		//pool;
-		userName;
-		constructor({ id, userName, startingRank }) {
-			this.id = id;
-			this.userName = userName;
-            this.startingRank = startingRank;
-		}
-	}
 
     useEffect(async () => {
 		if (!router.isReady) return;
@@ -42,7 +31,7 @@ const Starter = () => {
         })
         setFencers(fencersData)
 
-	}, [router.isReady]);
+	}, [router.isReady, Fencer, event]);
 
     if(!eventData || !fencers){
         return null
@@ -75,3 +64,15 @@ const Starter = () => {
 }
 
 export default Starter;
+
+class Fencer {
+    id;
+    startingRank;
+    //pool;
+    userName;
+    constructor({ id, userName, startingRank }) {
+        this.id = id;
+        this.userName = userName;
+        this.startingRank = startingRank;
+    }
+}

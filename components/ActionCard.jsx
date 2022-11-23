@@ -11,7 +11,7 @@ const ActionCard = ({ text, href, buttonText, index, buttonType }) => {
 				</div>
 				<p>{text}</p>
 			</div>
-			<Link href={href}>
+			<Link href={href} passHref>
 				<button className={`button-${ buttonType}`}><a>{buttonText}</a></button>
 			</Link>
 		</div>

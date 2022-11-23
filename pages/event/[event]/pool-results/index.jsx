@@ -13,22 +13,6 @@ const PoolResults = () => {
 	const [fencers, setFencers] = useState(undefined);
 	const [bouts, setBouts] = useState(undefined);
 
-	class Fencer {
-		id;
-		//startingRank not needed
-		pool;
-		userName;
-		victories = 0;
-		defeats = 0;
-		touchesScored = 0;
-		touchesReceived = 0;
-		constructor({ id, pool, userName }) {
-			this.id = id;
-			this.pool = pool;
-			this.userName = userName;
-		}
-	}
-
 	useEffect(() => {
 		if (!router.isReady) return;
 		const eventRef = doc(db, "Events", event);
@@ -167,3 +151,19 @@ const PoolResults = () => {
 };
 
 export default PoolResults;
+
+class Fencer {
+    id;
+    //startingRank not needed
+    pool;
+    userName;
+    victories = 0;
+    defeats = 0;
+    touchesScored = 0;
+    touchesReceived = 0;
+    constructor({ id, pool, userName }) {
+        this.id = id;
+        this.pool = pool;
+        this.userName = userName;
+    }
+}
