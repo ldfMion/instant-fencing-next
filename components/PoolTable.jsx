@@ -186,8 +186,8 @@ export function PoolTable({ fencers, bouts }) {
 										<p>
 											{victories + defeats === 0
 												? "N/A"
-												: victories /
-												  (victories + defeats)}
+												: (victories /
+												  (victories + defeats)).toFixed(3)}
 										</p>
 									</td>
 									<td className={styles.tableCell}>
