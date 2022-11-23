@@ -24,7 +24,7 @@ const Create = () => {
     const [eventRef, setEventRef] = useState(undefined)
     const [eventData, setEventData] = useState(undefined)
     
-    useEffect(async ()=>{
+    useEffect(()=>{
         if(!router.isReady) return;        
         const eventRef = doc(db, "Events", event);
         setEventRef(eventRef)
