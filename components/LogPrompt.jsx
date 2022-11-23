@@ -2,7 +2,7 @@ import React,{useState} from 'react'
 
 import styles from '../styles/LogPrompt.module.css'
 
-import {Login} from './Login.js'
+import {Login} from './Login.jsx'
 import SignUp from './SignUp'
 
 export function LogPrompt() {

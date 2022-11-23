@@ -13,8 +13,8 @@ import {
 	doc,
 } from "firebase/firestore";
 
-import { AddFencer } from "../components/AddFencer.js";
-import { LogPrompt } from "./LogPrompt.js";
+import { AddFencer } from "./AddFencer.jsx";
+import { LogPrompt } from "./LogPrompt.jsx";
 
 export function WaitingRoom(props) {
 	const [fencers, setFencers] = useState(false);

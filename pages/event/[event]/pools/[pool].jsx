@@ -8,8 +8,8 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 
 import { doc, collection, onSnapshot, setDoc, getDoc, query, where } from "firebase/firestore";
 
-import { PoolTable } from "../../../../components/PoolTable.js";
-import { PoolBouts } from "../../../../components/PoolBouts.js";
+import { PoolTable } from "../../../../components/PoolTable.jsx";
+import { PoolBouts } from "../../../../components/PoolBouts.jsx";
 import NavBar from '../../../../components/NavBar'
 
 export default function Pool() {
