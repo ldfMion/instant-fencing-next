@@ -38,10 +38,6 @@ const Create = ({eventName}) => {
 
     }, [router.isReady, event]);
 
-    if(!eventData){
-        return null
-    }
-
     const metaTags = <Head>
         <title>{eventName}: creating event</title>
         <meta name="description" content={`Someone is inviting you to participate in ${eventName}`}/>
@@ -50,15 +46,14 @@ const Create = ({eventName}) => {
         <meta charset="UTF-8"/>
     </Head>
 
+    if(!eventData){
+        return <>{metaTags}</>
+    }
+
+
     if(!eventData.fencersAreChosen){
         return (<>
-            <Head>
-                <title>{eventName}: creating event</title>
-                <meta name="description" content={`Someone is inviting you to participate in ${eventName}`}/>
-                <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-                <meta name="robots" content="index, follow"/>
-                <meta charset="UTF-8"/>
-            </Head>
+            {metaTags}
             <NavBar eventName={eventData.name}/>
             <WaitingRoom users={eventData.users} eventRef={eventRef} user={user}/>
         </>);
