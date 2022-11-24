@@ -38,12 +38,18 @@ const Create = ({eventName}) => {
 
     }, [router.isReady, event]);
 
+    const description = `You are invited to participate in the ${eventName} fencing event with Instant Fencing.`;
+
     const metaTags = <Head>
-        <title>{eventName}: creating event</title>
-        <meta name="description" content={`Someone is inviting you to participate in ${eventName}`}/>
+        <title>{eventName}</title>
+        <meta name="description" content={description}/>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
         <meta name="robots" content="index, follow"/>
         <meta charset="UTF-8"/>
+        
+        <meta property='og:title' content={eventName}/>
+        <meta property="og:description" content={description} />
+        <meta property="og:type" content="website" />
     </Head>
 
     if(!eventData){

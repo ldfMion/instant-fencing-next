@@ -113,6 +113,9 @@ const PoolResults = () => {
                 <meta name="viewport" content="initial-scale=1.0, width=device-width" />
                 <meta name="robots" content="index, follow"/>
                 <meta charset="UTF-8"/>
+                <meta property='og:title' content="Instant Fencing Beta Test"/>
+                <meta property="og:description" content="Automate the creation of fencing competitions during practice." />
+                <meta property="og:type" content="website" />
             </Head>
 			<NavBar
 				tabs={true}
