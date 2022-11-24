@@ -52,7 +52,13 @@ const Create = ({eventName}) => {
 
     if(!eventData.fencersAreChosen){
         return (<>
-            {metaTags}
+            <Head>
+                <title>{eventName}: creating event</title>
+                <meta name="description" content={`Someone is inviting you to participate in ${eventName}`}/>
+                <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+                <meta name="robots" content="index, follow"/>
+                <meta charset="UTF-8"/>
+            </Head>
             <NavBar eventName={eventData.name}/>
             <WaitingRoom users={eventData.users} eventRef={eventRef} user={user}/>
         </>);
