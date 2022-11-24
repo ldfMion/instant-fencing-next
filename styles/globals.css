@@ -61,7 +61,8 @@ p{
 }
 
 .wrap-anywhere{
-    overflow-wrap: anywhere;
+    /* overflow-wrap: anywhere; didn't work on dominics phone*/
+    word-break: break-word;
 }
 
 .fail-text{
