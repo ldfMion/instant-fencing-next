@@ -4,7 +4,7 @@ import Head from "next/head";
 
 //import { initializeApp } from 'firebase/app';
 //import { getFirestore } from 'firebase/firestore';
-import { doc, onSnapshot } from "firebase/firestore";
+import { doc, onSnapshot, getDoc } from "firebase/firestore";
 //import { getAuth } from "firebase/auth";
 import { useAuthState } from 'react-firebase-hooks/auth';
 import {auth, db} from '../../../firebase/firebase.js'
@@ -15,7 +15,8 @@ import {SelectSortType} from '../../../components/SelectSortType.jsx';
 import {SortByRank} from '../../../components/SortByRank.jsx';
 import {SetPools} from '../../../components/SetPools.jsx';
 
-const Create = () => {
+const Create = ({eventName}) => {
+    console.log('from server side', eventName)
     console.log("create page")
     const router = useRouter();
     const {event} = router.query
@@ -42,8 +43,8 @@ const Create = () => {
     }
 
     const metaTags = <Head>
-        <title>{eventData.name}: create event</title>
-        <meta name="description" content="Automate the creation of fencing competitions during practice."/>
+        <title>{eventName}: creating event</title>
+        <meta name="description" content={`Someone is inviting you to participate in ${eventName}`}/>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
         <meta name="robots" content="index, follow"/>
         <meta charset="UTF-8"/>
@@ -82,5 +83,16 @@ const Create = () => {
     router.push(`/event/${event}/pools`)
     return null
 }
+
+export async function getServerSideProps({params}) {
+    // Fetch data from external API
+    console.log(params.id)
+    const eventRef = doc(db, "Events", params.event);
+
+    const eventName = (await getDoc(eventRef)).data().name;
+  
+    // Pass data to the page via props
+    return { props: { eventName } }
+  }
 
 export default Create;
