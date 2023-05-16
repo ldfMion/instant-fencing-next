@@ -54,7 +54,7 @@ export function SelectSortType(props) {
 				{value === "By Rank" && (
 					<p>
 						Select Fencers from best to worst. This rank will be
-						used to arrage them in pools.
+						used to arrange them in pools.
 					</p>
 				)}
 			</div>
