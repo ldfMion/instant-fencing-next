@@ -1,12 +1,12 @@
 import React from "react";
 import { useRouter } from "next/router";
 import NavBar from "../../../../components/NavBar";
-import { db } from "../../../../firebase/firebase.js";
 import {
 	doc,
     getDoc
 } from "firebase/firestore";
 import useGetFencers from "../../../../data/useGetFencers"
+import getServerSideEventData from "../../../../data/getServerSideEventData"
 import Head from "next/head";
 
 const Starter = ({eventData}) => {
@@ -75,13 +75,6 @@ export default Starter;
 
 export async function getServerSideProps({params}) {
     // Fetch data from external API
-    console.log(params.id)
-    const eventRef = doc(db, "Events", params.event);
-
-    const eventData = (await getDoc(eventRef)).data()
-    delete eventData.createdAt
-  
-    // Pass data to the page via props
-    console.log(eventData)
+    const eventData = await getServerSideEventData(params.event)
     return { props: { eventData } }
   }
