@@ -85,15 +85,3 @@ export async function getServerSideProps({params}) {
     console.log(eventData)
     return { props: { eventData } }
   }
-
-class Fencer {
-	id;
-	startingRank;
-	//pool;
-	userName;
-	constructor({ id, userName, startingRank }) {
-		this.id = id;
-		this.userName = userName;
-		this.startingRank = startingRank;
-	}
-}
