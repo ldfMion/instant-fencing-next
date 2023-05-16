@@ -3,7 +3,9 @@ import { doc, getDoc } from "firebase/firestore";
 
 const getServerSideEventData = async eventId => {
 	const eventRef = doc(db, "Events", eventId);
-	const eventData = (await getDoc(eventRef)).data();
+    const response = await getDoc(eventRef)
+	const eventData = response.data();
+    eventData.id = response.id
 
 	delete eventData.createdAt;
 

@@ -1,105 +1,99 @@
-import React, {useEffect, useState} from 'react';
-import {useRouter} from 'next/router'
+import React, { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 import Head from "next/head";
 
 //import { initializeApp } from 'firebase/app';
 //import { getFirestore } from 'firebase/firestore';
 import { doc, onSnapshot, getDoc } from "firebase/firestore";
 //import { getAuth } from "firebase/auth";
-import { useAuthState } from 'react-firebase-hooks/auth';
-import {auth, db} from '../../../firebase/firebase.js'
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth, db } from "../../../firebase/firebase.js";
 
-import NavBar from '../../../components/NavBar';
-import {WaitingRoom} from '../../../components/WaitingRoom.jsx';
-import {SelectSortType} from '../../../components/SelectSortType.jsx';
-import {SortByRank} from '../../../components/SortByRank.jsx';
-import {SetPools} from '../../../components/SetPools.jsx';
+import NavBar from "../../../components/NavBar";
+import { WaitingRoom } from "../../../components/WaitingRoom.jsx";
+import { SelectSortType } from "../../../components/SelectSortType.jsx";
+import { SortByRank } from "../../../components/SortByRank.jsx";
+import { SetPools } from "../../../components/SetPools.jsx";
 
-const Create = ({eventName}) => {
-    console.log('from server side', eventName)
-    console.log("create page")
-    const router = useRouter();
-    const {event} = router.query
-    console.log(event)
-    //const auth = getAuth();
-    const [user] = useAuthState(auth);
-    const [eventRef, setEventRef] = useState(undefined)
-    const [eventData, setEventData] = useState(undefined)
-    
-    useEffect(()=>{
-        if(!router.isReady) return;        
-        const eventRef = doc(db, "Events", event);
-        setEventRef(eventRef)
+import getServerSideEventData from "../../../data/getServerSideEventData"
 
-        const getEvent = onSnapshot(eventRef, (doc) => {
-            console.log("Current data: ", doc.data());
-            setEventData(doc.data())
-        });
+const Create = ({ serverSideEventData }) => {
+	console.log("from server side", serverSideEventData);
+	console.log("create page");
 
-    }, [router.isReady, event]);
+	const [user] = useAuthState(auth);
 
-    const description = `You are invited to participate in the ${eventName} fencing event with Instant Fencing.`;
+    const eventRef = doc(db, "Events", serverSideEventData.id);
+	console.log("eventRef", eventRef);
 
-    const metaTags = <Head>
-        <title>{eventName}</title>
-        <meta name="description" content={description}/>
-        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-        <meta name="robots" content="index, follow"/>
-        <meta charset="UTF-8"/>
-        
-        <meta property='og:title' content={eventName}/>
-        <meta property="og:description" content={description} />
-        <meta property="og:type" content="website" />
-    </Head>
+	const description = `You are invited to participate in the ${serverSideEventData.name} fencing event with Instant Fencing.`;
 
-    if(!eventData){
-        return <>{metaTags}</>
-    }
+	const metaTags = (
+		<Head>
+			<title>{serverSideEventData.name}</title>
+			<meta name="description" content={description} />
+			<meta
+				name="viewport"
+				content="initial-scale=1.0, width=device-width"
+			/>
+			<meta name="robots" content="index, follow" />
+			<meta charset="UTF-8" />
 
+			<meta property="og:title" content={serverSideEventData.name} />
+			<meta property="og:description" content={description} />
+			<meta property="og:type" content="website" />
+		</Head>
+	);
 
-    if(!eventData.fencersAreChosen){
-        return (<>
-            {metaTags}
-            <NavBar eventName={eventData.name}/>
-            <WaitingRoom users={eventData.users} eventRef={eventRef} user={user}/>
-        </>);
-    }
-    console.log(eventRef)
-    console.log(eventData.sortType)
-    if(!eventData.sortType){
-        return (<>
-            {metaTags}
-            <NavBar eventName={eventData.name}/>
-            <SelectSortType eventRef={eventRef} user={user}/>
-        </>)
-    }
-    if(!eventData.fencersAreSorted && eventData.sortType === 'By Rank'){
-        return <>
-            {metaTags}
-            <NavBar eventName={eventData.name}/>
-            <SortByRank eventRef={eventRef} user={user}/>
-        </>
-    }
-    if(!eventData.poolsAreSet){
-        return <>
-            {metaTags}
-            <NavBar eventName={eventData.name}/>
-            <SetPools eventRef={eventRef} user={user} />
-        </>
-    }
-    router.push(`/event/${event}/pools`)
-    return null
+	if (!serverSideEventData.fencersAreChosen) {
+		return (
+			<>
+				{metaTags}
+				<NavBar eventName={serverSideEventData.name} />
+				<WaitingRoom
+					users={serverSideEventData.users}
+					eventRef={eventRef}
+					user={user}
+				/>
+			</>
+		);
+	}
+	console.log("eventRef", eventRef);
+	console.log(serverSideEventData.sortType);
+	if (!serverSideEventData.sortType) {
+		return (
+			<>
+				{metaTags}
+				<NavBar eventName={serverSideEventData.name} />
+				<SelectSortType eventRef={eventRef} user={user} />
+			</>
+		);
+	}
+	if (!serverSideEventData.fencersAreSorted && serverSideEventData.sortType === "By Rank") {
+		return (
+			<>
+				{metaTags}
+				<NavBar eventName={serverSideEventData.name} />
+				<SortByRank eventRef={eventRef} user={user} />
+			</>
+		);
+	}
+	if (!serverSideEventData.poolsAreSet) {
+		return (
+			<>
+				{metaTags}
+				<NavBar eventName={serverSideEventData.name} />
+				<SetPools eventRef={eventRef} user={user} />
+			</>
+		);
+	}
+	router.push(`/event/${event}/pools`);
+	return null;
+};
+
+export async function getServerSideProps({ params }) {
+	const serverSideEventData = await getServerSideEventData(params.event)
+    return { props: { serverSideEventData } }
 }
-
-export async function getServerSideProps({params}) {
-    // Fetch data from external API
-    console.log(params.id)
-    const eventRef = doc(db, "Events", params.event);
-
-    const eventName = (await getDoc(eventRef)).data().name;
-  
-    // Pass data to the page via props
-    return { props: { eventName } }
-  }
 
 export default Create;
