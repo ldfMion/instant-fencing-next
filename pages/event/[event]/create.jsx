@@ -15,15 +15,20 @@ import { SelectSortType } from "../../../components/SelectSortType.jsx";
 import { SortByRank } from "../../../components/SortByRank.jsx";
 import { SetPools } from "../../../components/SetPools.jsx";
 
-import getServerSideEventData from "../../../data/getServerSideEventData"
+import getServerSideEventData from "../../../data/getServerSideEventData";
+import useGetEventData from "../../../data/useGetEventData";
 
 const Create = ({ serverSideEventData }) => {
+	const router = useRouter();
 	console.log("from server side", serverSideEventData);
 	console.log("create page");
 
 	const [user] = useAuthState(auth);
 
-    const eventRef = doc(db, "Events", serverSideEventData.id);
+	const eventRef = doc(db, "Events", serverSideEventData.id);
+
+	const eventData = useGetEventData(serverSideEventData.id)
+
 	console.log("eventRef", eventRef);
 
 	const description = `You are invited to participate in the ${serverSideEventData.name} fencing event with Instant Fencing.`;
@@ -45,7 +50,16 @@ const Create = ({ serverSideEventData }) => {
 		</Head>
 	);
 
-	if (!serverSideEventData.fencersAreChosen) {
+	if (!eventData) {
+		return (
+			<>
+				<>{metaTags}</>
+				<NavBar />
+			</>
+		);
+	}
+
+	if (!eventData.fencersAreChosen) {
 		return (
 			<>
 				{metaTags}
@@ -60,7 +74,7 @@ const Create = ({ serverSideEventData }) => {
 	}
 	console.log("eventRef", eventRef);
 	console.log(serverSideEventData.sortType);
-	if (!serverSideEventData.sortType) {
+	if (!eventData.sortType) {
 		return (
 			<>
 				{metaTags}
@@ -69,7 +83,10 @@ const Create = ({ serverSideEventData }) => {
 			</>
 		);
 	}
-	if (!serverSideEventData.fencersAreSorted && serverSideEventData.sortType === "By Rank") {
+	if (
+		!eventData.fencersAreSorted &&
+		eventData.sortType === "By Rank"
+	) {
 		return (
 			<>
 				{metaTags}
@@ -78,7 +95,7 @@ const Create = ({ serverSideEventData }) => {
 			</>
 		);
 	}
-	if (!serverSideEventData.poolsAreSet) {
+	if (!eventData.poolsAreSet) {
 		return (
 			<>
 				{metaTags}
@@ -87,13 +104,21 @@ const Create = ({ serverSideEventData }) => {
 			</>
 		);
 	}
-	router.push(`/event/${event}/pools`);
+	router.push(`/event/${serverSideEventData.id}/pools`);
 	return null;
 };
 
 export async function getServerSideProps({ params }) {
-	const serverSideEventData = await getServerSideEventData(params.event)
-    return { props: { serverSideEventData } }
+	const serverSideEventData = await getServerSideEventData(params.event);
+	if (serverSideEventData.poolsAreSet) {
+		return {
+			redirect: {
+				permanent: false,
+				destination: `/event/${serverSideEventData.id}/pools`,
+			},
+		};
+	}
+	return { props: { serverSideEventData } };
 }
 
 export default Create;
