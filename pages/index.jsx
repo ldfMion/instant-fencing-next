@@ -18,6 +18,8 @@ export default function Home() {
                 <meta property='og:title' content="Instant Fencing Beta Test"/>
                 <meta property="og:description" content="Automate the creation of fencing competitions during practice." />
                 <meta property="og:type" content="website" />
+
+                <meta name="google-site-verification" content="PFC7USVldoWZ7brkdOMgk9qZlZ1LtVx9Jdx9I-bUueg" />
             </Head>
 			<NavBar />
 			<div className="mainContent">
