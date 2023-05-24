@@ -8,13 +8,17 @@ import {PoolPreview} from '../../../../components/PoolPreview'
 import { db } from "../../../../firebase/firebase.js";
 import { doc, onSnapshot, collection, orderBy, query } from "firebase/firestore";
 
-export default function Pools() {
-    const router = useRouter();
-    const {event} = router.query
-    const [eventRef, setEventRef] = useState(undefined)
-    const [eventData, setEventData] = useState(undefined)
-    const [pools, setPools] = useState([])
+import useGetPools from "../../../../data/useGetPools";
+import getServerSideEventData from "../../../../data/getServerSideEventData";
 
+export default function Pools({serverSideEventData}) {
+    //const router = useRouter();
+    //const {event} = router.query
+    //const [eventRef, setEventRef] = useState(undefined)
+    //const [eventData, setEventData] = useState(undefined)
+    //const [pools, setPools] = useState([])
+    const eventRef = doc(db, "Events", serverSideEventData.id);
+    /*
     useEffect(()=>{
         if(!router.isReady) return;        
         const eventRef = doc(db, "Events", event);
@@ -39,15 +43,16 @@ export default function Pools() {
         setEventRef(eventRef);
 
     }, [router.isReady, event]);
+    */
 
-    if(!eventData){
-        return null
-    }
+    const pools = useGetPools(serverSideEventData.id)
+
+    //const dataIsLoaded = !!pools;
     console.log(pools)
     return (
         <>
             <Head>
-                <title>{eventData.name}: pools</title>
+                <title>{serverSideEventData.name}: pools</title>
                 <meta name="description" content="Automate the creation of fencing competitions during practice."/>
                 <meta name="viewport" content="initial-scale=1.0, width=device-width" />
                 <meta name="robots" content="index, follow"/>
@@ -58,16 +63,16 @@ export default function Pools() {
             </Head>
             <NavBar
                 tabs={true}
-                eventId={event}
-                eventName={eventData.name}
+                eventId={serverSideEventData.id}
+                eventName={serverSideEventData.name}
                 currentTab={'pools'}
             />
             <div className='mainContent'>
                 <h3>Pools</h3>
                 <ol className="column">
-                    {pools.map((pool, index) => {
+                    {pools.map(pool => {
                         console.log('is on map')
-                        return <PoolPreview poolData={pool} eventRef={eventRef} key={index} eventId={event}/>
+                        return <PoolPreview poolData={pool} eventRef={eventRef} key={pool.id} eventId={serverSideEventData.id}/>
                     })}
                 </ol>
             </div>
@@ -111,4 +116,9 @@ export default function Pools() {
     }
 
     ;*/
+}
+
+export async function getServerSideProps({ params }) {
+	const serverSideEventData = await getServerSideEventData(params.event);
+	return { props: { serverSideEventData } };
 }

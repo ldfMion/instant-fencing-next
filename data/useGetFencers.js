@@ -4,7 +4,7 @@ import { doc, onSnapshot, collection } from "firebase/firestore";
 import Fencer from "./Fencer.js";
 
 const useGetFencers = (eventId) => {
-	const [fencers, setFencers] = useState(undefined);
+	const [fencers, setFencers] = useState([]);
 
 	useEffect(async () => {
 		const eventRef = doc(db, "Events", eventId);
