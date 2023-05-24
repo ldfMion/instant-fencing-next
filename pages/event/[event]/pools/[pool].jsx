@@ -193,7 +193,7 @@ export default function Pool() {
         <NavBar
             currentTab={'pools'}
             eventName={eventData.name}
-            eventId={event}
+            eventId={event.id}
         />
 		<div className="mainContent">
 			<h3> Pool {poolData.poolId}</h3>

@@ -42,7 +42,7 @@ const Starter = ({eventData}) => {
 			<NavBar
 				tabs={true}
 				eventName={eventData.name}
-				eventId={eventData.name}
+				eventId={eventData.id}
 				currentTab="starter"
 			/>
 			{dataIsLoaded && (

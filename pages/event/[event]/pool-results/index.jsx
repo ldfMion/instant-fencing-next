@@ -120,7 +120,7 @@ const PoolResults = () => {
 			<NavBar
 				tabs={true}
 				eventName={eventData.name}
-                eventId={event}
+                eventId={event.id}
 				currentTab="pool-results"
 			/>
 			<div className="mainContent">

@@ -21,6 +21,7 @@ const useGetFencers = (routerIsReady, eventId) => {
 			});
 			setFencers(fencersData);
 		});
+        return () => getFencersData()
 	}, [eventId]);
 
 	return { fencers: fencers };

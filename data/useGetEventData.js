@@ -12,6 +12,7 @@ const useGetEventData = (eventId) => {
 			console.log("Current data: ", doc.data());
 			setEventData(doc.data());
 		});
+        return () => getEvent()
 	}, [eventId]);
     return eventData
 }
