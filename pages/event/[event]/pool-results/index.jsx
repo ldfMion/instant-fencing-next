@@ -193,7 +193,7 @@ const PoolResults = ({ serverSideEventData }) => {
 												? fencer.victoriesOverMatches.toFixed(
 														3
 												  )
-												: 0}
+												: "N/A"}
 										</p>
 									</td>
 									<td
