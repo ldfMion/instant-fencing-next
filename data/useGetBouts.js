@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { db } from "../firebase/firebase.js";
 import { doc, onSnapshot, collection } from "firebase/firestore";
-import Fencer from "./Fencer.js";
 
 const useGetBouts = (eventId) => {
 	const [bouts, setBouts] = useState(undefined);
