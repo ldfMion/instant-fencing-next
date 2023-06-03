@@ -9,114 +9,18 @@ import Head from "next/head";
 import getServerSideEventData from "../../../../data/getServerSideEventData.js";
 import useGetFencers from "../../../../data/useGetFencers.js";
 import useGetBouts from "../../../../data/useGetBouts.js";
+import Fencer from "../../../../data/Fencer.js"
 
 const PoolResults = ({ serverSideEventData }) => {
-	//const router = useRouter();
-	//const { event } = router.query;
-	/*
-	const [eventData, setEventData] = useState(undefined);
-	const [fencers, setFencers] = useState(undefined);
-	const [bouts, setBouts] = useState(undefined);
-    */
-	/*
-	useEffect(() => {
-		//if (!router.isReady) return;
-		const eventRef = doc(db, "Events", serverSideEventData.id);
 
-		const getEvent = onSnapshot(eventRef, doc => {
-			//console.log("Current data: ", doc.data());
-			setEventData(doc.data());
-		});
-
-		const fencersRef = collection(eventRef, "fencers");
-
-		const getFencers = onSnapshot(fencersRef, querySnapshot => {
-			const fencersData = [];
-			querySnapshot.forEach(doc => {
-				const id = doc.id;
-				console.log(doc.data());
-				console.log(id);
-				const fencerObject = new Fencer({ ...doc.data(), id });
-				console.log(fencerObject);
-				fencersData.push(fencerObject);
-			});
-			console.log("fromDatabase", fencersData);
-			setFencers(fencersData);
-		});
-
-		const boutsRef = collection(eventRef, "bouts");
-
-		const getBouts = onSnapshot(boutsRef, querySnapshot => {
-			const bouts = [];
-			querySnapshot.forEach(doc => {
-				const id = doc.id;
-				bouts.push({ ...doc.data(), id });
-			});
-			setBouts(bouts);
-		});
-	}, [
-        //router.isReady, 
-        serverSideEventData.id]);
-    */
-
-	const fencers = useGetFencers(serverSideEventData.id);
+	const fencers = useGetFencers(serverSideEventData.id).map(fencer => new PoolResultFencer(fencer));
 	const bouts = useGetBouts(serverSideEventData.id);
 
 	const dataIsLoaded = !!fencers && !!bouts;
 
-	let newFencers;
-	let complete;
-	let totalVictories = 0;
-	if (dataIsLoaded) {
-		const keyFencers = {};
-		fencers.forEach(fencer => {
-			console.log(fencer);
-			keyFencers[fencer.id] = fencer;
-		});
-		console.log(keyFencers);
-		//totalVictories = 0;
-
-		bouts.forEach(bout => {
-			keyFencers[bout.fencerAId].touchesScored += bout.fencerAScore;
-			keyFencers[bout.fencerAId].touchesReceived += bout.fencerBScore;
-			keyFencers[bout.fencerBId].touchesScored += bout.fencerBScore;
-			keyFencers[bout.fencerBId].touchesReceived += bout.fencerAScore;
-			if (bout.fencerAScore > bout.fencerBScore) {
-				keyFencers[bout.fencerAId].victories++;
-				keyFencers[bout.fencerBId].defeats++;
-				totalVictories++;
-			} else if (bout.fencerAScore < bout.fencerBScore) {
-				keyFencers[bout.fencerAId].defeats++;
-				keyFencers[bout.fencerBId].victories++;
-				totalVictories++;
-			} else {
-				//tie
-			}
-		});
-
-		newFencers = Object.values(keyFencers);
-
-		newFencers.forEach(fencer => {
-			fencer.victoriesOverMatches =
-				fencer.victories + fencer.defeats === 0
-					? 0
-					: fencer.victories / (fencer.victories + fencer.defeats);
-			fencer.index = fencer.touchesScored - fencer.touchesReceived;
-		});
-
-		newFencers.sort((fencerA, fencerB) => {
-			if (fencerA.victoriesOverMatches === fencerB.victoriesOverMatches) {
-				return fencerB.index - fencerA.index;
-			} else {
-				return (
-					fencerB.victoriesOverMatches - fencerA.victoriesOverMatches
-				);
-			}
-		});
-
-		console.log("newFencers", newFencers);
-		complete = totalVictories === bouts.length;
-	}
+	const { newFencers, complete } = dataIsLoaded
+		? extractPoolResultData(fencers, bouts)
+		: { newFencers: undefined, complete: undefined };
 
 	return (
 		<>
@@ -188,13 +92,7 @@ const PoolResults = ({ serverSideEventData }) => {
 									<td
 										className={`${styles.tableCell} cell-number`}
 									>
-										<p>
-											{fencer.victoriesOverMatches
-												? fencer.victoriesOverMatches.toFixed(
-														3
-												  )
-												: "N/A"}
-										</p>
+										<p>{fencer.victoriesOverMatches.toFixed(3)}</p>
 									</td>
 									<td
 										className={`${styles.tableCell} cell-number`}
@@ -217,3 +115,98 @@ export async function getServerSideProps({ params }) {
 }
 
 export default PoolResults;
+
+const extractPoolResultData = (fencers, bouts) => {
+
+    const fencersMap = fencers.reduce((map, fencer) => map.set(fencer.id, fencer), new Map())
+    
+	let complete = true;
+
+	bouts.forEach(bout => {
+
+        const fencerA = fencersMap.get(bout.fencerAId);
+        const fencerB = fencersMap.get(bout.fencerBId);
+
+		fencerA.addTouchesScored(bout.fencerAScore);
+		fencerA.addTouchesReceived(bout.fencerBScore);
+		fencerB.addTouchesScored(bout.fencerBScore);
+		fencerB.addTouchesReceived(bout.fencerAScore);
+
+		if (bout.fencerAScore > bout.fencerBScore) {
+			fencerA.incrementVictories();
+			fencerB.incrementDefeats();
+
+		} else if (bout.fencerAScore < bout.fencerBScore) {
+			fencerA.incrementDefeats();
+			fencerB.incrementVictories();
+
+		} else {
+			complete = false;
+		}
+	});
+
+	const newFencers = getSortedFencersForPoolResults(Array.from(fencersMap.values()));
+
+	return {
+		newFencers,
+		complete,
+	};
+};
+
+function getSortedFencersForPoolResults(fencersArray){
+
+    const newFencers = [...fencersArray]
+
+    newFencers.sort((fencerA, fencerB) => {
+		if (fencerA.victoriesOverMatches === fencerB.victoriesOverMatches) {
+			return fencerB.index - fencerA.index;
+		} else {
+			return fencerB.victoriesOverMatches - fencerA.victoriesOverMatches;
+		}
+	});
+    
+    return newFencers
+    
+}
+
+class PoolResultFencer extends Fencer {
+
+    touchesScored = 0;
+    touchesReceived = 0;
+    victories = 0;
+    defeats = 0;
+
+    constructor(args){
+        super(args)
+    }
+
+    incrementVictories(){
+        this.victories++;
+    }
+    incrementDefeats(){
+        this.defeats++;
+    }
+    addTouchesScored(boutTouches){
+        this.validateTouchesToAdd(boutTouches)
+        this.touchesScored += boutTouches
+    }
+    addTouchesReceived(boutTouches){
+        this.validateTouchesToAdd(boutTouches)
+        this.touchesReceived += boutTouches
+    }
+    validateTouchesToAdd(boutTouches){
+        if(boutTouches < 0) throw new Error("can't add negative touches")
+    }
+    get victoriesOverMatches(){
+        if(this.noBoutsFenced()){
+            return 0;
+        }
+        return this.victories / (this.victories + this.defeats);
+    }
+    get index(){
+        return this.touchesScored - this.touchesReceived
+    }
+    noBoutsFenced() {
+        return this.victories + this.defeats === 0
+    }
+}
