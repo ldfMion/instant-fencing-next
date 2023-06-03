@@ -18,9 +18,9 @@ const PoolResults = ({ serverSideEventData }) => {
 
 	const dataIsLoaded = !!fencers && !!bouts;
 
-	const { newFencers, complete } = dataIsLoaded
+	const { fencersWithScoreDataFromBouts, complete } = dataIsLoaded
 		? extractPoolResultData(fencers, bouts)
-		: { newFencers: undefined, complete: undefined };
+		: { fencersWithScoreDataFromBouts: undefined, complete: undefined };
 
 	return (
 		<>
@@ -77,7 +77,7 @@ const PoolResults = ({ serverSideEventData }) => {
 					</thead>
 					{dataIsLoaded && (
 						<tbody>
-							{newFencers.map((fencer, index) => (
+							{fencersWithScoreDataFromBouts.map((fencer, index) => (
 								<tr className={styles.row} key={index}>
 									<td
 										className={`${styles.tableCell} ${styles.fencerCell} participant-in-list`}
@@ -145,10 +145,10 @@ const extractPoolResultData = (fencers, bouts) => {
 		}
 	});
 
-	const newFencers = getSortedFencersForPoolResults(Array.from(fencersMap.values()));
+	const sortedFencerArray = getSortedFencersForPoolResults(Array.from(fencersMap.values()));
 
 	return {
-		newFencers,
+		fencersWithScoreDataFromBouts: sortedFencerArray,
 		complete,
 	};
 };
