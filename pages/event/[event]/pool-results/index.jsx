@@ -4,169 +4,209 @@ import { useRouter } from "next/router";
 import { db } from "../../../../firebase/firebase.js";
 import NavBar from "../../../../components/NavBar";
 import styles from "../../../../styles/PoolResults.module.css";
-import Head from "next/head"
+import Head from "next/head";
 
-const PoolResults = () => {
-	const router = useRouter();
-	const { event } = router.query;
-	const [eventData, setEventData] = useState(undefined);
-	const [fencers, setFencers] = useState(undefined);
-	const [bouts, setBouts] = useState(undefined);
+import getServerSideEventData from "../../../../data/getServerSideEventData.js";
+import useGetFencers from "../../../../data/useGetFencers.js";
+import useGetBouts from "../../../../data/useGetBouts.js";
+import Fencer from "../../../../data/Fencer.js"
 
-	useEffect(() => {
-		if (!router.isReady) return;
-		const eventRef = doc(db, "Events", event);
+const PoolResults = ({ serverSideEventData }) => {
 
-		const getEvent = onSnapshot(eventRef, doc => {
-			//console.log("Current data: ", doc.data());
-			setEventData(doc.data());
-		});
+	const fencers = useGetFencers(serverSideEventData.id).map(fencer => new PoolResultFencer(fencer));
+	const bouts = useGetBouts(serverSideEventData.id);
 
-		const fencersRef = collection(eventRef, "fencers");
+	const dataIsLoaded = !!fencers && !!bouts;
 
-		const getFencers = onSnapshot(fencersRef, querySnapshot => {
-			const fencersData = [];
-			querySnapshot.forEach(doc => {
-				const id = doc.id;
-				console.log(doc.data());
-				console.log(id);
-				const fencerObject = new Fencer({ ...doc.data(), id });
-				console.log(fencerObject);
-				fencersData.push(fencerObject);
-			});
-			console.log("fromDatabase", fencersData);
-			setFencers(fencersData);
-		});
+	const { fencersWithScoreDataFromBouts, complete } = dataIsLoaded
+		? extractPoolResultData(fencers, bouts)
+		: { fencersWithScoreDataFromBouts: undefined, complete: undefined };
 
-		const boutsRef = collection(eventRef, "bouts");
+	return (
+		<>
+			<Head>
+				<title>{serverSideEventData.name}: pool results</title>
+				<meta
+					name="description"
+					content="Automate the creation of fencing competitions during practice."
+				/>
+				<meta
+					name="viewport"
+					content="initial-scale=1.0, width=device-width"
+				/>
+				<meta name="robots" content="index, follow" />
+				<meta charset="UTF-8" />
+				<meta property="og:title" content="Instant Fencing Beta Test" />
+				<meta
+					property="og:description"
+					content="Automate the creation of fencing competitions during practice."
+				/>
+				<meta property="og:type" content="website" />
+			</Head>
+			<NavBar
+				tabs={true}
+				eventName={serverSideEventData.name}
+				eventId={serverSideEventData.id}
+				currentTab="pool-results"
+			/>
+			<div className="mainContent">
+				<h3>Pool Results</h3>
+				{dataIsLoaded ? (
+					complete ? (
+						<p>All bouts are finished!</p>
+					) : (
+						<p>Live results</p>
+					)
+				) : (
+					<p>Loading</p>
+				)}
 
-		const getBouts = onSnapshot(boutsRef, querySnapshot => {
-			const bouts = [];
-			querySnapshot.forEach(doc => {
-				const id = doc.id;
-				bouts.push({ ...doc.data(), id });
-			});
-			setBouts(bouts);
-		});
-	}, [router.isReady, event]);
+				<table className={`card ${styles.table}`}>
+					<thead>
+						<tr className={styles.row}>
+							<td>
+								<p>Fencer</p>
+							</td>
+							<td className={styles.tableCell}>
+								<p className="bold">V/M</p>
+							</td>
+							<td className={styles.tableCell}>
+								<p className="bold">Ind</p>
+							</td>
+						</tr>
+					</thead>
+					{dataIsLoaded && (
+						<tbody>
+							{fencersWithScoreDataFromBouts.map((fencer, index) => (
+								<tr className={styles.row} key={index}>
+									<td
+										className={`${styles.tableCell} ${styles.fencerCell} participant-in-list`}
+									>
+										<p className={styles.rowNumber}>
+											{index + 1}
+										</p>
+										<p className="bold left-align">
+											{fencer.userName}
+										</p>
+									</td>
+									<td
+										className={`${styles.tableCell} cell-number`}
+									>
+										<p>{fencer.victoriesOverMatches.toFixed(3)}</p>
+									</td>
+									<td
+										className={`${styles.tableCell} cell-number`}
+									>
+										<p>{fencer.index || 0}</p>
+									</td>
+								</tr>
+							))}
+						</tbody>
+					)}
+				</table>
+			</div>
+		</>
+	);
+};
 
-	if (!fencers || !bouts) {
-		return null;
-	}
+export async function getServerSideProps({ params }) {
+	const serverSideEventData = await getServerSideEventData(params.event);
+	return { props: { serverSideEventData } };
+}
 
-	const keyFencers = {};
-	fencers.forEach(fencer => {
-		console.log(fencer);
-		keyFencers[fencer.id] = fencer;
-	});
+export default PoolResults;
 
-    let totalVictories = 0;
+const extractPoolResultData = (fencers, bouts) => {
+
+    const fencersMap = fencers.reduce((map, fencer) => map.set(fencer.id, fencer), new Map())
+    
+	let complete = true;
 
 	bouts.forEach(bout => {
-		keyFencers[bout.fencerAId].touchesScored += bout.fencerAScore;
-		keyFencers[bout.fencerAId].touchesReceived += bout.fencerBScore;
-		keyFencers[bout.fencerBId].touchesScored += bout.fencerBScore;
-		keyFencers[bout.fencerBId].touchesReceived += bout.fencerAScore;
+
+        const fencerA = fencersMap.get(bout.fencerAId);
+        const fencerB = fencersMap.get(bout.fencerBId);
+
+		fencerA.addTouchesScored(bout.fencerAScore);
+		fencerA.addTouchesReceived(bout.fencerBScore);
+		fencerB.addTouchesScored(bout.fencerBScore);
+		fencerB.addTouchesReceived(bout.fencerAScore);
+
 		if (bout.fencerAScore > bout.fencerBScore) {
-			keyFencers[bout.fencerAId].victories++;
-			keyFencers[bout.fencerBId].defeats++;
-            totalVictories++;
+			fencerA.incrementVictories();
+			fencerB.incrementDefeats();
+
 		} else if (bout.fencerAScore < bout.fencerBScore) {
-			keyFencers[bout.fencerAId].defeats++;
-			keyFencers[bout.fencerBId].victories++;
-            totalVictories++;
+			fencerA.incrementDefeats();
+			fencerB.incrementVictories();
+
 		} else {
-			//tie
+			complete = false;
 		}
 	});
 
-	const newFencers = Object.values(keyFencers);
+	const sortedFencerArray = getSortedFencersForPoolResults(Array.from(fencersMap.values()));
 
-	newFencers.forEach(fencer => {
-		fencer.victoriesOverMatches =
-			fencer.victories + fencer.defeats === 0
-				? 0
-				: fencer.victories / (fencer.victories + fencer.defeats);
-		fencer.index = fencer.touchesScored - fencer.touchesReceived;
-	});
+	return {
+		fencersWithScoreDataFromBouts: sortedFencerArray,
+		complete,
+	};
+};
 
-	newFencers.sort((fencerA, fencerB) => {
+function getSortedFencersForPoolResults(fencersArray){
+
+    const newFencers = [...fencersArray]
+
+    newFencers.sort((fencerA, fencerB) => {
 		if (fencerA.victoriesOverMatches === fencerB.victoriesOverMatches) {
 			return fencerB.index - fencerA.index;
 		} else {
 			return fencerB.victoriesOverMatches - fencerA.victoriesOverMatches;
 		}
 	});
+    
+    return newFencers
+    
+}
 
-	console.log("newFencers", newFencers);
-    const complete = totalVictories === bouts.length;
+class PoolResultFencer extends Fencer {
 
-    if(!eventData){
-        return null
-    }
-
-	return (
-		<>
-            <Head>
-                <title>{eventData.name}: pool results</title>
-                <meta name="description" content="Automate the creation of fencing competitions during practice."/>
-                <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-                <meta name="robots" content="index, follow"/>
-                <meta charset="UTF-8"/>
-                <meta property='og:title' content="Instant Fencing Beta Test"/>
-                <meta property="og:description" content="Automate the creation of fencing competitions during practice." />
-                <meta property="og:type" content="website" />
-            </Head>
-			<NavBar
-				tabs={true}
-				eventName={eventData.name}
-                eventId={event.id}
-				currentTab="pool-results"
-			/>
-			<div className="mainContent">
-				<h3>Pool Results</h3>
-                {complete ? <p>All bouts are finished!</p> : <p>Live results</p>}
-				<table className={`card ${styles.table}`}>
-						<tr className={styles.row}>
-                            <td ><p>Fencer</p></td>
-							<td className={styles.tableCell}>
-								<p className='bold'>V/M</p>
-							</td>
-							<td className={styles.tableCell}>
-								<p className='bold'>Ind</p>
-							</td>
-						</tr>
-                        {newFencers.map((fencer, index) => (
-						<tr className={styles.row} key={index}>
-							<td className={`${styles.tableCell} ${styles.fencerCell} participant-in-list`}>
-                                <p className={styles.rowNumber}>{index + 1}</p>
-                                <p className='bold left-align'>{fencer.userName}</p>
-                            </td>
-							<td className={`${styles.tableCell} cell-number`}><p>{fencer.victoriesOverMatches.toFixed(3)}</p></td>
-							<td className={`${styles.tableCell} cell-number`}><p>{fencer.index}</p></td>
-						</tr>
-					))}
-				</table>
-                
-			</div>
-		</>
-	);
-};
-
-export default PoolResults;
-
-class Fencer {
-    id;
-    //startingRank not needed
-    pool;
-    userName;
-    victories = 0;
-    defeats = 0;
     touchesScored = 0;
     touchesReceived = 0;
-    constructor({ id, pool, userName }) {
-        this.id = id;
-        this.pool = pool;
-        this.userName = userName;
+    victories = 0;
+    defeats = 0;
+
+    constructor(args){
+        super(args)
+    }
+
+    incrementVictories(){
+        this.victories++;
+    }
+    incrementDefeats(){
+        this.defeats++;
+    }
+    addTouchesScored(boutTouches){
+        this.validateTouchesToAdd(boutTouches)
+        this.touchesScored += boutTouches
+    }
+    addTouchesReceived(boutTouches){
+        this.validateTouchesToAdd(boutTouches)
+        this.touchesReceived += boutTouches
+    }
+    validateTouchesToAdd(boutTouches){
+        if(boutTouches < 0) throw new Error("can't add negative touches")
+    }
+    get victoriesOverMatches(){
+        if(this.noBoutsFenced()){
+            return 0;
+        }
+        return this.victories / (this.victories + this.defeats);
+    }
+    get index(){
+        return this.touchesScored - this.touchesReceived
+    }
+    noBoutsFenced() {
+        return this.victories + this.defeats === 0
     }
 }

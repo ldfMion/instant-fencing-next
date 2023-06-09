@@ -22,7 +22,6 @@ const NavBar = ({eventName, eventId, currentTab}) => {
                 <div className={styles.titleAndMenu}>
                     <h1>Instant Fencing</h1>
                     <div className={styles.menuIcon + ' ' + (open ? styles.menuIcon_open : styles.menuIcon_closed)} onClick={() => {
-                        console.log('opening')
                         setOpen(!open)}}>
                         <div className={styles.menuBar + ' ' + (open ? styles.menuBar1_closed : '')}></div>
                         <div className={styles.menuBar + ' ' + (open ? styles.menuBar2_closed : '')}></div>
@@ -37,9 +36,6 @@ const NavBar = ({eventName, eventId, currentTab}) => {
                 {currentTab &&
                     <menu className={styles.tabs}>
                         {tabs.map((tab, index) => {
-                            console.log('is on tabs map')
-                            console.log(tab)
-                            console.log(currentTab)
                             return <li key={index}><Link href={baseURL + tab} passHref><button className={`button button-terciary ${currentTab === tab && 'bold'}`}>{tab}</button></Link></li>
                         })}
                     </menu>

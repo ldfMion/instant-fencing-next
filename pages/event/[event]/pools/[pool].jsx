@@ -6,199 +6,83 @@ import { useRouter } from "next/router";
 import { db } from "../../../../firebase/firebase.js";
 //import { useAuthState } from 'react-firebase-hooks/auth';
 
-import { doc, collection, onSnapshot, setDoc, getDoc, query, where } from "firebase/firestore";
+import {
+	doc,
+	collection,
+	onSnapshot,
+	setDoc,
+	getDoc,
+	query,
+	where,
+} from "firebase/firestore";
 
 import { PoolTable } from "../../../../components/PoolTable.jsx";
 import { PoolBouts } from "../../../../components/PoolBouts.jsx";
-import NavBar from '../../../../components/NavBar'
+import NavBar from "../../../../components/NavBar";
 
-export default function Pool() {
-	const router = useRouter();
-	const { event, pool } = router.query;
+import getServerSideEventData from "../../../../data/getServerSideEventData.js";
+import getServerSidePoolData from "../../../../data/getServerSidePoolData.js";
+import useGetPoolBouts from "../../../../data/useGetPoolBouts.js"
+import useGetPoolFencers from "../../../../data/useGetPoolFencers.js"
 
-	const [eventData, setEventData] = useState();
-	const [poolData, setPoolData] = useState();
-	const [fencers, setFencers] = useState();
-	const [bouts, setBouts] = useState();
+export default function Pool({ serverSideEventData, serverSidePoolData }) {
 
-    class Fencer {
-        id;
-        userName;
-        startingRank;
-        touchesScored;
-        constructor({ id, userName, startingRank, touchesScored }) {
-            this.id = id;
-            this.userName = userName;
-            this.startingRank = startingRank;
-            this.touchesScored = touchesScored;
-        }
-        updateTouchesScored = async score => {
-            const eventRef = doc(db, "Events", event);
-            const fencersRef = collection(eventRef, "fencers");
-            await setDoc(
-                doc(fencersRef, this.id),
-                {
-                    touchesScored: score,
-                },
-                { merge: true }
-            );
-        };
-    }
-    
-    class Bout {
-        fencerANumber;
-        fencerBNumber;
-        fencerAId;
-        fencerBId;
-        boutNumber;
-        boutRef;
-        poolNumber;
-        id;
-        fencerAScore;
-        fencerBScore;
-        fencerAUserName;
-        fencerBUserName;
-        constructor({
-            fencerANumber,
-            fencerBNumber,
-            fencerAId,
-            fencerBId,
-            id,
-            boutNumber,
-            fencerAScore,
-            fencerBScore,
-            fencerAUserName,
-            fencerBUserName,
-        }) {
-            this.fencerANumber = fencerANumber;
-            this.fencerBNumber = fencerBNumber;
-            this.fencerAId = fencerAId;
-            this.fencerBId = fencerBId;
-            this.boutNumber = boutNumber;
-            this.id = id;
-            this.fencerAScore = fencerAScore;
-            this.fencerBScore = fencerBScore;
-            this.fencerAUserName = fencerAUserName;
-            this.fencerBUserName = fencerBUserName;
-        }
-        updateScoreA = async score => {
-            console.log("is on update score A");
-            const eventRef = doc(db, "Events", event);
-            const boutsRef = collection(eventRef, "bouts");
-            await setDoc(
-                doc(boutsRef, this.id),
-                {
-                    fencerAScore: score,
-                },
-                { merge: true }
-            );
-        };
-        updateScoreB = async score => {
-            const eventRef = doc(db, "Events", event);
-            const boutsRef = collection(eventRef, "bouts");
-            await setDoc(
-                doc(boutsRef, this.id),
-                {
-                    fencerBScore: score,
-                },
-                { merge: true }
-            );
-        };
-    }
+    const fencers = useGetPoolFencers(serverSideEventData.id, serverSidePoolData.id);
+    console.log(fencers)
+    const bouts = useGetPoolBouts(serverSideEventData.id, serverSidePoolData.poolId);
+    console.log(bouts)
 
-	useEffect(() => {
-		if (!router.isReady) return;
-        if(!db || !event){
-            return
-        }
-
-        async function getPageData(){
-            const eventRef = doc(db, "Events", event);
-            const poolRef = doc(eventRef, "pools", pool);
-            
-    
-            const eventResponse = await getDoc(eventRef);
-            setEventData(eventResponse.data())
-    
-            const getPool = onSnapshot(poolRef, doc => {
-                const id = doc.id;
-                setPoolData({...doc.data(), id});
-            });
-        }
-        getPageData();
-
-        
-        
-	}, [router.isReady, event, pool]);
-
-    useEffect(() => {
-        if(!poolData) return
-        const eventRef = doc(db, "Events", event);
-        const boutsRef = collection(eventRef, "bouts");
-
-        const fencersRef = collection(eventRef, "fencers");
-        const filteredFencersRef = query(fencersRef, where("pool", "==", poolData.id));
-
-        console.log('is on log 1')
-
-		const getFencers = onSnapshot(filteredFencersRef, querySnapshot => {
-            console.log('is getting fencers')
-			const fencers = [];
-			querySnapshot.forEach(doc => {
-				const id = doc.id;
-				fencers.push(new Fencer({ ...doc.data(), id }));
-			});
-			fencers.sort(
-				(fencerA, fencerB) =>
-					fencerA.startingRank - fencerB.startingRank
-			);
-			console.log(fencers);
-			setFencers(fencers);
-		});
-
-        const filteredBoutsRef = query(
-			collection(eventRef, "bouts"),
-			where("poolNumber", "==", poolData.poolId)
-		);
-		const getBouts = onSnapshot(filteredBoutsRef, querySnapshot => {
-			const bouts = [];
-			querySnapshot.forEach(doc => {
-				const id = doc.id;
-				bouts.push(new Bout({ ...doc.data(), id }));
-			});
-            console.log(bouts)
-			setBouts(bouts);
-		});
-    }, [poolData, event, pool])
-
-	console.log(poolData, fencers);
-	if (!poolData || !fencers || !bouts) {
-		return null;
-	}
+	const isLoaded = fencers && bouts;
 
 	// pool table and bouts are separeted into their own pages
-	// data is fethed only once (on [pool].js), as table and bouts use the same data
+	// data is fetched only once (on [pool].js), as table and bouts use the same data
 
-	return (<>
-        <Head>
-            <title>{eventData.name}: Pool {poolData.poolId}</title>
-            <meta name="description" content="Automate the creation of fencing competitions during practice."/>
-            <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-            <meta name="robots" content="index, follow"/>
-            <meta charset="UTF-8"/>
-            <meta property='og:title' content="Instant Fencing Beta Test"/>
-            <meta property="og:description" content="Automate the creation of fencing competitions during practice." />
-            <meta property="og:type" content="website" />
-        </Head>
-        <NavBar
-            currentTab={'pools'}
-            eventName={eventData.name}
-            eventId={event.id}
-        />
-		<div className="mainContent">
-			<h3> Pool {poolData.poolId}</h3>
-			<PoolTable fencers={fencers} bouts={bouts} />
-			<PoolBouts fencers={fencers} bouts={bouts} />
-		</div>
-        </>);
+	return (
+		<>
+			<Head>
+				<title>
+					{serverSideEventData.name}: Pool {serverSidePoolData.poolId}
+				</title>
+				<meta
+					name="description"
+					content="Automate the creation of fencing competitions during practice."
+				/>
+				<meta
+					name="viewport"
+					content="initial-scale=1.0, width=device-width"
+				/>
+				<meta name="robots" content="index, follow" />
+				<meta charset="UTF-8" />
+				<meta property="og:title" content="Instant Fencing Beta Test" />
+				<meta
+					property="og:description"
+					content="Automate the creation of fencing competitions during practice."
+				/>
+				<meta property="og:type" content="website" />
+			</Head>
+			<NavBar
+				currentTab={"pools"}
+				eventName={serverSideEventData.name}
+				eventId={serverSideEventData.id}
+			/>
+			<div className="mainContent">
+				<h3> Pool {serverSidePoolData.poolId}</h3>
+				{isLoaded && (
+					<>
+						<PoolTable fencers={fencers} bouts={bouts} />
+						<PoolBouts fencers={fencers} bouts={bouts} />
+					</>
+				)}
+			</div>
+		</>
+	);
+}
+
+export async function getServerSideProps({ params }) {
+	const serverSideEventData = await getServerSideEventData(params.event);
+	const serverSidePoolData = await getServerSidePoolData(
+		params.event,
+		params.pool
+	);
+	return { props: { serverSideEventData, serverSidePoolData } };
 }

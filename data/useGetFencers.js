@@ -3,12 +3,10 @@ import { db } from "../firebase/firebase.js";
 import { doc, onSnapshot, collection } from "firebase/firestore";
 import Fencer from "./Fencer.js";
 
-const useGetFencers = (routerIsReady, eventId) => {
-	const [fencers, setFencers] = useState(undefined);
+const useGetFencers = (eventId) => {
+	const [fencers, setFencers] = useState([]);
 
 	useEffect(async () => {
-		if (!routerIsReady) return;
-
 		const eventRef = doc(db, "Events", eventId);
 		const fencersRef = collection(eventRef, "fencers");
 
@@ -24,7 +22,7 @@ const useGetFencers = (routerIsReady, eventId) => {
         return () => getFencersData()
 	}, [eventId]);
 
-	return { fencers: fencers };
+	return fencers;
 };
 
 export default useGetFencers;

@@ -7,13 +7,10 @@ import Head from "next/head";
 
 const Starter = ({eventData}) => {
 	const router = useRouter();
-	const { event } = router.query;
-	const routerIsReady = router.isReady;
+	//const { event } = router.query;
+	//const routerIsReady = router.isReady;
 
-	const { fencers } = useGetFencers(
-		routerIsReady,
-		event
-	);
+	const fencers = useGetFencers(eventData.id);
 	console.log(eventData, fencers);
 
 	const dataIsLoaded = !!fencers;
