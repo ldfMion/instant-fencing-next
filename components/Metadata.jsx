@@ -38,12 +38,12 @@ function Metadata({title, url}) {
 				/>
 				<meta property="og:type" content="website" />
                 <meta property="og:url" content={url}></meta>
-                <meta property="og:image" content="/images/logo.png"></meta>
+                <meta property="og:image" content="/images/card.png"></meta>
 
                 <meta property="twitter:title" content={title}></meta>
                 <meta property="twitter:description" content={description}></meta>
-                <meta property="twitter:card" content="/images/logo.png"></meta>
-                <meta property="twitter:image" content="/images/logo.png"></meta>
+                <meta property="twitter:card" content="/images/card.png"></meta>
+                <meta property="twitter:image" content="/images/card.png"></meta>
 			</Head>
   )
 }
