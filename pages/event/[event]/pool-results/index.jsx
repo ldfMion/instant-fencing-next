@@ -1,11 +1,9 @@
-import React, { useState, useEffect } from "react";
-import { doc, onSnapshot, collection } from "firebase/firestore";
-import { useRouter } from "next/router";
-import { db } from "../../../../firebase/firebase.js";
+import React from "react";
 import NavBar from "../../../../components/NavBar";
 import styles from "../../../../styles/PoolResults.module.css";
 import Head from "next/head";
 
+import Metadata from "../../../../components/Metadata.jsx";
 import getServerSideEventData from "../../../../data/getServerSideEventData.js";
 import useGetFencers from "../../../../data/useGetFencers.js";
 import useGetBouts from "../../../../data/useGetBouts.js";
@@ -24,25 +22,7 @@ const PoolResults = ({ serverSideEventData }) => {
 
 	return (
 		<>
-			<Head>
-				<title>{serverSideEventData.name}: pool results</title>
-				<meta
-					name="description"
-					content="Automate the creation of fencing competitions during practice."
-				/>
-				<meta
-					name="viewport"
-					content="initial-scale=1.0, width=device-width"
-				/>
-				<meta name="robots" content="index, follow" />
-				<meta charset="UTF-8" />
-				<meta property="og:title" content="Instant Fencing Beta Test" />
-				<meta
-					property="og:description"
-					content="Automate the creation of fencing competitions during practice."
-				/>
-				<meta property="og:type" content="website" />
-			</Head>
+			<Metadata title={`${serverSideEventData.name}: pool results`}/>
 			<NavBar
 				tabs={true}
 				eventName={serverSideEventData.name}

@@ -1,11 +1,14 @@
-import { query, where, onSnapshot, collection } from "firebase/firestore";
+import { query, where, onSnapshot, collection, doc } from "firebase/firestore";
+import { db } from "../firebase/firebase.js";
+
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import styles from "../styles/PoolPreview.module.css";
 
-export function PoolPreview({ poolData, eventRef, eventId }) {
+export function PoolPreview({ poolData, eventId }) {
 	//for the link in the pool
 	const baseURL = `/event/${eventId}/pools`;
+    const eventRef = doc(db, "Events", eventId);
 
 	const [fencers, setFencers] = useState();
 	const [bouts, setBouts] = useState();
