@@ -24,25 +24,7 @@ const PoolResults = ({ serverSideEventData }) => {
 
 	return (
 		<>
-			<Head>
-				<title>{serverSideEventData.name}: pool results</title>
-				<meta
-					name="description"
-					content="Automate the creation of fencing competitions during practice."
-				/>
-				<meta
-					name="viewport"
-					content="initial-scale=1.0, width=device-width"
-				/>
-				<meta name="robots" content="index, follow" />
-				<meta charset="UTF-8" />
-				<meta property="og:title" content="Instant Fencing Beta Test" />
-				<meta
-					property="og:description"
-					content="Automate the creation of fencing competitions during practice."
-				/>
-				<meta property="og:type" content="website" />
-			</Head>
+			<Metadata title={`${serverSideEventData.name}: pool results`}/>
 			<NavBar
 				tabs={true}
 				eventName={serverSideEventData.name}

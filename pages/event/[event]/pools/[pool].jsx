@@ -1,21 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Head from "next/head";
 
-import { useRouter } from "next/router";
-
-import { db } from "../../../../firebase/firebase.js";
 //import { useAuthState } from 'react-firebase-hooks/auth';
 
-import {
-	doc,
-	collection,
-	onSnapshot,
-	setDoc,
-	getDoc,
-	query,
-	where,
-} from "firebase/firestore";
-
+import Metadata from "../../../../components/Metadata"
 import { PoolTable } from "../../../../components/PoolTable.jsx";
 import { PoolBouts } from "../../../../components/PoolBouts.jsx";
 import NavBar from "../../../../components/NavBar";
@@ -39,27 +27,7 @@ export default function Pool({ serverSideEventData, serverSidePoolData }) {
 
 	return (
 		<>
-			<Head>
-				<title>
-					{serverSideEventData.name}: Pool {serverSidePoolData.poolId}
-				</title>
-				<meta
-					name="description"
-					content="Automate the creation of fencing competitions during practice."
-				/>
-				<meta
-					name="viewport"
-					content="initial-scale=1.0, width=device-width"
-				/>
-				<meta name="robots" content="index, follow" />
-				<meta charset="UTF-8" />
-				<meta property="og:title" content="Instant Fencing Beta Test" />
-				<meta
-					property="og:description"
-					content="Automate the creation of fencing competitions during practice."
-				/>
-				<meta property="og:type" content="website" />
-			</Head>
+            <Metadata title={`${serverSideEventData.name}: Pool ${serverSidePoolData.poolId}`}/>
 			<NavBar
 				currentTab={"pools"}
 				eventName={serverSideEventData.name}

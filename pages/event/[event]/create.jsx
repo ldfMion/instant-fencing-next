@@ -20,8 +20,6 @@ import useGetEventData from "../../../data/useGetEventData";
 
 const Create = ({ serverSideEventData }) => {
 	const router = useRouter();
-	console.log("from server side", serverSideEventData);
-	console.log("create page");
 
 	const [user] = useAuthState(auth);
 
@@ -34,20 +32,7 @@ const Create = ({ serverSideEventData }) => {
 	const description = `You are invited to participate in the ${serverSideEventData.name} fencing event with Instant Fencing.`;
 
 	const metaTags = (
-		<Head>
-			<title>{serverSideEventData.name}</title>
-			<meta name="description" content={description} />
-			<meta
-				name="viewport"
-				content="initial-scale=1.0, width=device-width"
-			/>
-			<meta name="robots" content="index, follow" />
-			<meta charset="UTF-8" />
-
-			<meta property="og:title" content={serverSideEventData.name} />
-			<meta property="og:description" content={description} />
-			<meta property="og:type" content="website" />
-		</Head>
+		<Metadata title={serverSideEventData.name}/>
 	);
 
 	if (!eventData) {

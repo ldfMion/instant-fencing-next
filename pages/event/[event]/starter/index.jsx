@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import NavBar from "../../../../components/NavBar";
 import useGetFencers from "../../../../data/useGetFencers"
 import getServerSideEventData from "../../../../data/getServerSideEventData"
-import Head from "next/head";
+import Metadata from "../../../../components/Metadata";
 
 const Starter = ({eventData}) => {
 	const router = useRouter();
@@ -17,25 +17,7 @@ const Starter = ({eventData}) => {
 
 	return (
 		<>
-			<Head>
-				<title>{eventData.name}: starter</title>
-				<meta
-					name="description"
-					content="Automate the creation of fencing competitions during practice."
-				/>
-				<meta
-					name="viewport"
-					content="initial-scale=1.0, width=device-width"
-				/>
-				<meta name="robots" content="index, follow" />
-				<meta charset="UTF-8" />
-				<meta property="og:title" content="Instant Fencing Beta Test" />
-				<meta
-					property="og:description"
-					content="Automate the creation of fencing competitions during practice."
-				/>
-				<meta property="og:type" content="website" />
-			</Head>
+			<Metadata title={`${eventData.name}: starter`}/>
 			<NavBar
 				tabs={true}
 				eventName={eventData.name}

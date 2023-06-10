@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import Head from "next/head";
 
+import Metadata from "../../../../components/Metadata";
 import NavBar from "../../../../components/NavBar";
 import {PoolPreview} from '../../../../components/PoolPreview'
 
@@ -16,16 +17,7 @@ export default function Pools({serverSideEventData}) {
     console.log(pools)
     return (
         <>
-            <Head>
-                <title>{serverSideEventData.name}: pools - Instant Fencing</title>
-                <meta name="description" content="Automate the creation of fencing competitions during practice."/>
-                <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-                <meta name="robots" content="index, follow"/>
-                <meta charset="UTF-8"/>
-                <meta property='og:title' content={`${serverSideEventData.name}: pools - Instant Fencing`}/>
-                <meta property="og:description" content="Automate the creation of fencing competitions during practice." />
-                <meta property="og:type" content="website" />
-            </Head>
+            <Metadata title={`${serverSideEventData.name}: pools - Instant Fencing`}/>
             <NavBar
                 tabs={true}
                 eventId={serverSideEventData.id}
