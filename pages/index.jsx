@@ -1,4 +1,3 @@
-import Head from "next/head";
 //import styles from "../styles/Home.module.css";
 
 import NavBar from "../components/NavBar";
@@ -8,19 +7,7 @@ export default function Home() {
     
 	return (
 		<>
-            <Head>
-                <title>Instant Fencing Beta Test</title>
-                <meta name="description" content="Automate the creation of fencing competitions during practice."/>
-                <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-                <meta name="robots" content="index, follow"/>
-                <meta charset="UTF-8"/>
-
-                <meta property='og:title' content="Instant Fencing Beta Test"/>
-                <meta property="og:description" content="Automate the creation of fencing competitions during practice." />
-                <meta property="og:type" content="website" />
-
-                <meta name="google-site-verification" content="PFC7USVldoWZ7brkdOMgk9qZlZ1LtVx9Jdx9I-bUueg" />
-            </Head>
+            <Metadata title="Instant Fencing"/>
 			<NavBar />
 			<div className="mainContent">
 				<section className="column">
