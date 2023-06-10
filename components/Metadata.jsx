@@ -1,7 +1,8 @@
 import React from 'react'
 import Head from "next/head"
 
-function Metadata({title}) {
+function Metadata({title, url}) {
+    const description = "Automate the creation of fencing competitions during practice."
   return (
     <Head>
 				<title>
@@ -22,7 +23,7 @@ function Metadata({title}) {
                 />
 				<meta
 					name="description"
-					content="Automate the creation of fencing competitions during practice."
+					content={description}
 				/>
 				<meta
 					name="viewport"
@@ -33,9 +34,16 @@ function Metadata({title}) {
 				<meta property="og:title" content="Instant Fencing Beta Test" />
 				<meta
 					property="og:description"
-					content="Automate the creation of fencing competitions during practice."
+					content={description}
 				/>
 				<meta property="og:type" content="website" />
+                <meta property="og:url" content={url}></meta>
+                <meta property="og:image" content="/images/logo.png"></meta>
+
+                <meta property="twitter:title" content={title}></meta>
+                <meta property="twitter:description" content={description}></meta>
+                <meta property="twitter:card" content="/images/logo.png"></meta>
+                <meta property="twitter:image" content="/images/logo.png"></meta>
 			</Head>
   )
 }
