@@ -15,7 +15,7 @@ export default function Pools({serverSideEventData}) {
     console.log(pools)
     return (
         <>
-            <Metadata title={`${serverSideEventData.name}: pools - Instant Fencing`}/>
+            <Metadata title={`${serverSideEventData.name}: pools - Instant Fencing`} url={`instant-fencing.vercel.app/event${serverSideEventData.id}/pools`}/>
             <NavBar
                 tabs={true}
                 eventId={serverSideEventData.id}

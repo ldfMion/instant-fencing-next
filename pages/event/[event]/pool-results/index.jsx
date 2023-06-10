@@ -21,7 +21,7 @@ const PoolResults = ({ serverSideEventData }) => {
 
 	return (
 		<>
-			<Metadata title={`${serverSideEventData.name}: pool results`}/>
+			<Metadata title={`${serverSideEventData.name}: pool results`} url={`instant-fencing.vercel/event/${serverSideEventData.id}/pool-results`}/>
 			<NavBar
 				tabs={true}
 				eventName={serverSideEventData.name}
