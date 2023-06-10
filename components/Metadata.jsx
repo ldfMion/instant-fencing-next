@@ -31,7 +31,7 @@ function Metadata({title, url}) {
 				/>
 				<meta name="robots" content="index, follow" />
 				<meta charset="UTF-8" />
-				<meta property="og:title" content="Instant Fencing Beta Test" />
+				<meta property="og:title" content={title} />
 				<meta
 					property="og:description"
 					content={description}
