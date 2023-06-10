@@ -44,7 +44,6 @@ function Metadata({title, url}) {
                 <meta property="twitter:description" content={description}></meta>
                 <meta property="twitter:card" content="summary"></meta>
                 <meta property="twitter:image" content="/images/card.png"></meta>
-                <meta property="twitter:image:src" content="/images/card.png"></meta>
 
 			</Head>
   )
