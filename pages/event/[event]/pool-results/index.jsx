@@ -1,7 +1,6 @@
 import React from "react";
 import NavBar from "../../../../components/NavBar";
 import styles from "../../../../styles/PoolResults.module.css";
-import Head from "next/head";
 
 import Metadata from "../../../../components/Metadata.jsx";
 import getServerSideEventData from "../../../../data/getServerSideEventData.js";
