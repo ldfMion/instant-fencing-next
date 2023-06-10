@@ -1,5 +1,6 @@
 //import styles from "../styles/Home.module.css";
 
+import Metadata from "../components/Metadata";
 import NavBar from "../components/NavBar";
 import ActionCard from '../components/ActionCard'
 
