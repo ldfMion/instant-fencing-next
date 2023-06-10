@@ -1,11 +1,9 @@
-import React, { useState, useEffect } from "react";
-import { doc, onSnapshot, collection } from "firebase/firestore";
-import { useRouter } from "next/router";
-import { db } from "../../../../firebase/firebase.js";
+import React from "react";
 import NavBar from "../../../../components/NavBar";
 import styles from "../../../../styles/PoolResults.module.css";
 import Head from "next/head";
 
+import Metadata from "../../../../components/Metadata.jsx";
 import getServerSideEventData from "../../../../data/getServerSideEventData.js";
 import useGetFencers from "../../../../data/useGetFencers.js";
 import useGetBouts from "../../../../data/useGetBouts.js";

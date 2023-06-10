@@ -1,6 +1,4 @@
-import React, { useState, useEffect } from "react";
-import { useRouter } from "next/router";
-import Head from "next/head";
+import React from "react";
 
 import Metadata from "../../../../components/Metadata";
 import NavBar from "../../../../components/NavBar";
@@ -29,7 +27,7 @@ export default function Pools({serverSideEventData}) {
                 <ol className="column">
                     {pools.map(pool => {
                         console.log('is on map')
-                        return <PoolPreview poolData={pool} eventRef={eventRef} key={pool.id} eventId={serverSideEventData.id}/>
+                        return <PoolPreview poolData={pool} key={pool.id} eventId={serverSideEventData.id}/>
                     })}
                 </ol>
             </div>

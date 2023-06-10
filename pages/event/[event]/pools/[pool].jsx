@@ -1,5 +1,4 @@
 import React from "react";
-import Head from "next/head";
 
 //import { useAuthState } from 'react-firebase-hooks/auth';
 

@@ -9,6 +9,7 @@ import { doc, onSnapshot, getDoc } from "firebase/firestore";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth, db } from "../../../firebase/firebase.js";
 
+import Metadata from "../../../components/Metadata.jsx";
 import NavBar from "../../../components/NavBar";
 import { WaitingRoom } from "../../../components/WaitingRoom.jsx";
 import { SelectSortType } from "../../../components/SelectSortType.jsx";
