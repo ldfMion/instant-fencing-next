@@ -8,16 +8,14 @@ import {
 	doc,
 } from "firebase/firestore";
 
-import boutOrder from "../resources/boutOrder";
+import boutOrder from "../resources/boutOrder.js";
 
 export function SetPools(props) {
-	console.log(props.eventRef);
 	const fencersRef = collection(props.eventRef, "fencers");
 	const boutsRef = collection(props.eventRef, "bouts");
 	const [pools, setPools] = useState([]);
 	useEffect(() => {
 		// get the fencers from the database
-		console.log("is on the first use effect");
 		const getFencers = onSnapshot(fencersRef, snapshot => {
 			let fencers = [];
 			snapshot.forEach(doc => {
@@ -27,21 +25,16 @@ export function SetPools(props) {
 			if (fencers[0]?.startingRank == undefined) {
 				fencers = shuffle(fencers);
 			} else {
-				console.log("is on else");
 				fencers.sort(
 					(fencerA, fencerB) =>
 						fencerA.startingRank - fencerB.startingRank
 				);
 			}
-			console.log(fencers);
 			//setFencers(fencers)
 			// setting the pools
-			console.log(fencers);
 			const numPools = defineNumPools(fencers.length);
-			console.log("numPools", numPools);
 
 			const maxNumFencersInPool = Math.ceil(fencers.length / numPools);
-			console.log("maxNumFencersInPool", maxNumFencersInPool);
 			const rows = [];
 			for (let i = 0; i < maxNumFencersInPool; i++) {
 				const row = [];
@@ -65,7 +58,6 @@ export function SetPools(props) {
 					row.reverse();
 				}
 			});
-			console.log(rows);
 			rows[rows.length - 1] = rows[rows.length - 1].filter(
 				row => row !== undefined
 			);
@@ -84,20 +76,17 @@ export function SetPools(props) {
 					pool.pop();
 				}
 			});
-			console.log(pools);
 			setPools(pools);
 		});
 	}, []);
-
+ 
 	const handleSubmit = async e => {
 		e.preventDefault();
-		console.log("is submitting");
+        
 		pools.forEach(async (pool, poolIndex) => {
 			try {
 				// pool has at least 2 fencers, so index 0 has bouts for 2 fencers
 				boutOrder[pool.length - 2].forEach((bout, boutIndex) => {
-					console.log(pool);
-					console.log(bout);
 					setDoc(doc(boutsRef), {
 						fencerAId: pool[bout[0] - 1].id,
 						fencerBId: pool[bout[1] - 1].id,
@@ -121,7 +110,6 @@ export function SetPools(props) {
 				}),
 			});
 			pool.forEach(fencer => {
-				console.log([poolRef.id]);
 				setDoc(
 					doc(fencersRef, fencer.id),
 					{ pool: poolRef.id },
@@ -138,6 +126,8 @@ export function SetPools(props) {
 			{ merge: true }
 		);
 	};
+
+    const isLoaded = pools.length > 0
 
 	return (
 		<>
@@ -169,7 +159,7 @@ export function SetPools(props) {
 					})}
 				</ol>
 			</div>
-            {props.user && 
+            {(props.user && isLoaded) && 
                 <form onSubmit={handleSubmit} className="button-container">
                     <button
                         className="button-primary"
@@ -199,7 +189,6 @@ function defineNumPools(numParticipants) {
 		numPools = 1;
 	}
 
-	console.log("numPools", numPools);
 	return numPools;
 }
 
