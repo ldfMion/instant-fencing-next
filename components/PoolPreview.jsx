@@ -5,14 +5,19 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import styles from "../styles/PoolPreview.module.css";
 
+import useGetPoolFencers from "../data/useGetPoolFencers"
+import useGetPoolBouts from "../data/useGetPoolBouts"
+
 export function PoolPreview({ poolData, eventId }) {
 	//for the link in the pool
 	const baseURL = `/event/${eventId}/pools`;
+    /*
     const eventRef = doc(db, "Events", eventId);
 
 	const [fencers, setFencers] = useState();
 	const [bouts, setBouts] = useState();
 
+    
 	useEffect(() => {
 		const filteredFencersRef = query(
 			collection(eventRef, "fencers"),
@@ -48,9 +53,16 @@ export function PoolPreview({ poolData, eventId }) {
 		});
 	}, []);
 
+
 	if (!fencers || !bouts) {
 		return null;
 	}
+    */
+
+    const fencers = useGetPoolFencers(eventId, poolData.id);
+    console.log(fencers)
+    const bouts = useGetPoolBouts(eventId, poolData.poolId);
+    console.log(bouts)
 
 	return (
       <Link href={`${baseURL}/${poolData.id}`}>

@@ -3,7 +3,7 @@ import { db } from "../firebase/firebase.js";
 import { doc, onSnapshot, collection, query, where, setDoc } from "firebase/firestore";
 
 const useGetBouts = (eventId, poolId) => {
-	const [bouts, setBouts] = useState(undefined);
+	const [bouts, setBouts] = useState([]);
 
 	useEffect(async () => {
 		const eventRef = doc(db, "Events", eventId);
