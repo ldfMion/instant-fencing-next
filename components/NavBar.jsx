@@ -7,7 +7,7 @@ const NavBar = ({eventName, eventId, currentTab}) => {
     const [open, setOpen] = useState(false)
     
     const tabs = [
-         "starter",
+         "participants",
         'pools',
         'pool-results',
         //'direct-elimination',

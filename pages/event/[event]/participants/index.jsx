@@ -5,7 +5,7 @@ import useGetFencers from "../../../../data/useGetFencers"
 import getServerSideEventData from "../../../../data/getServerSideEventData"
 import Metadata from "../../../../components/Metadata";
 
-const Starter = ({eventData}) => {
+const Participants = ({eventData}) => {
 	const router = useRouter();
 	//const { event } = router.query;
 	//const routerIsReady = router.isReady;
@@ -17,16 +17,16 @@ const Starter = ({eventData}) => {
 
 	return (
 		<>
-			<Metadata title={`${eventData.name}: starter`}/>
+			<Metadata title={`${eventData.name}: participants`}/>
 			<NavBar
 				tabs={true}
 				eventName={eventData.name}
 				eventId={eventData.id}
-				currentTab="starter"
+				currentTab="participants"
 			/>
 			{dataIsLoaded && (
 				<div className="mainContent">
-					<h3>Starter</h3>
+					<h3>Participants</h3>
 					<ol className="card column">
 						{fencers
 							.sort(
@@ -46,7 +46,7 @@ const Starter = ({eventData}) => {
 	);
 };
 
-export default Starter;
+export default Participants;
 
 export async function getServerSideProps({params}) {
     // Fetch data from external API
