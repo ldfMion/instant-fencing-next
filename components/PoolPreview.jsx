@@ -65,7 +65,7 @@ export function PoolPreview({ poolData, eventId }) {
                           {bouts.map((bout) => {
                               let boutStatus;
                               if (
-                                  bout.fencerAUserName === fencer.userName
+                                  bout.fencerAId === fencer.id
                               ) {
                                   if(bout.fencerAScore > bout.fencerBScore){
                                       boutStatus = ('victory');
@@ -76,7 +76,7 @@ export function PoolPreview({ poolData, eventId }) {
                                   }
                                   return <div className={`${styles.circle} ${boutStatus === 'defeat' && 'fail'} ${boutStatus === 'victory' &&  'success'}`}></div>
                               } else if (
-                                  bout.fencerBUserName === fencer.userName
+                                  bout.fencerBId === fencer.id
                               ) {
                                   if(bout.fencerAScore > bout.fencerBScore){
                                       boutStatus = ('defeat');
