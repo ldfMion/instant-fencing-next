@@ -19,6 +19,7 @@ export const BoutSide = ({
 			<p className="fill-container">{fencer.userName}</p>
             <input
                 type="number"
+                pattern="[0-9]*"
                 className={styles.scoreInput}
                 value={fencerScore}
                 max={5}
