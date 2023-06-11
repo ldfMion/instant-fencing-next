@@ -18,7 +18,7 @@ const useGetPools = (eventId) => {
             });
             setPools(pools);
         });
-        return () => getFencersData()
+        return getPools
 	}, [eventId]);
 
 	return pools;
