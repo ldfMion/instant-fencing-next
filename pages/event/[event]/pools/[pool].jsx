@@ -2,31 +2,45 @@ import React from "react";
 
 //import { useAuthState } from 'react-firebase-hooks/auth';
 
-import Metadata from "../../../../components/Metadata"
+import Metadata from "../../../../components/Metadata";
 import { PoolTable } from "../../../../components/PoolTable.jsx";
 import { PoolBouts } from "../../../../components/PoolBouts.jsx";
 import NavBar from "../../../../components/NavBar";
 
 import getServerSideEventData from "../../../../data/getServerSideEventData.js";
 import getServerSidePoolData from "../../../../data/getServerSidePoolData.js";
-import useGetPoolBouts from "../../../../data/useGetPoolBouts.js"
-import useGetPoolFencers from "../../../../data/useGetPoolFencers.js"
+import useGetPoolBouts from "../../../../data/useGetPoolBouts.js";
+import useGetPoolFencers from "../../../../data/useGetPoolFencers.js";
+
+import { auth } from "../../../../firebase/firebase.js";
+import { useAuthState } from "react-firebase-hooks/auth";
+import ActionCard from "../../../../components/ActionCard";
 
 export default function Pool({ serverSideEventData, serverSidePoolData }) {
-
-    const fencers = useGetPoolFencers(serverSideEventData.id, serverSidePoolData.id);
-    console.log(fencers)
-    const bouts = useGetPoolBouts(serverSideEventData.id, serverSidePoolData.poolId);
-    console.log(bouts)
+	const fencers = useGetPoolFencers(
+		serverSideEventData.id,
+		serverSidePoolData.id
+	);
+	console.log(fencers);
+	const bouts = useGetPoolBouts(
+		serverSideEventData.id,
+		serverSidePoolData.poolId
+	);
+	console.log(bouts);
 
 	const isLoaded = fencers && bouts;
+
+	const [user] = useAuthState(auth);
 
 	// pool table and bouts are separeted into their own pages
 	// data is fetched only once (on [pool].js), as table and bouts use the same data
 
 	return (
 		<>
-            <Metadata title={`${serverSideEventData.name}: Pool ${serverSidePoolData.poolId} - Instant Fencing`} url={`instant-fencing.vercel.app/event/${serverSideEventData.id}/pools/${serverSidePoolData.id}`}/>
+			<Metadata
+				title={`${serverSideEventData.name}: Pool ${serverSidePoolData.poolId} - Instant Fencing`}
+				url={`instant-fencing.vercel.app/event/${serverSideEventData.id}/pools/${serverSidePoolData.id}`}
+			/>
 			<NavBar
 				currentTab={"pools"}
 				eventName={serverSideEventData.name}
@@ -34,19 +48,45 @@ export default function Pool({ serverSideEventData, serverSidePoolData }) {
 			/>
 			<div className="mainContent">
 				<h3> Pool {serverSidePoolData.poolId}</h3>
+				
 				{isLoaded && (
 					<>
 						<PoolTable fencers={fencers} bouts={bouts} />
-						<PoolBouts fencers={fencers} bouts={bouts} />
+                        {!user && (
+                            <ActionCard
+                                text="Log in to fill out results"
+                                href="../../../home"
+                                buttonText={"Log in or create an account"}
+                                buttonType="primary"
+                                index="!"
+                            />
+				        )}
+						<PoolBouts
+							fencers={fencers}
+							bouts={bouts}
+							user={user}
+						/>
 					</>
 				)}
-                <div className="card column">
-                    <p><span className="bold">V</span>: Victories.</p>
-                    <p><span className="bold">TS</span>: Touches scored.</p>
-                    <p><span className="bold">TR</span>: Touches received.</p>
-                    <p><span className="bold">V/M</span>: Number of victories divided by the number of matches.</p>
-                    <p><span className="bold">Ind</span>: Touches scored minus touches received.</p>
-                </div>
+				<div className="card column">
+					<p>
+						<span className="bold">V</span>: Victories.
+					</p>
+					<p>
+						<span className="bold">TS</span>: Touches scored.
+					</p>
+					<p>
+						<span className="bold">TR</span>: Touches received.
+					</p>
+					<p>
+						<span className="bold">V/M</span>: Number of victories
+						divided by the number of matches.
+					</p>
+					<p>
+						<span className="bold">Ind</span>: Touches scored minus
+						touches received.
+					</p>
+				</div>
 			</div>
 		</>
 	);
