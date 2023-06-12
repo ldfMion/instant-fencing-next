@@ -1,4 +1,5 @@
 function extractPoolResultData(fencers, bouts) {
+    console.log("is on extract pool data")
 
     const fencersMap = fencers.reduce((map, fencer) => map.set(fencer.id, fencer), new Map())
     

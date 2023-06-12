@@ -30,6 +30,11 @@ export default function Pools({serverSideEventData}) {
                         return <PoolPreview poolData={pool} key={pool.id} eventId={serverSideEventData.id}/>
                     })}
                 </ol>
+                <div className="card column">
+                    <p><span className="success-text bold">V</span>: victories</p>
+                    <p><span className="fail-text bold">D</span>: defeats</p>
+                    <p><span className="bold">M</span>: missing bouts</p>
+                </div>
             </div>
         </>
     )

@@ -10,3 +10,8 @@
     flex-direction: row;
     gap: -0.5rem;
 }
+
+.rowNumber {
+    margin-right: 0.5rem;
+    font-size: 0.8rem;
+}
