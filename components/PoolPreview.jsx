@@ -126,8 +126,6 @@ export function PoolPreview({ poolData, eventId }) {
 	);
 }
 
-const TableCell = ({children}) => <td >{children}</td>
-
 /*
 
               <ol className="card">
