@@ -11,6 +11,7 @@ import {
 	setDoc,
 	doc,
 } from "firebase/firestore";
+import ParticipantCard from "../../../../components/ParticipantCard";
 
 const Participants = ({eventData}) => {
 	const router = useRouter();
@@ -68,8 +69,7 @@ const Participants = ({eventData}) => {
 							)
 							.map((fencer, index) => (
 								<li key={index} className="participant-in-list">
-									<p>{index + 1}</p>
-									<p className="bold left-align">{fencer.userName}</p>
+                                    <ParticipantCard fencerUserName={fencer.userName} number={index + 1} />
                                     {(!userIsJoined && !fencer.isJoined) && <button className='button button-secondary' onClick={() => joinAs(fencer)}>Join as</button>}
 								</li>
 							))}

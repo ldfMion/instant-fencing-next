@@ -288,13 +288,13 @@ input[type=number]{
   border-width: 0.5px;
   padding: 10px 0 10px 0;
   align-items: center;
-  gap: 1rem;
+  /*gap: 1rem;*/
   justify-content: space-between;
 }
 
 .participant-card {
     display: flex;
-    border-style: none none solid none; 
+    border-style: none; 
     border-color: var(--light);
     border-width: 0.5px;
     /*padding: 10px 0 10px 0;*/

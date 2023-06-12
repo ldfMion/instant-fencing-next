@@ -40,6 +40,13 @@ export default function Pool({ serverSideEventData, serverSidePoolData }) {
 						<PoolBouts fencers={fencers} bouts={bouts} />
 					</>
 				)}
+                <div className="card column">
+                    <p><span className="bold">V</span>: Victories.</p>
+                    <p><span className="bold">TS</span>: Touches scored.</p>
+                    <p><span className="bold">TR</span>: Touches received.</p>
+                    <p><span className="bold">V/M</span>: Number of victories divided by the number of matches.</p>
+                    <p><span className="bold">Ind</span>: Touches scored minus touches received.</p>
+                </div>
 			</div>
 		</>
 	);
