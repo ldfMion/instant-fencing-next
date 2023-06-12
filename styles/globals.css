@@ -73,6 +73,11 @@ th {
     padding: 16px;
 }
 
+.row-number {
+    margin-right: 0.5rem;
+    font-size: 0.8rem;
+}
+
 .bold{
   font-weight: 700;
 }
@@ -292,7 +297,7 @@ input[type=number]{
     border-style: none none solid none; 
     border-color: var(--light);
     border-width: 0.5px;
-    padding: 10px 0 10px 0;
+    /*padding: 10px 0 10px 0;*/
     align-items: center;
     gap: 1rem;
     justify-content: flex-start;

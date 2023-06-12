@@ -3,7 +3,7 @@ import { db } from "../firebase/firebase.js";
 import { doc, onSnapshot, collection } from "firebase/firestore";
 
 const useGetBouts = (eventId) => {
-	const [bouts, setBouts] = useState(undefined);
+	const [bouts, setBouts] = useState([]);
 
 	useEffect(async () => {
 		const eventRef = doc(db, "Events", eventId);
@@ -18,7 +18,7 @@ const useGetBouts = (eventId) => {
 			});
 			setBouts(boutsData);
 		});
-        return () => getFencersData()
+        return getBoutsData
 	}, [eventId]);
 	return bouts;
 };

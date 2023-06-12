@@ -7,6 +7,7 @@ import useGetPoolBouts from "../../../../data/useGetPoolBouts.js";
 import extractPoolResultData from "../../../../data/extractPoolData.js";
 
 import PoolResultFencer from "../../../../data/PoolResultFencer.js";
+import ParticipantCard from "../../../../components/ParticipantCard";
 
 export function PoolPreview({ poolData, eventId }) {
 	//for the link in the pool
@@ -23,7 +24,7 @@ export function PoolPreview({ poolData, eventId }) {
 
 	const { fencersWithScoreDataFromBouts, complete } = dataIsLoaded
 		? extractPoolResultData(fencers, bouts)
-		: { fencersWithScoreDataFromBouts: undefined, complete: undefined };
+		: { fencersWithScoreDataFromBouts: [], complete: false };
 	console.log(fencersWithScoreDataFromBouts);
 
 	return (
@@ -50,14 +51,8 @@ export function PoolPreview({ poolData, eventId }) {
 							return (
 								<tr  key={fencer.id}>
 									<td
-                                        className={`participant-card`}
 									>
-										<p className={styles.rowNumber}>
-											{index + 1}
-										</p>
-										<p className="bold left-align">
-											{fencer.userName}
-										</p>
+										<ParticipantCard fencerUserName={fencer.userName} number={index + 1}/>
 									</td>
                                     <td className="success-text">{fencer.victories}</td>
                                     <td className="fail-text">{fencer.defeats}</td>

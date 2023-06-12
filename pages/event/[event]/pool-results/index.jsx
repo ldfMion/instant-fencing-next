@@ -7,12 +7,14 @@ import getServerSideEventData from "../../../../data/getServerSideEventData.js";
 import useGetFencers from "../../../../data/useGetFencers.js";
 import useGetBouts from "../../../../data/useGetBouts.js";
 
-import PoolResultFencer from "../../../../data/PoolResultFencer.js"
+import PoolResultFencer from "../../../../data/PoolResultFencer.js";
 import extractPoolResultData from "../../../../data/extractPoolData";
+import ParticipantCard from "../../../../components/ParticipantCard";
 
 const PoolResults = ({ serverSideEventData }) => {
-
-	const fencers = useGetFencers(serverSideEventData.id).map(fencer => new PoolResultFencer(fencer));
+	const fencers = useGetFencers(serverSideEventData.id).map(
+		fencer => new PoolResultFencer(fencer)
+	);
 	const bouts = useGetBouts(serverSideEventData.id);
 
 	const dataIsLoaded = !!fencers && !!bouts;
@@ -23,7 +25,10 @@ const PoolResults = ({ serverSideEventData }) => {
 
 	return (
 		<>
-			<Metadata title={`${serverSideEventData.name}: pool results`} url={`instant-fencing.vercel/event/${serverSideEventData.id}/pool-results`}/>
+			<Metadata
+				title={`${serverSideEventData.name}: pool results`}
+				url={`instant-fencing.vercel/event/${serverSideEventData.id}/pool-results`}
+			/>
 			<NavBar
 				eventName={serverSideEventData.name}
 				eventId={serverSideEventData.id}
@@ -41,49 +46,42 @@ const PoolResults = ({ serverSideEventData }) => {
 					<p>Loading</p>
 				)}
 
-				<table className={`card ${styles.table}`}>
+				<table className={`card`}>
 					<thead>
-						<tr className={styles.row}>
-							<td>
-								<p>Fencer</p>
-							</td>
-							<td className={styles.tableCell}>
-								<p className="bold">V/M</p>
-							</td>
-							<td className={styles.tableCell}>
-								<p className="bold">Ind</p>
-							</td>
+						<tr>
+							<th className="left-align">Fencer</th>
+							<th>V/M</th>
+							<th>Ind</th>
 						</tr>
 					</thead>
 					{dataIsLoaded && (
 						<tbody>
-							{fencersWithScoreDataFromBouts.map((fencer, index) => (
-								<tr className={styles.row} key={index}>
-									<td
-										className={`${styles.tableCell} ${styles.fencerCell} participant-in-list`}
-									>
-										<p className={styles.rowNumber}>
-											{index + 1}
-										</p>
-										<p className="bold left-align">
-											{fencer.userName}
-										</p>
-									</td>
-									<td
-										className={`${styles.tableCell} cell-number`}
-									>
-										<p>{fencer.victoriesOverMatches.toFixed(3)}</p>
-									</td>
-									<td
-										className={`${styles.tableCell} cell-number`}
-									>
-										<p>{fencer.index || 0}</p>
-									</td>
-								</tr>
-							))}
+							{fencersWithScoreDataFromBouts.map(
+								(fencer, index) => (
+									<tr className={styles.row} key={fencer.id}>
+										<td >
+                                            <ParticipantCard fencerUserName={fencer.userName} number={index + 1}/>
+										</td>
+										<td>
+											<p>
+												{fencer.victoriesOverMatches.toFixed(
+													3
+												)}
+											</p>
+										</td>
+										<td>
+											<p>{fencer.index || 0}</p>
+										</td>
+									</tr>
+								)
+							)}
 						</tbody>
 					)}
 				</table>
+                <div className="card column">
+                    <p><span className="bold">V/M</span>: Number of victories divided by the number of matches.</p>
+                    <p><span className="bold">Ind</span>: Touches scored minus touches received.</p>
+                </div>
 			</div>
 		</>
 	);
