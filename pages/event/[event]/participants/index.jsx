@@ -60,7 +60,7 @@ const Participants = ({eventData}) => {
 			{dataIsLoaded && (
 				<div className="mainContent">
 					<h3>Participants</h3>
-                    {(user && !userIsJoined) && <p>Click the "Join as" button to join the event as the corresponding fencer.</p>}
+                    {(user && !userIsJoined) && <p>Click the &quot;Join as&quot; button to join the event as the corresponding fencer.</p>}
 					<ol className="card column">
 						{fencers
 							.sort(
