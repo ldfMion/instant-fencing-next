@@ -1,13 +1,13 @@
 import React from "react";
 import Link from "next/link";
-import styles from "../../../../styles/PoolPreview.module.css";
+//import styles from "../../../../styles/PoolPreview.module.css";
 
-import useGetPoolFencers from "../../../../data/useGetPoolFencers.js";
-import useGetPoolBouts from "../../../../data/useGetPoolBouts.js";
-import extractPoolResultData from "../../../../data/extractPoolData.js";
+import useGetPoolFencers from "../data/useGetPoolFencers.js";
+import useGetPoolBouts from "../data/useGetPoolBouts.js";
+import extractPoolResultData from "../data/extractPoolData.js";
 
-import PoolResultFencer from "../../../../data/PoolResultFencer.js";
-import ParticipantCard from "../../../../components/ParticipantCard";
+import PoolResultFencer from "../data/PoolResultFencer.js";
+import ParticipantCard from "./ParticipantCard";
 
 export function PoolPreview({ poolData, eventId }) {
 	//for the link in the pool

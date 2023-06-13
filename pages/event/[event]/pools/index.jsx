@@ -2,7 +2,7 @@ import React from "react";
 
 import Metadata from "../../../../components/Metadata";
 import NavBar from "../../../../components/NavBar";
-import {PoolPreview} from './PoolPreview'
+import {PoolPreview} from '../../../../components/PoolPreview'
 
 import useGetPools from "../../../../data/useGetPools";
 import getServerSideEventData from "../../../../data/getServerSideEventData";
