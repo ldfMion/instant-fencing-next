@@ -9,14 +9,14 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { auth, db } from "../../../firebase/firebase.js";
 
 import Metadata from "../../../components/Metadata.jsx";
-import NavBar from "../../../components/NavBar";
+import NavBar from "../../../components/NavBar.jsx";
 import { WaitingRoom } from "../../../components/WaitingRoom.jsx";
 import { SelectSortType } from "../../../components/SelectSortType.jsx";
 import { SortByRank } from "../../../components/SortByRank.jsx";
 import { SetPools } from "../../../components/SetPools.jsx";
 
-import getServerSideEventData from "../../../data/getServerSideEventData";
-import useGetEventData from "../../../data/useGetEventData";
+import getServerSideEventData from "../../../data/getServerSideEventData.js";
+import useGetEventData from "../../../data/useGetEventData.js";
 
 const Create = ({ serverSideEventData }) => {
 	const router = useRouter();

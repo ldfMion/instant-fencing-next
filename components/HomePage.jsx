@@ -6,6 +6,7 @@ import NavBar from "./NavBar";
 import { collection, query, where, getDocs, addDoc } from "firebase/firestore";
 
 import { useRouter } from "next/router";
+import Link from "next/link"
 
 export const HomePage = props => {
 	const [events, setEvents] = useState(false);
@@ -76,7 +77,7 @@ export const HomePage = props => {
 									? event.createdAt.toDate()
 									: null;
 								return (
-									<a
+									<Link
 										href={`./event/${event.id}/create`}
 										key={index}
 									>
@@ -91,7 +92,7 @@ export const HomePage = props => {
 													: null}
 											</p>
 										</li>
-									</a>
+									</Link>
 								);
 							})
 					) : (
