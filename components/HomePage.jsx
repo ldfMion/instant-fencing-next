@@ -77,10 +77,10 @@ export const HomePage = props => {
 									? event.createdAt.toDate()
 									: null;
 								return (
-									<Link
+									<a
 										href={`./event/${event.id}/create`}
 										key={index}
-                                        prefetch={false}
+                                        //prefetch={false}
 									>
 										<li
 											key={index}
@@ -93,7 +93,7 @@ export const HomePage = props => {
 													: null}
 											</p>
 										</li>
-									</Link>
+									</a>
 								);
 							})
 					) : (
