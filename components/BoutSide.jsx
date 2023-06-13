@@ -1,21 +1,18 @@
 import React from "react";
 import styles from "../styles/BoutSide.module.css";
 
-//import {auth} from '../firebase/firebase.js'
-//import { useAuthState } from 'react-firebase-hooks/auth';
-
 export const BoutSide = ({
 	fencer,
 	fencerNumber,
 	fencerScore,
 	updateScore,
+    disabled,
+    bold
 }) => {
-
-    //const [user] = useAuthState(auth);
 
 	return (
 		<div className={styles.boutSide}>
-			<p>{fencerNumber}</p>
+			<p className={bold && "bold"} >{fencerNumber}</p>
 			<p className="fill-container">{fencer.userName}</p>
             <input
                 type="number"
@@ -29,7 +26,7 @@ export const BoutSide = ({
                     if(score > 5 || score < 0) return
                     updateScore(parseInt(score));
                 }}
-                //disabled={!user}
+                disabled={disabled}
             ></input>
 		</div>
 	);

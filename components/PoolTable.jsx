@@ -1,5 +1,6 @@
 import React from "react";
 import styles from "../styles/PoolTable.module.css";
+import ParticipantCard from "./ParticipantCard";
 
 export function PoolTable({ fencers, bouts }) {
 	return (
@@ -83,10 +84,7 @@ export function PoolTable({ fencers, bouts }) {
 												styles.tableCellBottom)  
 										}
 									>
-										<p className={styles.rowNumber}>
-											{index + 1}
-										</p>
-										<p >{fencer.userName}</p>
+										<ParticipantCard fencerUserName={fencer.userName} number={index + 1}/>
 									</th>
 									{fencers.map((fencer2, index2) => {
 										//console.log(`is on second loop with ${fencer2.userName}`);

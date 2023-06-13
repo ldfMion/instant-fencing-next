@@ -17,13 +17,11 @@ const FENCER_LIMIT = 40;
 
 export function WaitingRoom({users, eventRef, user}) {
     console.log('waiting room')
-	const [fencers, setFencers] = useState(false);
+	const [fencers, setFencers] = useState([]);
 
 	const fencersRef = collection(eventRef, "fencers");
 
 	const [logPrompt, setLogPrompt] = useState(false);
-
-	const [userIsJoined, setUserIsJoined] = useState(false);
 
 	const [copied, setCopied] = useState(false);
 
@@ -35,21 +33,19 @@ export function WaitingRoom({users, eventRef, user}) {
 				fencers.push({ ...doc.data(), id });
 			});
 			setFencers(fencers);
-			if (user) {
-				setUserIsJoined(
-					fencers.some(fencer => fencer.id === user.uid)
-				);
-			}
 		});
+        return getFencers
 	}, [])//[fencersRef, user]);
 
+    const userIsJoined = fencers.some(fencer => fencer.userId === user.uid)
+
 	const join = async () => {
-		const fencerRef = await setDoc(
-			doc(eventRef, "fencers", user.uid),
+        await addDoc(
+			fencersRef,
 			{
 				userName: user.displayName,
-				id: user.uid,
                 isJoined: true,
+                userId: user.uid
 			}
 		);
         if(!users.includes(user.uid)){
@@ -60,12 +56,13 @@ export function WaitingRoom({users, eventRef, user}) {
 	};
 
 	const leave = async () => {
-		await deleteDoc(doc(fencersRef, user.uid));
+        const userFencer = fencers.filter(fencer => fencer.userId === user.uid)[0]
+		await deleteDoc(doc(fencersRef, userFencer.id));
 	};
 
-	const addFencer = async fencer => {
-		const fencerRef = await addDoc(collection(eventRef, "fencers"), {
-			userName: fencer,
+	const addFencer = async fencerUserName => {
+		const fencerRef = await addDoc(fencersRef, {
+			userName: fencerUserName,
 		});
 	};
 
@@ -73,9 +70,21 @@ export function WaitingRoom({users, eventRef, user}) {
 		await deleteDoc(doc(fencersRef, id));
 	};
 
-	const thisIsMe = async id => {
-		removeFencer(id);
-		join();
+	const joinAs = async fencerId => {
+        const fencerRef = doc(eventRef, "fencers", fencerId)
+        await setDoc(
+			fencerRef,
+			{
+				userName: user.displayName,
+				userId: user.uid,
+                isJoined: true,
+			}, {merge: true}
+		);
+        if(!users.includes(user.uid)){
+            await setDoc(eventRef, {
+                users: [...users, user.uid],
+            }, {merge: true})
+        }
 	};
 
 	const createEvent = async () => {
@@ -120,7 +129,7 @@ export function WaitingRoom({users, eventRef, user}) {
 							<li key={index} className="participant-in-list">
 								<p>{fencer.userName}</p>
 								{user &&
-									(fencer.id === user.uid ? (
+									(fencer.userId === user.uid ? (
 										<button
 											className="button button-secondary"
 											onClick={leave}
@@ -133,10 +142,10 @@ export function WaitingRoom({users, eventRef, user}) {
 												<button
 													className="button button-terciary"
 													onClick={() =>
-														thisIsMe(fencer.id)
+														joinAs(fencer.id)
 													}
 												>
-													This is me
+													Join as
 												</button>
 											)}
                                             <button

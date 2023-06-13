@@ -2,33 +2,47 @@
 
 import Metadata from "../components/Metadata";
 import NavBar from "../components/NavBar";
-import ActionCard from '../components/ActionCard'
+import ActionCard from "../components/ActionCard";
+import Image from "next/image";
 
 export default function Home() {
-    
 	return (
 		<>
-            <Metadata title="Instant Fencing" url={`instant-fencing.vercel.app`}/>
+			<Metadata
+				title="Instant Fencing"
+				url={`instant-fencing.vercel.app`}
+			/>
 			<NavBar />
 			<div className="mainContent">
 				<section className="column">
 					<h2>Welcome to the instant fencing beta!</h2>
-                    <p>Create training competitions fast without the hassle</p>
+					<p>Create training competitions fast without the hassle</p>
+					<Image
+						src="/images/card.png"
+						height="56.29"
+						width="100"
+						layout="responsive"
+					/>
+					<p className="card">
+						Quickly create a practice competition and
+						seamlessly collaborate with your teammates to
+						collectively edit the results in real-time.
+					</p>
 					<h3>How to start</h3>
-                    <ActionCard 
-                        index={1}
-                        text='Create an accound with google'
-                        href='./login'
-                        buttonText='Get started free'
-                        buttonType='primary'
-                    />
-                    <ActionCard 
-                        index={2}
-                        text='Create a new event in the home page'
-                        href='./home'
-                        buttonText='Go to home'
-                        buttonType='secondary'
-                    />
+					<ActionCard
+						index={1}
+						text="Create an accound with google"
+						href="./login"
+						buttonText="Get started free"
+						buttonType="primary"
+					/>
+					<ActionCard
+						index={2}
+						text="Create a new event in the home page"
+						href="./home"
+						buttonText="Go to home"
+						buttonType="secondary"
+					/>
 				</section>
 				<section className="column">
 					<h2>Help</h2>

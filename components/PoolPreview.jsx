@@ -1,100 +1,72 @@
-import { query, where, onSnapshot, collection, doc } from "firebase/firestore";
-import { db } from "../firebase/firebase.js";
-
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Link from "next/link";
-import styles from "../styles/PoolPreview.module.css";
+//import styles from "../../../../styles/PoolPreview.module.css";
+
+import useGetPoolFencers from "../data/useGetPoolFencers.js";
+import useGetPoolBouts from "../data/useGetPoolBouts.js";
+import extractPoolResultData from "../data/extractPoolData.js";
+
+import PoolResultFencer from "../data/PoolResultFencer.js";
+import ParticipantCard from "./ParticipantCard";
 
 export function PoolPreview({ poolData, eventId }) {
 	//for the link in the pool
 	const baseURL = `/event/${eventId}/pools`;
-    const eventRef = doc(db, "Events", eventId);
 
-	const [fencers, setFencers] = useState();
-	const [bouts, setBouts] = useState();
+	const fencers = useGetPoolFencers(eventId, poolData.id).map(
+		fencer => new PoolResultFencer(fencer)
+	);
+	console.log(fencers);
+	const bouts = useGetPoolBouts(eventId, poolData.poolId);
+	console.log(bouts);
 
-	useEffect(() => {
-		const filteredFencersRef = query(
-			collection(eventRef, "fencers"),
-			where("pool", "==", poolData.id)
-		);
-		const getFilteredFencers = onSnapshot(
-			filteredFencersRef,
-			querySnapshot => {
-				const fencers = [];
-				querySnapshot.forEach(doc => {
-					const id = doc.id;
-					fencers.push({ ...doc.data(), id });
-				});
-				fencers.sort(
-					(fencerA, fencerB) =>
-						fencerA.startingRank - fencerB.startingRank
-				);
-				console.log(fencers);
-				setFencers(fencers);
-			}
-		);
-		const filteredBoutsRef = query(
-			collection(eventRef, "bouts"),
-			where("poolNumber", "==", poolData.poolId)
-		);
-		const getBouts = onSnapshot(filteredBoutsRef, querySnapshot => {
-			const bouts = [];
-			querySnapshot.forEach(doc => {
-				bouts.push(doc.data());
-			});
-      console.log(bouts)
-			setBouts(bouts);
-		});
-	}, []);
+	const dataIsLoaded = !!fencers && !!bouts;
 
-	if (!fencers || !bouts) {
-		return null;
-	}
+	const { fencersWithScoreDataFromBouts, complete } = dataIsLoaded
+		? extractPoolResultData(fencers, bouts)
+		: { fencersWithScoreDataFromBouts: [], complete: false };
+	console.log(fencersWithScoreDataFromBouts);
 
 	return (
-      <Link href={`${baseURL}/${poolData.id}`}>
-          <a className="column">
-              <h4>Pool {poolData.poolId}</h4>
-              <ol className="card">
-                  {fencers.map((fencer, index) => (
-                      <li key={index} className="participant-in-list">
-                        <p>{index + 1}</p>
-                        <p className='fill-container'>{fencer.userName}</p>
-                        <div className={styles.boutStatusContainer}>
-                          {bouts.map((bout) => {
-                              let boutStatus;
-                              if (
-                                  bout.fencerAUserName === fencer.userName
-                              ) {
-                                  if(bout.fencerAScore > bout.fencerBScore){
-                                      boutStatus = ('victory');
-                                  } else if (bout.fencerAScore < bout.fencerBScore) {
-                                      boutStatus = ('defeat');
-                                  } else {
-                                      boutStatus = ('not-done');
-                                  }
-                                  return <div className={`${styles.circle} ${boutStatus === 'defeat' && 'fail'} ${boutStatus === 'victory' &&  'success'}`}></div>
-                              } else if (
-                                  bout.fencerBUserName === fencer.userName
-                              ) {
-                                  if(bout.fencerAScore > bout.fencerBScore){
-                                      boutStatus = ('defeat');
-                                  } else if (bout.fencerAScore < bout.fencerBScore) {
-                                      boutStatus = ('victory');
-                                  } else {
-                                      boutStatus = ('not-done');
-                                  }
-                                  return <div className={`${styles.circle} ${boutStatus === 'defeat' && 'fail'} ${boutStatus === 'victory' && 'success'}`}></div>
-                              }
-                              console.log('is making circles')
-                          })}
-                        </div>
-                      </li>
-                  ))}
-              </ol>
-              <button className="button button-secondary">Details</button>
-          </a>
-      </Link>
+		<Link href={`${baseURL}/${poolData.id}`}>
+			<a className="column">
+				<h4>Pool {poolData.poolId}</h4>
+				<table className={`card`}>
+					<thead>
+						<tr >
+							<th className="left-align">Fencer</th>
+							<th className="success-text">V
+							</th>
+							<th className="fail-text">
+								D
+							</th>
+							<th >
+								M
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+						{fencersWithScoreDataFromBouts.map((fencer, index) => {
+							console.log(fencer);
+							return (
+								<tr  key={fencer.id}>
+									<td
+									>
+										<ParticipantCard fencerUserName={fencer.userName} number={index + 1}/>
+									</td>
+                                    <td className="success-text">{fencer.victories}</td>
+                                    <td className="fail-text">{fencer.defeats}</td>
+                                    <td >{fencers.length -
+												1 -
+												fencer.victories -
+												fencer.defeats}</td>
+								</tr>
+							);
+						})}
+					</tbody>
+				</table>
+				<button className="button button-secondary">Details</button>
+			</a>
+		</Link>
 	);
 }

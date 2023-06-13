@@ -7,7 +7,7 @@ const NavBar = ({eventName, eventId, currentTab}) => {
     const [open, setOpen] = useState(false)
     
     const tabs = [
-         "starter",
+         "participants",
         'pools',
         'pool-results',
         //'direct-elimination',
@@ -36,7 +36,7 @@ const NavBar = ({eventName, eventId, currentTab}) => {
                 {currentTab &&
                     <menu className={styles.tabs}>
                         {tabs.map((tab, index) => {
-                            return <li key={index}><Link href={baseURL + tab} passHref><button className={`button button-terciary ${currentTab === tab && 'bold'}`}>{tab}</button></Link></li>
+                            return <li key={index}><Link href={baseURL + tab} passHref><button className={`button button-terciary ${currentTab === tab && 'underline'}`}>{tab}</button></Link></li>
                         })}
                     </menu>
                 } 

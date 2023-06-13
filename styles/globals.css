@@ -15,6 +15,7 @@
   --fail: #FFAB9F;
   --fail--dark: #FF3A1F;
   --success: #B2F3C1;
+  --success--dark: #34C656;
   --stantardPadding: 20px;
   --bigBorderRadius: 2rem;
   --smallBorderRadius: 1rem;
@@ -56,8 +57,33 @@ p{
     word-wrap: break-word;
 }
 
+td {
+    font-size: 16px;
+    font-family: Lato, Tahoma, sans-serif;
+    font-weight: 400;
+    color: var(--primary);
+    text-align: center;
+    vertical-align: center;
+    padding: 8px;
+}
+
+th {
+    font-size: 16px;
+    font-family: Lato, Tahoma, sans-serif;
+    padding: 16px;
+}
+
+.row-number {
+    margin-right: 0.5rem;
+    font-size: 0.8rem;
+}
+
 .bold{
-  font-weight: bold;
+  font-weight: 700;
+}
+
+.underline {
+    text-decoration: underline;
 }
 
 .wrap-anywhere{
@@ -67,6 +93,10 @@ p{
 
 .fail-text{
     color: var(--fail--dark);
+}
+
+.success-text {
+    color: var(--success--dark);
 }
 
 .mainContent{
@@ -253,14 +283,25 @@ input[type=number]{
 
 .participant-in-list{
   display: flex;
-  justify-content: flex-start;
   border-style: none none solid none; 
   border-color: var(--light);
   border-width: 0.5px;
   padding: 10px 0 10px 0;
   align-items: center;
-  gap: 1rem;
+  /*gap: 1rem;*/
   justify-content: space-between;
+}
+
+.participant-card {
+    display: flex;
+    border-style: none; 
+    border-width: 0.5px;
+    /*padding: 1rem;*/
+    align-items: center;
+    gap: 1rem;
+    justify-content: flex-start;
+    border-radius: var(--bigBorderRadius);
+    /*background-color: var(--light);*/
 }
 
 .participant-in-list > p{
@@ -313,6 +354,11 @@ a {
 .left-align{
     width: 100%;
     text-align: left;
+}
+
+.right-align{
+    width: 100%;
+    text-align: right;
 }
 
 .fail{

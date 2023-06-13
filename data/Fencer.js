@@ -3,10 +3,13 @@ class Fencer {
 	startingRank;
 	//pool;
 	userName;
-	constructor({ id, userName, startingRank }) {
+    userId;
+	constructor({ id, userName, startingRank, userId }) {
 		this.id = id;
 		this.userName = userName;
 		this.startingRank = startingRank;
+        this.userId = userId
+
 	}
 }
 

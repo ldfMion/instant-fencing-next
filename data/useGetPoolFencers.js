@@ -20,7 +20,7 @@ const useGetFencers = (eventId, poolId) => {
 			const fencers = [];
 			querySnapshot.forEach(doc => {
 				const id = doc.id;
-				fencers.push(new PoolFencer({ ...doc.data(), id, eventId: poolId}));
+				fencers.push(new PoolFencer({ ...doc.data(), id, eventId}));
 			});
 			fencers.sort(
 				(fencerA, fencerB) =>
