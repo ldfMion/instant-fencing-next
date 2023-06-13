@@ -80,6 +80,7 @@ export const HomePage = props => {
 									<Link
 										href={`./event/${event.id}/create`}
 										key={index}
+                                        prefetch={false}
 									>
 										<li
 											key={index}
