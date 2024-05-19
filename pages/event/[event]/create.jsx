@@ -32,7 +32,7 @@ const Create = ({ serverSideEventData }) => {
 	const description = `You are invited to participate in the ${serverSideEventData.name} fencing event with Instant Fencing.`;
 
 	const metaTags = (
-		<Metadata title={serverSideEventData.name} url={`instant-fencing.vercel.app/event/${serverSideEventData.id}/create`}/>
+		<Metadata title={serverSideEventData.name} url={`/event/${serverSideEventData.id}/create`}/>
 	);
 
 	if (!eventData) {

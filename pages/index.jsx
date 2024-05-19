@@ -10,7 +10,7 @@ export default function Home() {
 		<>
 			<Metadata
 				title="Instant Fencing"
-				url={`instant-fencing.vercel.app`}
+				url={"/"}
 			/>
 			<NavBar />
 			<div className="mainContent">
