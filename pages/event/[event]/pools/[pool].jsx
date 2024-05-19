@@ -39,7 +39,7 @@ export default function Pool({ serverSideEventData, serverSidePoolData }) {
 		<>
 			<Metadata
 				title={`${serverSideEventData.name}: Pool ${serverSidePoolData.poolId} - Instant Fencing`}
-				url={`instant-fencing.vercel.app/event/${serverSideEventData.id}/pools/${serverSidePoolData.id}`}
+				url={`/event/${serverSideEventData.id}/pools/${serverSidePoolData.id}`}
 			/>
 			<NavBar
 				currentTab={"pools"}
