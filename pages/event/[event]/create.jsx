@@ -22,17 +22,21 @@ const Create = ({ serverSideEventData }) => {
 	const router = useRouter();
 
 	const [user] = useAuthState(auth);
+	const [completed, setCompleted] = useState(false);
 
 	const eventRef = doc(db, "Events", serverSideEventData.id);
 
-	const eventData = useGetEventData(serverSideEventData.id)
+	const eventData = useGetEventData(serverSideEventData.id);
 
 	console.log("eventRef", eventRef);
 
 	const description = `You are invited to participate in the ${serverSideEventData.name} fencing event with Instant Fencing.`;
 
 	const metaTags = (
-		<Metadata title={serverSideEventData.name} url={`/event/${serverSideEventData.id}/create`}/>
+		<Metadata
+			title={serverSideEventData.name}
+			url={`/event/${serverSideEventData.id}/create`}
+		/>
 	);
 
 	if (!eventData) {
@@ -68,10 +72,7 @@ const Create = ({ serverSideEventData }) => {
 			</>
 		);
 	}
-	if (
-		!eventData.fencersAreSorted &&
-		eventData.sortType === "By Rank"
-	) {
+	if (!eventData.fencersAreSorted && eventData.sortType === "By Rank") {
 		return (
 			<>
 				{metaTags}
@@ -80,12 +81,16 @@ const Create = ({ serverSideEventData }) => {
 			</>
 		);
 	}
-	if (!eventData.poolsAreSet) {
+	if (!eventData.poolsAreSet && !completed) {
 		return (
 			<>
 				{metaTags}
 				<NavBar eventName={serverSideEventData.name} />
-				<SetPools eventRef={eventRef} user={user} />
+				<SetPools
+					eventRef={eventRef}
+					user={user}
+					setCompleted={setCompleted}
+				/>
 			</>
 		);
 	}

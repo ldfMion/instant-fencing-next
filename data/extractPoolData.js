@@ -1,14 +1,18 @@
 function extractPoolResultData(fencers, bouts) {
-    console.log("is on extract pool data")
+	console.log("is on extract pool data");
+	console.log(fencers);
+	console.log(bouts);
+	const fencersMap = fencers.reduce(
+		(map, fencer) => map.set(fencer.id, fencer),
+		new Map()
+	);
+	console.log(fencersMap);
 
-    const fencersMap = fencers.reduce((map, fencer) => map.set(fencer.id, fencer), new Map())
-    
 	let complete = true;
 
 	bouts.forEach(bout => {
-
-        const fencerA = fencersMap.get(bout.fencerAId);
-        const fencerB = fencersMap.get(bout.fencerBId);
+		const fencerA = fencersMap.get(bout.fencerAId);
+		const fencerB = fencersMap.get(bout.fencerBId);
 
 		fencerA.addTouchesScored(bout.fencerAScore);
 		fencerA.addTouchesReceived(bout.fencerBScore);
@@ -18,38 +22,36 @@ function extractPoolResultData(fencers, bouts) {
 		if (bout.fencerAScore > bout.fencerBScore) {
 			fencerA.incrementVictories();
 			fencerB.incrementDefeats();
-
 		} else if (bout.fencerAScore < bout.fencerBScore) {
 			fencerA.incrementDefeats();
 			fencerB.incrementVictories();
-
 		} else {
 			complete = false;
 		}
 	});
 
-	const sortedFencerArray = getSortedFencersForPoolResults(Array.from(fencersMap.values()));
+	const sortedFencerArray = getSortedFencersForPoolResults(
+		Array.from(fencersMap.values())
+	);
 
 	return {
 		fencersWithScoreDataFromBouts: sortedFencerArray,
 		complete,
 	};
-};
+}
 
 export default extractPoolResultData;
 
-function getSortedFencersForPoolResults(fencersArray){
+function getSortedFencersForPoolResults(fencersArray) {
+	const newFencers = [...fencersArray];
 
-    const newFencers = [...fencersArray]
-
-    newFencers.sort((fencerA, fencerB) => {
+	newFencers.sort((fencerA, fencerB) => {
 		if (fencerA.victoriesOverMatches === fencerB.victoriesOverMatches) {
 			return fencerB.index - fencerA.index;
 		} else {
 			return fencerB.victoriesOverMatches - fencerA.victoriesOverMatches;
 		}
 	});
-    
-    return newFencers
-    
+
+	return newFencers;
 }

@@ -14,6 +14,7 @@ export function SetPools(props) {
 	const fencersRef = collection(props.eventRef, "fencers");
 	const boutsRef = collection(props.eventRef, "bouts");
 	const [pools, setPools] = useState([]);
+	const creationLoading = useState(false);
 	useEffect(() => {
 		// get the fencers from the database
 		const getFencers = onSnapshot(fencersRef, snapshot => {
@@ -79,10 +80,8 @@ export function SetPools(props) {
 			setPools(pools);
 		});
 	}, []);
- 
-	const handleSubmit = async e => {
-		e.preventDefault();
-        
+
+	const createPools = async () => {
 		pools.forEach(async (pool, poolIndex) => {
 			try {
 				// pool has at least 2 fencers, so index 0 has bouts for 2 fencers
@@ -117,7 +116,6 @@ export function SetPools(props) {
 				);
 			});
 		});
-		//return
 		await setDoc(
 			props.eventRef,
 			{
@@ -127,13 +125,22 @@ export function SetPools(props) {
 		);
 	};
 
-    const isLoaded = pools.length > 0
+	const handleSubmit = async e => {
+		e.preventDefault();
+		createPools();
+	};
+
+	const isLoaded = pools.length > 0;
 
 	return (
 		<>
 			<div className="mainContent">
 				<h3>Pools:</h3>
-                {!props.user && <p className="fail-text">Log in to continue creating event.</p>}
+				{!props.user && (
+					<p className="fail-text">
+						Log in to continue creating event.
+					</p>
+				)}
 				<ol className="column">
 					{pools.map((pool, index) => {
 						return (
@@ -147,8 +154,12 @@ export function SetPools(props) {
 												className="participant-in-list"
 												key={index}
 											>
-												<p className="bold">{index + 1}</p>
-												<p className="left-align">{fencer.userName}</p>
+												<p className="bold">
+													{index + 1}
+												</p>
+												<p className="left-align">
+													{fencer.userName}
+												</p>
 												<p>{fencer.startingRank}</p>
 											</li>
 										);
@@ -159,16 +170,13 @@ export function SetPools(props) {
 					})}
 				</ol>
 			</div>
-            {(props.user && isLoaded) && 
-                <form onSubmit={handleSubmit} className="button-container">
-                    <button
-                        className="button-primary"
-                        type="submit"
-                    >
-                        Confirm
-                    </button>
-                </form>
-            }
+			{props.user && isLoaded && (
+				<form onSubmit={handleSubmit} className="button-container">
+					<button className="button-primary" type="submit">
+						Confirm
+					</button>
+				</form>
+			)}
 		</>
 	);
 }

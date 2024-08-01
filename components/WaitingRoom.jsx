@@ -128,6 +128,7 @@ export function WaitingRoom({ users, eventRef, user }) {
 					<p>Log in to add fencers</p>
 				)}
 				<p>Number of fencers limited to {FENCER_LIMIT}.</p>
+				<p>Number of fencers has to be at least 3.</p>
 				{fencers.length !== 0 ? (
 					<ul className="card column">
 						{fencers.map((fencer, index) => (

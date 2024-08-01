@@ -12,7 +12,7 @@ import ParticipantCard from "./ParticipantCard";
 export function PoolPreview({ poolData, eventId }) {
 	//for the link in the pool
 	const baseURL = `/event/${eventId}/pools`;
-
+	console.log("in pool preview");
 	const fencers = useGetPoolFencers(eventId, poolData.id).map(
 		fencer => new PoolResultFencer(fencer)
 	);
@@ -20,7 +20,7 @@ export function PoolPreview({ poolData, eventId }) {
 	const bouts = useGetPoolBouts(eventId, poolData.poolId);
 	console.log(bouts);
 
-	const dataIsLoaded = !!fencers && !!bouts;
+	const dataIsLoaded = fencers.length !== 0 && bouts.length !== 0;
 
 	const { fencersWithScoreDataFromBouts, complete } = dataIsLoaded
 		? extractPoolResultData(fencers, bouts)
@@ -33,33 +33,36 @@ export function PoolPreview({ poolData, eventId }) {
 				<h4>Pool {poolData.poolId}</h4>
 				<table className={`card`}>
 					<thead>
-						<tr >
+						<tr>
 							<th className="left-align">Fencer</th>
-							<th className="success-text">V
-							</th>
-							<th className="fail-text">
-								D
-							</th>
-							<th >
-								M
-							</th>
+							<th className="success-text">V</th>
+							<th className="fail-text">D</th>
+							<th>M</th>
 						</tr>
 					</thead>
 					<tbody>
 						{fencersWithScoreDataFromBouts.map((fencer, index) => {
 							console.log(fencer);
 							return (
-								<tr  key={fencer.id}>
-									<td
-									>
-										<ParticipantCard fencerUserName={fencer.userName} number={index + 1}/>
+								<tr key={fencer.id}>
+									<td>
+										<ParticipantCard
+											fencerUserName={fencer.userName}
+											number={index + 1}
+										/>
 									</td>
-                                    <td className="success-text">{fencer.victories}</td>
-                                    <td className="fail-text">{fencer.defeats}</td>
-                                    <td >{fencers.length -
-												1 -
-												fencer.victories -
-												fencer.defeats}</td>
+									<td className="success-text">
+										{fencer.victories}
+									</td>
+									<td className="fail-text">
+										{fencer.defeats}
+									</td>
+									<td>
+										{fencers.length -
+											1 -
+											fencer.victories -
+											fencer.defeats}
+									</td>
 								</tr>
 							);
 						})}

@@ -3,6 +3,15 @@ import styles from "../styles/PoolTable.module.css";
 import ParticipantCard from "./ParticipantCard";
 
 export function PoolTable({ fencers, bouts }) {
+	console.log(fencers);
+	console.log(bouts);
+	/* 	const keyFencers = {};
+	fencers.forEach(fencer => {
+		keyFencers[fencer.id] = fencer;
+	});
+	fencers = fencers.map(fencer => keyFencers[fencer.id]);
+	console.log("new");
+	console.log(fencers); */
 	return (
 		<div className={`card ${styles.poolTableScrollContainer}`}>
 			<table className={styles.poolTable}>
@@ -14,8 +23,9 @@ export function PoolTable({ fencers, bouts }) {
 								" " +
 								styles.tableCell +
 								" " +
-								styles.tableCellTop + " " + 
-                                styles.tableCellLeft
+								styles.tableCellTop +
+								" " +
+								styles.tableCellLeft
 							}
 						></td>
 						{fencers.map((fencer, index) => (
@@ -25,7 +35,7 @@ export function PoolTable({ fencers, bouts }) {
 								}
 								key={"head" + index}
 							>
-								<p >{fencer.userName}</p>
+								<p>{fencer.userName}</p>
 							</td>
 						))}
 						<td className={styles.separationColumnHeader}></td>
@@ -81,10 +91,13 @@ export function PoolTable({ fencers, bouts }) {
 											styles.tableCellLeft +
 											" " +
 											(index === fencers.length - 1 &&
-												styles.tableCellBottom)  
+												styles.tableCellBottom)
 										}
 									>
-										<ParticipantCard fencerUserName={fencer.userName} number={index + 1}/>
+										<ParticipantCard
+											fencerUserName={fencer.userName}
+											number={index + 1}
+										/>
 									</th>
 									{fencers.map((fencer2, index2) => {
 										//console.log(`is on second loop with ${fencer2.userName}`);
@@ -184,8 +197,10 @@ export function PoolTable({ fencers, bouts }) {
 										<p>
 											{victories + defeats === 0
 												? "N/A"
-												: (victories /
-												  (victories + defeats)).toFixed(3)}
+												: (
+														victories /
+														(victories + defeats)
+												  ).toFixed(3)}
 										</p>
 									</td>
 									<td className={styles.tableCell}>
