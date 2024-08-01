@@ -1,8 +1,8 @@
 import React from "react";
 import styles from "../styles/ActionCard.module.css";
-import Link from 'next/link'
+import Link from "next/link";
 
-const ActionCard = ({ text, href, buttonText, index, buttonType }) => {
+const ActionCard = ({ text, index, children }) => {
 	return (
 		<div className={`card ${styles.action}`}>
 			<div className={styles.actionText}>
@@ -11,9 +11,7 @@ const ActionCard = ({ text, href, buttonText, index, buttonType }) => {
 				</div>
 				<p>{text}</p>
 			</div>
-			<Link href={href} passHref>
-				<button className={`button-${ buttonType}`}><a>{buttonText}</a></button>
-			</Link>
+			{children}
 		</div>
 	);
 };

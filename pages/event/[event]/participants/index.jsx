@@ -51,7 +51,7 @@ const Participants = ({eventData}) => {
 
 	return (
 		<>
-			<Metadata title={`${eventData.name}: participants`} url={`instant-fencing.vercel.app/event/${eventData.id}/participants`}/>
+			<Metadata title={`${eventData.name}: participants`} url={`/event/${eventData.id}/participants`}/>
 			<NavBar
 				eventName={eventData.name}
 				eventId={eventData.id}

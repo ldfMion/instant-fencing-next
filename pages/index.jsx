@@ -4,14 +4,13 @@ import Metadata from "../components/Metadata";
 import NavBar from "../components/NavBar";
 import ActionCard from "../components/ActionCard";
 import Image from "next/image";
+import LoginButton from "../components/LoginButton";
+import Link from "next/link";
 
 export default function Home() {
 	return (
 		<>
-			<Metadata
-				title="Instant Fencing"
-				url={`instant-fencing.vercel.app`}
-			/>
+			<Metadata title="Instant Fencing" url={"/"} />
 			<NavBar />
 			<div className="mainContent">
 				<section className="column">
@@ -24,25 +23,27 @@ export default function Home() {
 						layout="responsive"
 					/>
 					<p className="card">
-						Quickly create a practice competition and
-						seamlessly collaborate with your teammates to
-						collectively edit the results in real-time.
+						Quickly create a practice competition and seamlessly
+						collaborate with your teammates to collectively edit the
+						results in real-time. Completely free.
 					</p>
 					<h3>How to start</h3>
 					<ActionCard
 						index={1}
-						text="Create an accound with google"
-						href="./login"
-						buttonText="Get started free"
-						buttonType="primary"
-					/>
+						text="Log in or create an account with google"
+					>
+						<LoginButton showSignOut={false} />
+					</ActionCard>
 					<ActionCard
 						index={2}
 						text="Create a new event in the home page"
-						href="./home"
-						buttonText="Go to home"
-						buttonType="secondary"
-					/>
+					>
+						<Link href="./home" passHref>
+							<button className={`button-secondary`}>
+								<a>Go to home</a>
+							</button>
+						</Link>
+					</ActionCard>
 				</section>
 				<section className="column">
 					<h2>Help</h2>

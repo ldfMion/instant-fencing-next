@@ -11,18 +11,13 @@ import {
 } from "firebase/firestore";
 
 import { AddFencer } from "./AddFencer.jsx";
-import { LogPrompt } from "./LogPrompt.jsx";
+import LoginButton from "./LoginButton.jsx";
 
 const FENCER_LIMIT = 40;
 
-export function WaitingRoom({users, eventRef, user}) {
-    console.log('waiting room')
+export function WaitingRoom({ users, eventRef, user }) {
 	const [fencers, setFencers] = useState([]);
-
 	const fencersRef = collection(eventRef, "fencers");
-
-	const [logPrompt, setLogPrompt] = useState(false);
-
 	const [copied, setCopied] = useState(false);
 
 	useEffect(() => {
@@ -34,29 +29,32 @@ export function WaitingRoom({users, eventRef, user}) {
 			});
 			setFencers(fencers);
 		});
-        return getFencers
-	}, [])//[fencersRef, user]);
+		return getFencers;
+	}, []); //[fencersRef, user]);
 
-    const userIsJoined = fencers.some(fencer => fencer.userId === user.uid)
+	const userIsJoined = fencers.some(fencer => fencer.userId === user.uid);
 
 	const join = async () => {
-        await addDoc(
-			fencersRef,
-			{
-				userName: user.displayName,
-                isJoined: true,
-                userId: user.uid
-			}
-		);
-        if(!users.includes(user.uid)){
-            await setDoc(eventRef, {
-                users: [...users, user.uid],
-            }, {merge: true})
-        }
+		await addDoc(fencersRef, {
+			userName: user.displayName,
+			isJoined: true,
+			userId: user.uid,
+		});
+		if (!users.includes(user.uid)) {
+			await setDoc(
+				eventRef,
+				{
+					users: [...users, user.uid],
+				},
+				{ merge: true }
+			);
+		}
 	};
 
 	const leave = async () => {
-        const userFencer = fencers.filter(fencer => fencer.userId === user.uid)[0]
+		const userFencer = fencers.filter(
+			fencer => fencer.userId === user.uid
+		)[0];
 		await deleteDoc(doc(fencersRef, userFencer.id));
 	};
 
@@ -71,20 +69,25 @@ export function WaitingRoom({users, eventRef, user}) {
 	};
 
 	const joinAs = async fencerId => {
-        const fencerRef = doc(eventRef, "fencers", fencerId)
-        await setDoc(
+		const fencerRef = doc(eventRef, "fencers", fencerId);
+		await setDoc(
 			fencerRef,
 			{
 				userName: user.displayName,
 				userId: user.uid,
-                isJoined: true,
-			}, {merge: true}
+				isJoined: true,
+			},
+			{ merge: true }
 		);
-        if(!users.includes(user.uid)){
-            await setDoc(eventRef, {
-                users: [...users, user.uid],
-            }, {merge: true})
-        }
+		if (!users.includes(user.uid)) {
+			await setDoc(
+				eventRef,
+				{
+					users: [...users, user.uid],
+				},
+				{ merge: true }
+			);
+		}
 	};
 
 	const createEvent = async () => {
@@ -100,7 +103,6 @@ export function WaitingRoom({users, eventRef, user}) {
 	if (!fencers) {
 		return null;
 	}
-    console.log(fencers.length, "fencers.length")
 	return (
 		<>
 			<div className="mainContent">
@@ -118,11 +120,14 @@ export function WaitingRoom({users, eventRef, user}) {
 					</button>
 				</div>
 				{user ? (
-					<AddFencer addFencer={addFencer} fencerLimitReached={fencers.length >= FENCER_LIMIT}/>
+					<AddFencer
+						addFencer={addFencer}
+						fencerLimitReached={fencers.length >= FENCER_LIMIT}
+					/>
 				) : (
 					<p>Log in to add fencers</p>
 				)}
-                <p>Number of fencers limited to {FENCER_LIMIT}.</p>
+				<p>Number of fencers limited to {FENCER_LIMIT}.</p>
 				{fencers.length !== 0 ? (
 					<ul className="card column">
 						{fencers.map((fencer, index) => (
@@ -138,17 +143,18 @@ export function WaitingRoom({users, eventRef, user}) {
 										</button>
 									) : (
 										<div>
-											{!userIsJoined && !fencer.isJoined && (
-												<button
-													className="button button-terciary"
-													onClick={() =>
-														joinAs(fencer.id)
-													}
-												>
-													Join as
-												</button>
-											)}
-                                            <button
+											{!userIsJoined &&
+												!fencer.isJoined && (
+													<button
+														className="button button-terciary"
+														onClick={() =>
+															joinAs(fencer.id)
+														}
+													>
+														Join as
+													</button>
+												)}
+											<button
 												className="button button-terciary"
 												onClick={() =>
 													removeFencer(fencer.id)
@@ -166,17 +172,7 @@ export function WaitingRoom({users, eventRef, user}) {
 				)}
 			</div>
 			<div className="button-container">
-				{!user && (
-					<button
-						onClick={() => {
-							setLogPrompt(true);
-						}}
-						className="button button-primary"
-					>
-						{" "}
-						Log In to join and add participants
-					</button>
-				)}
+				{!user && <LoginButton showSignOut={false} />}
 				{user && (
 					<button
 						className={`button button-${
@@ -194,7 +190,6 @@ export function WaitingRoom({users, eventRef, user}) {
 					</button>
 				)}
 			</div>
-			{logPrompt && !user && <LogPrompt />}
 		</>
 	);
 }
